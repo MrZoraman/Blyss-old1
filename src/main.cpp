@@ -2,9 +2,11 @@
 
 #include "Rectangle.hpp"
 
+#include <boost/log/trivial.hpp>
+
 int main()
 {
     Rectangle r(5, 10);
-    std::cout << r.area() << "\n";
+    BOOST_LOG_TRIVIAL(info) << r.area();
     return 0;
 }

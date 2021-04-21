@@ -56,4 +56,12 @@ endif()
 # --------------------------------------------------------- #
 target_include_directories(${LIBBLYSS_ARTIFACT_NAME} PUBLIC
     ${LIBBLYSS_INCLUDE_DIR}
+    ${Boost_INCLUDE_DIRS}
+)
+
+# --------------------------------------------------------- #
+# Link Libraries                                            #
+# --------------------------------------------------------- #
+target_link_libraries(${LIBBLYSS_ARTIFACT_NAME}
+    ${Boost_LIBRARIES}
 )
