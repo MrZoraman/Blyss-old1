@@ -12,8 +12,8 @@ add_executable(${BLYSS_ARTIFACT_NAME} ${BLYSS_MAIN})
 # --------------------------------------------------------- #
 # C17 standard                                              #
 # --------------------------------------------------------- #
-set_property(TARGET ${BLYSS_ARTIFACT_NAME} PROPERTY CXX_STANDARD 17)
-set_property(TARGET ${BLYSS_ARTIFACT_NAME} PROPERTY CXX_STANDARD_REQUIRED ON)
+set_property(TARGET ${BLYSS_ARTIFACT_NAME} PROPERTY C_STANDARD 11)
+set_property(TARGET ${BLYSS_ARTIFACT_NAME} PROPERTY C_STANDARD_REQUIRED ON)
 
 # --------------------------------------------------------- #
 # Set compile options                                       #
