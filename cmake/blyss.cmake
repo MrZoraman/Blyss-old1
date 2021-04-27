@@ -2,7 +2,7 @@
 # Variables                                                 #
 # --------------------------------------------------------- #
 set(BLYSS_ARTIFACT_NAME blyss)
-set(BLYSS_MAIN ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
+set(BLYSS_MAIN ${CMAKE_CURRENT_SOURCE_DIR}/src/main.c)
 
 # --------------------------------------------------------- #
 # Create Executable                                         #

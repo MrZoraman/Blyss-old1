@@ -10,9 +10,9 @@ set(LIBBLYSS_HEADERS "")
 # --------------------------------------------------------- #
 # Macros                                                    #
 # --------------------------------------------------------- #
-macro(libblyss_add_class CLASS_NAME)
-    list(APPEND LIBBLYSS_SOURCES ${LIBBLYSS_SRC_DIR}/${CLASS_NAME}.cpp)
-    list(APPEND LIBBLYSS_HEADERS ${LIBBLYSS_INCLUDE_DIR}/${CLASS_NAME}.hpp)
+macro(libblyss_add_struct STRUCT_NAME)
+    list(APPEND LIBBLYSS_SOURCES ${LIBBLYSS_SRC_DIR}/${STRUCT_NAME}.c)
+    list(APPEND LIBBLYSS_HEADERS ${LIBBLYSS_INCLUDE_DIR}/${STRUCT_NAME}.h)
 endmacro()
 
 macro(libblyss_add_header HEADER_NAME)
@@ -22,7 +22,7 @@ endmacro()
 # --------------------------------------------------------- #
 # Sources                                                   #
 # --------------------------------------------------------- #
-libblyss_add_class(Rectangle)
+libblyss_add_struct(Rectangle)
 
 # --------------------------------------------------------- #
 # Visual Studio Folder Hierarchy                            #
