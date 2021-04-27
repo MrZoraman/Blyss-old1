@@ -14,3 +14,10 @@ add_subdirectory(lib/glfw)
 # --------------------------------------------------------- #
 add_library(Glad lib/glad/src/glad.c lib/glad/include/glad/glad.h lib/glad/include/KHR/khrplatform.h)
 target_include_directories(Glad PUBLIC lib/glad/include)
+
+# --------------------------------------------------------- #
+# log.c                                                     #
+# --------------------------------------------------------- #
+add_library(log.c lib/log.c/src/log.c lib/log.c/src/log.h)
+target_include_directories(log.c PUBLIC lib/log.c/src)
+add_compile_definitions(LOG_USE_COLOR)
