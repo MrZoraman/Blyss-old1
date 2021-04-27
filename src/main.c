@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <glad/glad.h>
+
 #include "Rectangle.h"
 
 #include <GLFW/glfw3.h>
@@ -22,9 +24,14 @@ int main()
 
     glfwMakeContextCurrent(window_o);
 
+    if(!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress))
+    {
+        return EXIT_FAILURE;
+    }
+    
     while (!glfwWindowShouldClose(window_o))
     {
-        // glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT);
 
         glfwSwapBuffers(window_o);
 
