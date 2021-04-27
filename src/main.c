@@ -4,11 +4,36 @@
 
 #include "Rectangle.h"
 
+#include <GLFW/glfw3.h>
+
 int main()
 {
-    struct rectangle r;
-    memset(&r, 0, sizeof r);
-    rectangle_init(&r, 5, 10);
-    printf("Rectangle area: %d\n", rectangle_area(&r));
+    if (!glfwInit())
+    {
+        return EXIT_FAILURE;
+    }
+
+    GLFWwindow* window_o = glfwCreateWindow(640, 480, "Hello, world!", NULL, NULL);
+    if (!window_o)
+    {
+        glfwTerminate();
+        return EXIT_FAILURE;
+    }
+
+    glfwMakeContextCurrent(window_o);
+
+    while (!glfwWindowShouldClose(window_o))
+    {
+        // glClear(GL_COLOR_BUFFER_BIT);
+
+        glfwSwapBuffers(window_o);
+
+        glfwPollEvents();
+    }
+
+    glfwDestroyWindow(window_o);
+    window_o = NULL;
+    glfwTerminate();
     return EXIT_SUCCESS;
+
 }

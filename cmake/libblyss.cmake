@@ -64,4 +64,5 @@ target_include_directories(${LIBBLYSS_ARTIFACT_NAME} PUBLIC
 # --------------------------------------------------------- #
 target_link_libraries(${LIBBLYSS_ARTIFACT_NAME}
     ${Boost_LIBRARIES}
+    glfw
 )
