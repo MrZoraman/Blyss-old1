@@ -11,7 +11,7 @@
 
 #include <GLFW/glfw3.h>
 
-void _post_call_callback(const char *name, void *funcptr, int len_args, ...)
+void blyss_post_gl_callback(const char *name, void *funcptr, int len_args, ...)
 {
     GLenum error_code = GL_NO_ERROR;
     while (true)
@@ -20,10 +20,10 @@ void _post_call_callback(const char *name, void *funcptr, int len_args, ...)
         switch (error_code)
         {
         case GL_INVALID_ENUM:
-            printf("Invalid enum");
+            log_error("Invalid enum used in %s!", name);
             break;
         case GL_INVALID_VALUE:
-            printf("Invalid value");
+            log_error("Invalid value used in %s!", name);
             break;
         case GL_INVALID_OPERATION:
             printf("Invalid operation");
@@ -34,8 +34,6 @@ void _post_call_callback(const char *name, void *funcptr, int len_args, ...)
 
 int main()
 {
-    log_info("Hello, world!");
-
     if (!glfwInit())
     {
         return EXIT_FAILURE;
