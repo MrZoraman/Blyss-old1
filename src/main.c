@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -7,6 +8,27 @@
 #include "Rectangle.h"
 
 #include <GLFW/glfw3.h>
+
+void _post_call_callback(const char *name, void *funcptr, int len_args, ...)
+{
+    GLenum error_code = GL_NO_ERROR;
+    while (true)
+    {
+        error_code = glad_glGetError();
+        switch (error_code)
+        {
+        case GL_INVALID_ENUM:
+            printf("Invalid enum");
+            break;
+        case GL_INVALID_VALUE:
+            printf("Invalid value");
+            break;
+        case GL_INVALID_OPERATION:
+            printf("Invalid operation");
+            break;
+        }
+    }
+}
 
 int main()
 {
