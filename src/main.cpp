@@ -48,37 +48,39 @@ void blyss_post_gl_callback(const char *name, void *funcptr, int len_args, ...)
 
 int main()
 {
-    if (!glfwInit())
-    {
-        return EXIT_FAILURE;
-    }
-
-    GLFWwindow* window_o = glfwCreateWindow(640, 480, "Hello, world!", NULL, NULL);
-    if (!window_o)
-    {
-        glfwTerminate();
-        return EXIT_FAILURE;
-    }
-
-    glfwMakeContextCurrent(window_o);
-
-    if(!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress))
-    {
-        return EXIT_FAILURE;
-    }
-    
-    while (!glfwWindowShouldClose(window_o))
-    {
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        glfwSwapBuffers(window_o);
-
-        glfwPollEvents();
-    }
-
-    glfwDestroyWindow(window_o);
-    window_o = NULL;
-    glfwTerminate();
+    Blyss::Rectangle r(-5, 10);
+    BOOST_LOG_TRIVIAL(info) << r.area();
+    // if (!glfwInit())
+    // {
+    //     return EXIT_FAILURE;
+    // }
+    //
+    // GLFWwindow* window_o = glfwCreateWindow(640, 480, "Hello, world!", NULL, NULL);
+    // if (!window_o)
+    // {
+    //     glfwTerminate();
+    //     return EXIT_FAILURE;
+    // }
+    //
+    // glfwMakeContextCurrent(window_o);
+    //
+    // if(!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress))
+    // {
+    //     return EXIT_FAILURE;
+    // }
+    //
+    // while (!glfwWindowShouldClose(window_o))
+    // {
+    //     glClear(GL_COLOR_BUFFER_BIT);
+    //
+    //     glfwSwapBuffers(window_o);
+    //
+    //     glfwPollEvents();
+    // }
+    //
+    // glfwDestroyWindow(window_o);
+    // window_o = NULL;
+    // glfwTerminate();
     return EXIT_SUCCESS;
 
 }

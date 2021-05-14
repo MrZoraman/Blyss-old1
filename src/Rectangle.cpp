@@ -1,12 +1,21 @@
 #include "Rectangle.hpp"
 
-void rectangle_init(struct rectangle *self_s, int32_t width, int32_t height)
-{
-    self_s->_width = width;
-    self_s->_height = height;
-}
+#include <cstdint>
+#include <cassert>
 
-int32_t rectangle_area(struct rectangle *self_s)
+namespace Blyss
 {
-    return self_s->_width * self_s->_height;
+    Rectangle::Rectangle(std::int32_t width, std::int32_t height)
+        : width_{width}
+        , height_{height}
+    {
+        assert(width > 0);
+        assert(height > 0);
+    }
+
+    std::int32_t Rectangle::area() const
+    {
+        return width_ * height_;
+    }
+    
 }

@@ -1,12 +1,22 @@
-#pragma once
+#ifndef BLYSS_RECTANGLE_H_
+#define BLYSS_RECTANGLE_H_
 
-#include <stdint.h>
+#include <cstdint>
 
-struct rectangle
+namespace Blyss
 {
-    int _width;
-    int _height;
-};
+    class Rectangle
+    {
+    public:
+        Rectangle(std::int32_t width, std::int32_t height);
 
-void rectangle_init(struct rectangle *self_s, int32_t width, int32_t height);
-int32_t rectangle_area(struct rectangle *self_s);
+        [[nodiscard]] std::int32_t area() const;
+
+    private:
+        std::int32_t width_;
+        std::int32_t height_;
+
+    };
+}
+
+#endif
