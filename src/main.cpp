@@ -3,11 +3,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <boost/log/trivial.hpp>
+
 #include <glad/glad.h>
 
-#include <log.h>
-
-#include "Rectangle.h"
+#include "Rectangle.hpp"
 
 #include <GLFW/glfw3.h>
 
@@ -20,13 +20,27 @@ void blyss_post_gl_callback(const char *name, void *funcptr, int len_args, ...)
         switch (error_code)
         {
         case GL_INVALID_ENUM:
-            log_error("Invalid enum used in %s!", name);
+            BOOST_LOG_TRIVIAL(error) << "Invalid enum used in " << name << "!";
             break;
         case GL_INVALID_VALUE:
-            log_error("Invalid value used in %s!", name);
+            BOOST_LOG_TRIVIAL(error) << "Invalid value used in " << name << "!";
             break;
         case GL_INVALID_OPERATION:
-            printf("Invalid operation");
+            BOOST_LOG_TRIVIAL(error) << "Invalid operation in " << name << "!";
+            break;
+        case GL_INVALID_FRAMEBUFFER_OPERATION:
+            BOOST_LOG_TRIVIAL(error) << "Incomplete framebuffer object used in " << name << "!";
+            break;
+        case GL_OUT_OF_MEMORY:
+            BOOST_LOG_TRIVIAL(error) << "OpenGL out of memory in " << name << "!";
+            break;
+        case GL_STACK_UNDERFLOW:
+            BOOST_LOG_TRIVIAL(error) << "Attempted OpenGL stack underflow in " << name << "!";
+            break;
+        case GL_STACK_OVERFLOW:
+            BOOST_LOG_TRIVIAL(error) << "Attempted OpenGL stack overflow in " << name << "!";
+            break;
+        default:
             break;
         }
     }

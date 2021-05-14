@@ -10,9 +10,9 @@ set(LIBBLYSS_HEADERS "")
 # --------------------------------------------------------- #
 # Macros                                                    #
 # --------------------------------------------------------- #
-macro(libblyss_add_struct STRUCT_NAME)
-    list(APPEND LIBBLYSS_SOURCES ${LIBBLYSS_SRC_DIR}/${STRUCT_NAME}.c)
-    list(APPEND LIBBLYSS_HEADERS ${LIBBLYSS_INCLUDE_DIR}/${STRUCT_NAME}.h)
+macro(libblyss_add_source SOURCE_NAME)
+    list(APPEND LIBBLYSS_SOURCES ${LIBBLYSS_SRC_DIR}/${SOURCE_NAME}.cpp)
+    list(APPEND LIBBLYSS_HEADERS ${LIBBLYSS_INCLUDE_DIR}/${SOURCE_NAME}.hpp)
 endmacro()
 
 macro(libblyss_add_header HEADER_NAME)
@@ -22,7 +22,7 @@ endmacro()
 # --------------------------------------------------------- #
 # Sources                                                   #
 # --------------------------------------------------------- #
-libblyss_add_struct(Rectangle)
+libblyss_add_source(Rectangle)
 
 # --------------------------------------------------------- #
 # Visual Studio Folder Hierarchy                            #
@@ -39,8 +39,8 @@ add_library(${LIBBLYSS_ARTIFACT_NAME} ${LIBBLYSS_SOURCES} ${LIBBLYSS_HEADERS})
 # --------------------------------------------------------- #
 # C17 standard                                              #
 # --------------------------------------------------------- #
-set_property(TARGET ${LIBBLYSS_ARTIFACT_NAME} PROPERTY C_STANDARD 11)
-set_property(TARGET ${LIBBLYSS_ARTIFACT_NAME} PROPERTY C_STANDARD_REQUIRED ON)
+set_property(TARGET ${LIBBLYSS_ARTIFACT_NAME} PROPERTY CXX_STANDARD 17)
+set_property(TARGET ${LIBBLYSS_ARTIFACT_NAME} PROPERTY Cxx_STANDARD_REQUIRED ON)
 
 # --------------------------------------------------------- #
 # Set compile options                                       #
@@ -66,5 +66,4 @@ target_link_libraries(${LIBBLYSS_ARTIFACT_NAME}
     ${Boost_LIBRARIES}
     glfw
     Glad
-    log.c
 )

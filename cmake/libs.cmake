@@ -16,8 +16,11 @@ add_library(Glad lib/glad/src/glad.c lib/glad/include/glad/glad.h lib/glad/inclu
 target_include_directories(Glad PUBLIC lib/glad/include)
 
 # --------------------------------------------------------- #
-# log.c                                                     #
+# Boost                                                     #
 # --------------------------------------------------------- #
-add_library(log.c lib/log.c/src/log.c lib/log.c/src/log.h)
-target_include_directories(log.c PUBLIC lib/log.c/src)
-add_compile_definitions(LOG_USE_COLOR)
+SET(Boost_USE_STATIC_LIBS ON)  
+SET(Boost_USE_MULTITHREADED ON)
+if (MSVC)
+  SET(BOOST_ROOT "changeme" CACHE PATH "Boost root directory")
+endif()
+find_package(Boost 1.71.0 COMPONENTS log REQUIRED)

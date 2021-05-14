@@ -2,7 +2,7 @@
 # Variables                                                 #
 # --------------------------------------------------------- #
 set(BLYSS_ARTIFACT_NAME blyss)
-set(BLYSS_MAIN ${CMAKE_CURRENT_SOURCE_DIR}/src/main.c)
+set(BLYSS_MAIN ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
 
 # --------------------------------------------------------- #
 # Create Executable                                         #
@@ -12,8 +12,8 @@ add_executable(${BLYSS_ARTIFACT_NAME} ${BLYSS_MAIN})
 # --------------------------------------------------------- #
 # C17 standard                                              #
 # --------------------------------------------------------- #
-set_property(TARGET ${BLYSS_ARTIFACT_NAME} PROPERTY C_STANDARD 11)
-set_property(TARGET ${BLYSS_ARTIFACT_NAME} PROPERTY C_STANDARD_REQUIRED ON)
+set_property(TARGET ${BLYSS_ARTIFACT_NAME} PROPERTY CXX_STANDARD 17)
+set_property(TARGET ${BLYSS_ARTIFACT_NAME} PROPERTY CXX_STANDARD_REQUIRED ON)
 
 # --------------------------------------------------------- #
 # Set compile options                                       #
