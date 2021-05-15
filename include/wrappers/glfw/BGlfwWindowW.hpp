@@ -17,7 +17,7 @@ namespace Blyss
         ~BGlfwWindowW();
 
         void MakeContextCurrent();
-        bool ShouldClose();
+        [[nodiscard]] bool ShouldClose();
         void SwapBuffers();
 
     private:
