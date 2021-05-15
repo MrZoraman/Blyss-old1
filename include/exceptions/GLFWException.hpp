@@ -8,8 +8,6 @@ namespace Blyss
     class GLFWException : public std::exception
     {
     public:
-        static void Check();
-
         static void OnGlfwError(int error_code, const char* description);
 
     private:
