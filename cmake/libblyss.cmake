@@ -23,6 +23,8 @@ endmacro()
 # Sources                                                   #
 # --------------------------------------------------------- #
 libblyss_add_source(Rectangle)
+libblyss_add_source(GLFWContext)
+libblyss_add_source(exceptions/GLFWException)
 
 # --------------------------------------------------------- #
 # Visual Studio Folder Hierarchy                            #

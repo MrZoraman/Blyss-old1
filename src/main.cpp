@@ -3,13 +3,17 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <cassert>
+
 #include <boost/log/trivial.hpp>
 
 #include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
 #include "Rectangle.hpp"
+#include "GLFWContext.hpp"
+#include "exceptions/GLFWException.hpp"
 
-#include <GLFW/glfw3.h>
 
 void blyss_post_gl_callback(const char *name, void *funcptr, int len_args, ...)
 {
@@ -48,39 +52,41 @@ void blyss_post_gl_callback(const char *name, void *funcptr, int len_args, ...)
 
 int main()
 {
-    Blyss::Rectangle r(-5, 10);
-    BOOST_LOG_TRIVIAL(info) << r.area();
-    // if (!glfwInit())
-    // {
-    //     return EXIT_FAILURE;
-    // }
-    //
-    // GLFWwindow* window_o = glfwCreateWindow(640, 480, "Hello, world!", NULL, NULL);
-    // if (!window_o)
-    // {
-    //     glfwTerminate();
-    //     return EXIT_FAILURE;
-    // }
-    //
-    // glfwMakeContextCurrent(window_o);
-    //
-    // if(!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress))
-    // {
-    //     return EXIT_FAILURE;
-    // }
-    //
-    // while (!glfwWindowShouldClose(window_o))
-    // {
-    //     glClear(GL_COLOR_BUFFER_BIT);
-    //
-    //     glfwSwapBuffers(window_o);
-    //
-    //     glfwPollEvents();
-    // }
-    //
-    // glfwDestroyWindow(window_o);
-    // window_o = NULL;
-    // glfwTerminate();
+    try
+    {
+        Blyss::GLFWContext glfw_context;
+
+        GLFWwindow* window_o = glfwCreateWindow(640, 480, "Hello, world!", NULL, NULL);
+        if (!window_o)
+        {
+            glfwTerminate();
+            return EXIT_FAILURE;
+        }
+
+        glfwMakeContextCurrent(window_o);
+
+        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+        {
+            return EXIT_FAILURE;
+        }
+
+        while (!glfwWindowShouldClose(window_o))
+        {
+            glClear(GL_COLOR_BUFFER_BIT);
+
+            glfwSwapBuffers(window_o);
+
+            glfwPollEvents();
+        }
+
+        glfwDestroyWindow(window_o);
+        window_o = NULL;
+    }
+    catch (const Blyss::GLFWException& e)
+    {
+        BOOST_LOG_TRIVIAL(fatal) << "Fatal GLFW exception: " << e.what();
+        return EXIT_FAILURE;
+    }
     return EXIT_SUCCESS;
 
 }
