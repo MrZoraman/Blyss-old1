@@ -3,25 +3,21 @@
 #include <sstream>
 #include <exception>
 
-#include <GLFW/glfw3.h>
-
 namespace Blyss
 {
-    void GLFWException::Check()
+    GLFWException::GLFWException(const char* message)
+        : std::exception(message)
     {
-        const char* error_message = nullptr;
-        const int code = glfwGetError(&error_message);
-        if (code == GLFW_NO_ERROR)
-        {
-            return;
-        }
+    }
 
+    void GLFWException::OnGlfwError(int error_code, const char* description)
+    {
         std::stringstream ss;
-        ss << "GLFW error: " << code << ": ";
+        ss << "GLFW error: " << error_code << ": ";
 
-        if (error_message)
+        if (description)
         {
-            ss << error_message;
+            ss << description;
         }
         else
         {
@@ -31,9 +27,5 @@ namespace Blyss
         throw GLFWException(ss.str().c_str());
     }
 
-    GLFWException::GLFWException(const char* message)
-        : std::exception(message)
-    {
-    }
     
 }

@@ -10,6 +10,8 @@ namespace Blyss
     public:
         static void Check();
 
+        static void OnGlfwError(int error_code, const char* description);
+
     private:
         GLFWException(const char* message);
     };

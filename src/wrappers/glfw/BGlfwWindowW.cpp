@@ -2,8 +2,6 @@
 
 #include <GLFW/glfw3.h>
 
-#include "exceptions/GLFWException.hpp"
-
 namespace Blyss
 {
     BGlfwWindowW::BGlfwWindowW(int width, int height, const char* title)
@@ -21,24 +19,24 @@ namespace Blyss
 
     void BGlfwWindowW::MakeContextCurrent()
     {
-        glfwMakeContextCurrent(window_); GLFWException::Check();
+        glfwMakeContextCurrent(window_);
     }
 
     bool BGlfwWindowW::ShouldClose()
     {
-        bool should_close = glfwWindowShouldClose(window_); GLFWException::Check();
+        bool should_close = glfwWindowShouldClose(window_);
         return should_close;
     }
 
     void BGlfwWindowW::SwapBuffers()
     {
-        glfwSwapBuffers(window_); GLFWException::Check();
+        glfwSwapBuffers(window_);
     }
 
 
     GLFWwindow* BGlfwWindowW::MakeWindow(int width, int height, const char* title)
     {
-        GLFWwindow* window = glfwCreateWindow(width, height, title, nullptr, nullptr); GLFWException::Check();
+        GLFWwindow* window = glfwCreateWindow(width, height, title, nullptr, nullptr);
         return window;
     }
 

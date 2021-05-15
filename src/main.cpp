@@ -51,10 +51,17 @@ void blyss_post_gl_callback(const char *name, void *funcptr, int len_args, ...)
     }
 }
 
+void blyss_glfw_error_callback(int error_code, const char* description)
+{
+    
+}
+
 int main()
 {
     try
     {
+        glfwSetErrorCallback(Blyss::GLFWException::OnGlfwError);
+
         Blyss::GLFWContext glfw_context;
         Blyss::BGlfwWindowW window(640, 480, "Hello, world!");
         window.MakeContextCurrent();
@@ -64,12 +71,14 @@ int main()
             return EXIT_FAILURE;
         }
 
+        glad_set_post_callback(blyss_post_gl_callback);
+
         while (!window.ShouldClose())
         {
-            glClear(GL_COLOR_BUFFER_BIT);
+            glClear(3);
 
             window.SwapBuffers();
-
+            
             glfwPollEvents();
         }
     }

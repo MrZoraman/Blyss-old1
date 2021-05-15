@@ -2,13 +2,11 @@
 
 #include <GLFW/glfw3.h>
 
-#include "exceptions/GLFWException.hpp"
-
 namespace Blyss
 {
     GLFWContext::GLFWContext()
     {
-        glfwInit(); GLFWException::Check();
+        glfwInit();
     }
 
     GLFWContext::~GLFWContext()
