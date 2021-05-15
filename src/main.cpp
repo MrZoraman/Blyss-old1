@@ -12,6 +12,7 @@
 
 #include "Rectangle.hpp"
 #include "GLFWContext.hpp"
+#include "wrappers/glfw/BGlfwWindowW.hpp"
 #include "exceptions/GLFWException.hpp"
 
 
@@ -55,32 +56,22 @@ int main()
     try
     {
         Blyss::GLFWContext glfw_context;
+        Blyss::BGlfwWindowW window(640, 480, "Hello, world!");
+        window.MakeContextCurrent();
 
-        GLFWwindow* window_o = glfwCreateWindow(640, 480, "Hello, world!", NULL, NULL);
-        if (!window_o)
-        {
-            glfwTerminate();
-            return EXIT_FAILURE;
-        }
-
-        glfwMakeContextCurrent(window_o);
-
-        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+        if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)))
         {
             return EXIT_FAILURE;
         }
 
-        while (!glfwWindowShouldClose(window_o))
+        while (!window.ShouldClose())
         {
             glClear(GL_COLOR_BUFFER_BIT);
 
-            glfwSwapBuffers(window_o);
+            window.SwapBuffers();
 
             glfwPollEvents();
         }
-
-        glfwDestroyWindow(window_o);
-        window_o = NULL;
     }
     catch (const Blyss::GLFWException& e)
     {
