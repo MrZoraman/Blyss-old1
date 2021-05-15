@@ -51,16 +51,10 @@ void blyss_post_gl_callback(const char *name, void *funcptr, int len_args, ...)
     }
 }
 
-void blyss_glfw_error_callback(int error_code, const char* description)
-{
-    
-}
-
 int main()
 {
     try
     {
-        glfwSetErrorCallback(Blyss::GLFWException::OnGlfwError);
 
         Blyss::GLFWContext glfw_context;
         Blyss::BGlfwWindowW window(640, 480, "Hello, world!");
@@ -75,7 +69,7 @@ int main()
 
         while (!window.ShouldClose())
         {
-            glClear(3);
+            glClear(GL_COLOR_BUFFER_BIT);
 
             window.SwapBuffers();
             

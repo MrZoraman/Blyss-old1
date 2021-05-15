@@ -2,10 +2,13 @@
 
 #include <GLFW/glfw3.h>
 
+#include "exceptions/GLFWException.hpp"
+
 namespace Blyss
 {
     GLFWContext::GLFWContext()
     {
+        glfwSetErrorCallback(GLFWException::OnGlfwError);
         glfwInit();
     }
 
@@ -13,6 +16,7 @@ namespace Blyss
     {
         // This does nothing if there is nothing to terminate.
         glfwTerminate();
+        glfwSetErrorCallback(nullptr);
     }
 
 }
