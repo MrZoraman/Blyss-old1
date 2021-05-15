@@ -21,7 +21,7 @@ namespace Blyss
         void SwapBuffers();
 
     private:
-        GLFWwindow* window_;
+        GLFWwindow* const window_;
 
         static GLFWwindow* MakeWindow(int width, int height, const char* title);
     };
