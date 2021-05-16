@@ -1,20 +1,11 @@
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include <cassert>
-
 #include <boost/log/trivial.hpp>
-
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include "Rectangle.hpp"
-#include "GLFWContext.hpp"
-#include "wrappers/glfw/BGlfwWindowW.hpp"
 #include "exceptions/GLFWException.hpp"
 #include "exceptions/OpenGLException.hpp"
+#include "wrappers/glfw/BGlfwWindowW.hpp"
+#include "GLFWContext.hpp"
 
 int main()
 {
