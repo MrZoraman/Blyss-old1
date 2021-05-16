@@ -1,3 +1,5 @@
+#include <cstdlib>
+
 #include <boost/log/trivial.hpp>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
