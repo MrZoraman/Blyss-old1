@@ -24,3 +24,32 @@ if (MSVC)
   SET(BOOST_ROOT "changeme" CACHE PATH "Boost root directory")
 endif()
 find_package(Boost 1.71.0 COMPONENTS log REQUIRED)
+
+# --------------------------------------------------------- #
+# Dear Imgui                                                #
+# --------------------------------------------------------- #
+SET(IMGUI_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/imgui)
+add_library(Imgui 
+  ${IMGUI_DIR}/imconfig.h
+  ${IMGUI_DIR}/imgui.cpp
+  ${IMGUI_DIR}/imgui.h
+  ${IMGUI_DIR}/imgui_demo.cpp
+  ${IMGUI_DIR}/imgui_draw.cpp
+  ${IMGUI_DIR}/imgui_internal.h
+  ${IMGUI_DIR}/imgui_tables.cpp
+  ${IMGUI_DIR}/imgui_widgets.cpp
+  ${IMGUI_DIR}/imstb_rectpack.h
+  ${IMGUI_DIR}/imstb_textedit.h
+  ${IMGUI_DIR}/imstb_truetype.h
+  ${IMGUI_DIR}/backends/imgui_impl_glfw.cpp
+  ${IMGUI_DIR}/backends/imgui_impl_glfw.h
+  ${IMGUI_DIR}/backends/imgui_impl_opengl3.cpp
+  ${IMGUI_DIR}/backends/imgui_impl_opengl3.h)
+target_include_directories(Imgui PUBLIC
+  ${IMGUI_DIR}
+  ${IMGUI_DIR}/backends
+)
+target_link_libraries(Imgui
+  glfw
+  Glad
+)

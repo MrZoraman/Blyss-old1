@@ -70,4 +70,5 @@ target_link_libraries(${LIBBLYSS_ARTIFACT_NAME}
     ${Boost_LIBRARIES}
     glfw
     Glad
+    Imgui
 )
