@@ -56,7 +56,7 @@ namespace Blyss
 
                 ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
             }
-            catch (Blyss::OpenGLException& e)
+            catch (OpenGLException& e)
             {
                 BOOST_LOG_TRIVIAL(error) << "OpenGL Error: " << e.what();
             }
