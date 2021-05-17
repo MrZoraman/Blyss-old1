@@ -1,15 +1,8 @@
 #include <cstdlib>
 
-#include <backends/imgui_impl_glfw.h>
-#include <backends/imgui_impl_opengl3.h>
 #include <boost/log/trivial.hpp>
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-#include <imgui.h>
 
 #include "exceptions/GLFWException.hpp"
-#include "exceptions/OpenGLException.hpp"
-#include "wrappers/glfw/BGlfwWindowW.hpp"
 #include "GLFWContext.hpp"
 #include "Window.hpp"
 
