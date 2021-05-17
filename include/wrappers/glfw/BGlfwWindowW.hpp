@@ -1,6 +1,8 @@
 #ifndef BLYSS_WRAPPERS_GLFW_BGLFWWINDOWW_H_
 #define BLYSS_WRAPPERS_GLFW_BGLFWWINDOWW_H_
 
+#include <boost/signals2.hpp>
+
 #include "GLFW/glfw3.h"
 
 namespace Blyss
@@ -22,10 +24,14 @@ namespace Blyss
         void GetFramebufferSize(int& w, int& h);
         GLFWwindow* GetRawWinPtr();
 
+        boost::signals2::signal<void(int, int)> OnWindowResize;
+
     private:
         GLFWwindow* const window_;
 
         static GLFWwindow* MakeWindow(int width, int height, const char* title);
+
+        static void GlfwWindowResizeCallback(GLFWwindow* window, int width, int height);
     };
 }
 

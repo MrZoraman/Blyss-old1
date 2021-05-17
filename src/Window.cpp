@@ -23,6 +23,11 @@ namespace Blyss
 
         glad_set_post_callback(Blyss::OpenGLException::OpenGLPostCallback);
 
+        glfw_window_.OnWindowResize.connect([](int width, int height)
+        {
+                BOOST_LOG_TRIVIAL(info) << "Window resized: " << width << ", " << height;
+        });
+
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
         ImGui::StyleColorsDark();

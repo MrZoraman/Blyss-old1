@@ -7,12 +7,16 @@ namespace Blyss
     BGlfwWindowW::BGlfwWindowW(int width, int height, const char* title)
         : window_{MakeWindow(width, height, title)}
     {
+        glfwSetWindowUserPointer(window_, this);
+        glfwSetWindowSizeCallback(window_, GlfwWindowResizeCallback);
     }
 
     BGlfwWindowW::~BGlfwWindowW()
     {
         if (window_ != nullptr)
         {
+            glfwSetWindowUserPointer(window_, nullptr);
+            glfwSetWindowSizeCallback(window_, nullptr);
             glfwDestroyWindow(window_);
         }
     }
@@ -49,5 +53,12 @@ namespace Blyss
     {
         return window_;
     }
+
+    void BGlfwWindowW::GlfwWindowResizeCallback(GLFWwindow* window, int width, int height)
+    {
+        auto wrapper = static_cast<BGlfwWindowW*>(glfwGetWindowUserPointer(window));
+        wrapper->OnWindowResize(width, height);
+    }
+
 
 }
