@@ -1,6 +1,5 @@
 #include "wrappers/glfw/BGlfwWindowW.hpp"
 
-#include <backends/imgui_impl_glfw.h>
 #include <GLFW/glfw3.h>
 
 namespace Blyss
@@ -16,8 +15,6 @@ namespace Blyss
         {
             glfwDestroyWindow(window_);
         }
-
-        ImGui_ImplGlfw_Shutdown();
     }
 
     void BGlfwWindowW::MakeContextCurrent()
@@ -43,16 +40,14 @@ namespace Blyss
         return window;
     }
 
-    void BGlfwWindowW::InstallImGui()
-    {
-        ImGui_ImplGlfw_InitForOpenGL(window_, true);
-    }
-
     void BGlfwWindowW::GetFramebufferSize(int& w, int& h)
     {
         glfwGetFramebufferSize(window_, &w, &h);
     }
 
-
+    GLFWwindow* BGlfwWindowW::GetRawWinPtr()
+    {
+        return window_;
+    }
 
 }

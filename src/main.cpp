@@ -11,6 +11,7 @@
 #include "exceptions/OpenGLException.hpp"
 #include "wrappers/glfw/BGlfwWindowW.hpp"
 #include "GLFWContext.hpp"
+#include "Window.hpp"
 
 int main()
 {
@@ -18,54 +19,19 @@ int main()
     {
 
         Blyss::GLFWContext glfw_context;
-        Blyss::BGlfwWindowW window(640, 480, "Hello, world!");
-        window.MakeContextCurrent();
 
-        if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)))
-        {
-            return EXIT_FAILURE;
-        }
+
+        // if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)))
+        // {
+        //     return EXIT_FAILURE;
+        // }
+
+        Blyss::Window w(640, 480, "Hello, world!");
+
 
         glad_set_post_callback(Blyss::OpenGLException::OpenGLPostCallback);
 
-        IMGUI_CHECKVERSION();
-        ImGui::CreateContext();
-        ImGui::StyleColorsDark();
-
-        window.InstallImGui();
-        ImGui_ImplOpenGL3_Init("#version 130");
-
-
-        while (!window.ShouldClose())
-        {
-            try
-            {
-                ImGui_ImplOpenGL3_NewFrame();
-                ImGui_ImplGlfw_NewFrame();
-                ImGui::NewFrame();
-
-                ImGui::ShowDemoWindow(nullptr);
-
-                ImGui::Render();
-                int display_w = 0;
-                int display_h = 0;
-                window.GetFramebufferSize(display_w, display_h);
-                glViewport(0, 0, display_w, display_h);
-                glClear(GL_COLOR_BUFFER_BIT);
-
-                ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-            }
-            catch (Blyss::OpenGLException& e)
-            {
-                BOOST_LOG_TRIVIAL(error) << "OpenGL Error: " << e.what();
-            }
-
-            window.SwapBuffers();
-            
-            glfwPollEvents();
-        }
-
-        ImGui::DestroyContext();
+        w.RunUntilClose();
     }
     catch (const Blyss::GLFWException& e)
     {

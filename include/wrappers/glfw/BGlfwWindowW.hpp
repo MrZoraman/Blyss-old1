@@ -19,8 +19,8 @@ namespace Blyss
         void MakeContextCurrent();
         [[nodiscard]] bool ShouldClose();
         void SwapBuffers();
-        void InstallImGui();
         void GetFramebufferSize(int& w, int& h);
+        GLFWwindow* GetRawWinPtr();
 
     private:
         GLFWwindow* const window_;
