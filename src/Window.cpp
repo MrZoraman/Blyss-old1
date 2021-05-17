@@ -1,5 +1,7 @@
 #include "Window.hpp"
 
+#include <exception>
+
 #include <boost/log/trivial.hpp>
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
@@ -13,8 +15,15 @@ namespace Blyss
         : glfw_window_{width, height, title}
     {
         glfw_window_.MakeContextCurrent();
+
+        if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)))
+        {
+            throw std::runtime_error("Unable to initialize GLAD!");
+        }
+
+        glad_set_post_callback(Blyss::OpenGLException::OpenGLPostCallback);
+
         IMGUI_CHECKVERSION();
-        gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress));
         ImGui::CreateContext();
         ImGui::StyleColorsDark();
         ImGui_ImplGlfw_InitForOpenGL(glfw_window_.GetRawWinPtr(), true);
@@ -37,9 +46,7 @@ namespace Blyss
                 ImGui_ImplOpenGL3_NewFrame();
                 ImGui_ImplGlfw_NewFrame();
                 ImGui::NewFrame();
-
-                ImGui::ShowDemoWindow(nullptr);
-
+                Frame();
                 ImGui::Render();
                 int display_w = 0;
                 int display_h = 0;
@@ -60,5 +67,9 @@ namespace Blyss
         }
     }
 
+    void Window::Frame()
+    {
+        ImGui::ShowDemoWindow(nullptr);
+    }
 
 }

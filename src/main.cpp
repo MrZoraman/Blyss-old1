@@ -19,18 +19,7 @@ int main()
     {
 
         Blyss::GLFWContext glfw_context;
-
-
-        // if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)))
-        // {
-        //     return EXIT_FAILURE;
-        // }
-
         Blyss::Window w(640, 480, "Hello, world!");
-
-
-        glad_set_post_callback(Blyss::OpenGLException::OpenGLPostCallback);
-
         w.RunUntilClose();
     }
     catch (const Blyss::GLFWException& e)

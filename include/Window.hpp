@@ -18,6 +18,7 @@ namespace Blyss
 
         BGlfwWindowW glfw_window_;
 
+        void Frame();
         
     };
 }
