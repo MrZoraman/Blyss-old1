@@ -23,10 +23,7 @@ namespace Blyss
 
         glad_set_post_callback(Blyss::OpenGLException::OpenGLPostCallback);
 
-        glfw_window_.OnWindowResize.connect([](int width, int height)
-        {
-                BOOST_LOG_TRIVIAL(info) << "Window resized: " << width << ", " << height;
-        });
+        glfw_window_.OnWindowResize.connect(OnWindowResize);
 
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
@@ -53,10 +50,6 @@ namespace Blyss
                 ImGui::NewFrame();
                 Frame();
                 ImGui::Render();
-                int display_w = 0;
-                int display_h = 0;
-                glfw_window_.GetFramebufferSize(display_w, display_h);
-                glViewport(0, 0, display_w, display_h);
                 glClear(GL_COLOR_BUFFER_BIT);
 
                 ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -76,5 +69,14 @@ namespace Blyss
     {
         ImGui::ShowDemoWindow(nullptr);
     }
+
+    void Window::OnWindowResize(BGlfwWindowW& glfw_window, int width, int height)
+    {
+        int display_w = 0;
+        int display_h = 0;
+        glfw_window.GetFramebufferSize(display_w, display_h);
+        glViewport(0, 0, display_w, display_h);
+    }
+
 
 }

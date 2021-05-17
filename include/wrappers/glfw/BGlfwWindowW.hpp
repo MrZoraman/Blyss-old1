@@ -24,7 +24,7 @@ namespace Blyss
         void GetFramebufferSize(int& w, int& h);
         GLFWwindow* GetRawWinPtr();
 
-        boost::signals2::signal<void(int, int)> OnWindowResize;
+        boost::signals2::signal<void(BGlfwWindowW&, int, int)> OnWindowResize;
 
     private:
         GLFWwindow* const window_;
