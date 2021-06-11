@@ -70,13 +70,9 @@ namespace Blyss
         ImGui::ShowDemoWindow(nullptr);
     }
 
-    void Window::OnWindowResize(BGlfwWindowW& glfw_window, int width, int height)
+    void Window::OnWindowResize(BGlfwWindowW&, int width, int height)
     {
-        int display_w = 0;
-        int display_h = 0;
-        glfw_window.GetFramebufferSize(display_w, display_h);
-        glViewport(0, 0, display_w, display_h);
+        glViewport(0, 0, width, height);
     }
-
 
 }

@@ -1,6 +1,7 @@
 #include "wrappers/glfw/BGlfwWindowW.hpp"
 
-#include <GLFW/glfw3.h>
+#include <cstdio>
+#include <exception>
 
 namespace Blyss
 {
@@ -13,14 +14,25 @@ namespace Blyss
 
     BGlfwWindowW::~BGlfwWindowW()
     {
-        if (window_ != nullptr)
+        try
         {
-            glfwSetWindowUserPointer(window_, nullptr);
-            glfwSetWindowSizeCallback(window_, nullptr);
-            glfwDestroyWindow(window_);
-        }
+            if (window_ != nullptr)
+            {
+                glfwSetWindowUserPointer(window_, nullptr);
+                glfwSetWindowSizeCallback(window_, nullptr);
+                glfwDestroyWindow(window_);
+            }
 
-        OnWindowResize.disconnect_all_slots();
+            OnWindowResize.disconnect_all_slots();
+        }
+        catch (const std::exception& e)
+        {
+            std::fprintf(stderr, "%s\n", e.what());
+        }
+        catch (...)
+        {
+            std::fprintf(stderr, "Unknown error.\n");
+        }
     }
 
     void BGlfwWindowW::MakeContextCurrent()
@@ -44,11 +56,6 @@ namespace Blyss
     {
         GLFWwindow* window = glfwCreateWindow(width, height, title, nullptr, nullptr);
         return window;
-    }
-
-    void BGlfwWindowW::GetFramebufferSize(int& w, int& h)
-    {
-        glfwGetFramebufferSize(window_, &w, &h);
     }
 
     GLFWwindow* BGlfwWindowW::GetRawWinPtr()
