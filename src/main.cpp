@@ -8,11 +8,14 @@
 
 int main()
 {
+    const int kDefaultWidth = 640;
+    const int kDefaultHeight = 480;
+
     try
     {
 
         Blyss::GLFWContext glfw_context;
-        Blyss::Window w(640, 480, "Hello, world!");
+        Blyss::Window w(kDefaultWidth, kDefaultHeight, "Hello, world!");
         w.RunUntilClose();
     }
     catch (const Blyss::GLFWException& e)

@@ -5,14 +5,14 @@
 
 namespace Blyss
 {
-    class OpenGLException : public std::exception
+    class OpenGLException final : public std::exception
     {
     public:
         static void OpenGLPostCallback(const char* name, void* funcptr, int len_args, ...);
 
     private:
 
-        OpenGLException(const char* message);
+        explicit OpenGLException(const char* message);
     };
 }
 

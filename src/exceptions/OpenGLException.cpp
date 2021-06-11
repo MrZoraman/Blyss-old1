@@ -12,7 +12,7 @@ namespace Blyss
     {
     }
 
-    void OpenGLException::OpenGLPostCallback(const char* name, void* funcptr, int len_args, ...)
+    void OpenGLException::OpenGLPostCallback(const char* name, void*, int, ...)
     {
         std::stringstream ss;
         ss << "The following OpenGL error flags were set when calling " << name << ": ";

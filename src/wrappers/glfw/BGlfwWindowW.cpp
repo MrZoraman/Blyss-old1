@@ -34,7 +34,7 @@ namespace Blyss
             std::fprintf(stderr, "Unknown error.\n");
         }
     }
-
+    
     void BGlfwWindowW::MakeContextCurrent()
     {
         glfwMakeContextCurrent(window_);

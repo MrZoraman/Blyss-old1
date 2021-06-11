@@ -1,7 +1,6 @@
 #ifndef BLYSS_WINDOW_H_
 #define BLYSS_WINDOW_H_
 
-#include <glad/glad.h>
 #include "wrappers/glfw/BGlfwWindowW.hpp"
 
 namespace Blyss
@@ -11,6 +10,12 @@ namespace Blyss
     public:
         Window(int width, int height, const char* title);
         ~Window();
+
+        // This class is move only
+        Window(const Window&) = delete;
+        Window(Window&&) = delete;
+        Window& operator=(const Window&) = delete;
+        Window& operator=(Window&&) = delete;
 
         void RunUntilClose();
 

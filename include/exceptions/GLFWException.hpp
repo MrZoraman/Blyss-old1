@@ -5,13 +5,13 @@
 
 namespace Blyss
 {
-    class GLFWException : public std::exception
+    class GLFWException final : public std::exception
     {
     public:
-        static void OnGlfwError(int error_code, const char* description);
+        [[noreturn]] static void OnGlfwError(int error_code, const char* description);
 
     private:
-        GLFWException(const char* message);
+        explicit GLFWException(const char* message);
     };
 }
 

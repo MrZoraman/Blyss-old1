@@ -22,7 +22,7 @@ namespace Blyss
         BGlfwWindowW(BGlfwWindowW&&) = delete;
         BGlfwWindowW& operator=(const BGlfwWindowW&) = delete;
         BGlfwWindowW& operator=(BGlfwWindowW&&) = delete;
-
+        
         /**
          * @brief Constructor.
          * @param width The width of the window, in pixels.
@@ -48,7 +48,7 @@ namespace Blyss
          * @sa https://www.glfw.org/docs/latest/group__context.html#ga1c04dc242268f827290fe40aa1c91157
         */
         void MakeContextCurrent();
-
+        
         /**
          * @brief Returns whether or not the user has requested that the window should close.
          * @return True if the close button has been pressed, false if it has not.

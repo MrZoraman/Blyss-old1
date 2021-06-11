@@ -3,6 +3,7 @@
 #include <exception>
 
 #include <boost/log/trivial.hpp>
+#include <glad/glad.h>
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
@@ -21,7 +22,7 @@ namespace Blyss
             throw std::runtime_error("Unable to initialize GLAD!");
         }
 
-        glad_set_post_callback(Blyss::OpenGLException::OpenGLPostCallback);
+        glad_set_post_callback(OpenGLException::OpenGLPostCallback);
 
         glfw_window_.OnWindowResize.connect(OnWindowResize);
 
@@ -65,6 +66,7 @@ namespace Blyss
         }
     }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
     void Window::Frame()
     {
         ImGui::ShowDemoWindow(nullptr);
