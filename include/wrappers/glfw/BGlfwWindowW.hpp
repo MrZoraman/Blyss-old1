@@ -55,7 +55,7 @@ namespace Blyss
          * @exception GLFWException If GLFW is not initialized.
          * @sa https://www.glfw.org/docs/latest/group__window.html#ga49c449dde2a6f87d996f4daaa09d6708
          */
-        [[nodiscard]] bool ShouldClose();
+        [[nodiscard]] bool ShouldClose() const;
 
         /**
          * @brief Swaps the window's buffers.
@@ -73,7 +73,7 @@ namespace Blyss
          *
          * @return The underlying GLFW window pointer. Do not destroy!
         */
-        GLFWwindow* GetRawWinPtr();
+        [[nodiscard]] GLFWwindow* GetRawWinPtr() const;
 
         /**
          * @brief Emitted when the window size is changed.

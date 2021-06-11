@@ -40,17 +40,16 @@ namespace Blyss
         glfwMakeContextCurrent(window_);
     }
 
-    bool BGlfwWindowW::ShouldClose()
+    bool BGlfwWindowW::ShouldClose() const
     {
         bool should_close = glfwWindowShouldClose(window_);
         return should_close;
     }
-
+    
     void BGlfwWindowW::SwapBuffers()
     {
         glfwSwapBuffers(window_);
     }
-
 
     GLFWwindow* BGlfwWindowW::MakeWindow(int width, int height, const char* title)
     {
@@ -58,14 +57,14 @@ namespace Blyss
         return window;
     }
 
-    GLFWwindow* BGlfwWindowW::GetRawWinPtr()
+    GLFWwindow* BGlfwWindowW::GetRawWinPtr() const
     {
         return window_;
     }
 
     void BGlfwWindowW::GlfwWindowResizeCallback(GLFWwindow* window, int width, int height)
     {
-        auto wrapper = static_cast<BGlfwWindowW*>(glfwGetWindowUserPointer(window));
+        auto *wrapper = static_cast<BGlfwWindowW*>(glfwGetWindowUserPointer(window));
         wrapper->OnWindowResize(*wrapper, width, height);
     }
 
