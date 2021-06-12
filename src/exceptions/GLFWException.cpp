@@ -3,7 +3,7 @@
 #include <sstream>
 #include <exception>
 
-namespace Blyss
+namespace blyss
 {
     GLFWException::GLFWException(const char* message)
         : std::exception(message)

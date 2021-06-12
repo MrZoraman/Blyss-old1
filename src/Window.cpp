@@ -10,7 +10,7 @@
 
 #include "exceptions/OpenGLException.hpp"
 
-namespace Blyss
+namespace blyss
 {
     Window::Window(int width, int height, const char* title)
         : glfw_window_{width, height, title}
@@ -24,7 +24,7 @@ namespace Blyss
 
         glad_set_post_callback(OpenGLException::OpenGLPostCallback);
 
-        glfw_window_.OnWindowResize.connect(OnWindowResize);
+        glfw_window_.on_window_resize.connect(OnWindowResize);
 
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();

@@ -1,9 +1,9 @@
-#ifndef BLYSS_WINDOW_H_
-#define BLYSS_WINDOW_H_
+#ifndef BLYSS_WINDOW_H
+#define BLYSS_WINDOW_H
 
 #include "wrappers/glfw/BGlfwWindowW.hpp"
 
-namespace Blyss
+namespace blyss
 {
     class Window final
     {

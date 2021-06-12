@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <cassert>
 
-namespace Blyss
+namespace blyss
 {
     Rectangle::Rectangle(std::int32_t width, std::int32_t height)
         : width_{width}
@@ -13,7 +13,7 @@ namespace Blyss
         assert(height > 0);
     }
 
-    std::int32_t Rectangle::area() const
+    std::int32_t Rectangle::Area() const
     {
         return width_ * height_;
     }

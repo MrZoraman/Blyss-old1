@@ -1,9 +1,9 @@
-#ifndef BLYSS_EXCEPTIONS_GLFWEXCEPTION_H_
-#define BLYSS_EXCEPTIONS_GLFWEXCEPTION_H_
+#ifndef BLYSS_EXCEPTIONS_GLFWEXCEPTION_H
+#define BLYSS_EXCEPTIONS_GLFWEXCEPTION_H
 
 #include <exception>
 
-namespace Blyss
+namespace blyss
 {
     class GLFWException final : public std::exception
     {

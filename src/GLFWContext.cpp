@@ -4,7 +4,7 @@
 
 #include "exceptions/GLFWException.hpp"
 
-namespace Blyss
+namespace blyss
 {
     GLFWContext::GLFWContext()
     {

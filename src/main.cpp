@@ -8,17 +8,16 @@
 
 int main()
 {
-    const int kDefaultWidth = 640;
-    const int kDefaultHeight = 480;
-
     try
     {
+        const int default_width = 640;
+        const int default_height = 480;
 
-        Blyss::GLFWContext glfw_context;
-        Blyss::Window w(kDefaultWidth, kDefaultHeight, "Hello, world!");
+        blyss::GLFWContext glfw_context;
+        blyss::Window w(default_width, default_height, "Hello, world!");
         w.RunUntilClose();
     }
-    catch (const Blyss::GLFWException& e)
+    catch (const blyss::GLFWException& e)
     {
         BOOST_LOG_TRIVIAL(fatal) << "Fatal GLFW exception: " << e.what();
         return EXIT_FAILURE;

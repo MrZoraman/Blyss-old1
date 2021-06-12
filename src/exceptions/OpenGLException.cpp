@@ -5,7 +5,7 @@
 
 #include <glad/glad.h>
 
-namespace Blyss
+namespace blyss
 {
     OpenGLException::OpenGLException(const char* message)
         : std::exception(message)

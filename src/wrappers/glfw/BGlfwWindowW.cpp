@@ -3,7 +3,7 @@
 #include <cstdio>
 #include <exception>
 
-namespace Blyss
+namespace blyss
 {
     BGlfwWindowW::BGlfwWindowW(int width, int height, const char* title)
         : window_{MakeWindow(width, height, title)}
@@ -23,7 +23,7 @@ namespace Blyss
                 glfwDestroyWindow(window_);
             }
 
-            OnWindowResize.disconnect_all_slots();
+            on_window_resize.disconnect_all_slots();
         }
         catch (const std::exception& e)
         {
@@ -65,7 +65,7 @@ namespace Blyss
     void BGlfwWindowW::GlfwWindowResizeCallback(GLFWwindow* window, int width, int height)
     {
         auto *wrapper = static_cast<BGlfwWindowW*>(glfwGetWindowUserPointer(window));
-        wrapper->OnWindowResize(*wrapper, width, height);
+        wrapper->on_window_resize(*wrapper, width, height);
     }
 
 

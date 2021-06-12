@@ -1,7 +1,7 @@
-#ifndef BLYSS_GLFWCONTEXT_H_
-#define BLYSS_GLFWCONTEXT_H_
+#ifndef BLYSS_GLFWCONTEXT_H
+#define BLYSS_GLFWCONTEXT_H
 
-namespace Blyss
+namespace blyss
 {
     class GLFWContext final
     {

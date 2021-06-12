@@ -1,11 +1,11 @@
-#ifndef BLYSS_WRAPPERS_GLFW_BGLFWWINDOWW_H_
-#define BLYSS_WRAPPERS_GLFW_BGLFWWINDOWW_H_
+#ifndef BLYSS_WRAPPERS_GLFW_BGLFWWINDOWW_H
+#define BLYSS_WRAPPERS_GLFW_BGLFWWINDOWW_H
 
 #include <boost/signals2.hpp>
 
 #include "GLFW/glfw3.h"
 
-namespace Blyss
+namespace blyss
 {
     /**
      * @brief Wrapper class around GLFW's window struct.

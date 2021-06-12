@@ -1,9 +1,9 @@
-#ifndef BLYSS_EXCEPTIONS_OPENGLEXCEPTION_H_
-#define BLYSS_EXCEPTIONS_OPENGLEXCEPTION_H_
+#ifndef BLYSS_EXCEPTIONS_OPENGLEXCEPTION_H
+#define BLYSS_EXCEPTIONS_OPENGLEXCEPTION_H
 
 #include <exception>
 
-namespace Blyss
+namespace blyss
 {
     class OpenGLException final : public std::exception
     {
