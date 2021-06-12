@@ -1,6 +1,7 @@
 #ifndef BLYSS_WINDOW_H
 #define BLYSS_WINDOW_H
 
+#include <glad/glad.h>
 #include "wrappers/glfw/BGlfwWindowW.hpp"
 
 namespace blyss
