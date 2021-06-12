@@ -26,6 +26,4 @@ namespace blyss
 
         throw GLFWException(ss.str().c_str());
     }
-
-    
 }

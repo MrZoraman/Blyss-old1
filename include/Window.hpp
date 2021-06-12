@@ -26,7 +26,6 @@ namespace blyss
         void Frame();
 
         static void OnWindowResize(BGlfwWindowW& glfw_window, int width, int height);
-        
     };
 }
 

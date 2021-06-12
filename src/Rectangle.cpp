@@ -17,5 +17,4 @@ namespace blyss
     {
         return width_ * height_;
     }
-    
 }

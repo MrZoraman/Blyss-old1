@@ -76,5 +76,4 @@ namespace blyss
     {
         glViewport(0, 0, width, height);
     }
-
 }

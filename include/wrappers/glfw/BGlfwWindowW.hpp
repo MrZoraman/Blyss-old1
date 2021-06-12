@@ -22,7 +22,7 @@ namespace blyss
         BGlfwWindowW(BGlfwWindowW&&) = delete;
         BGlfwWindowW& operator=(const BGlfwWindowW&) = delete;
         BGlfwWindowW& operator=(BGlfwWindowW&&) = delete;
-        
+
         /**
          * @brief Constructor.
          * @param width The width of the window, in pixels.
@@ -37,7 +37,7 @@ namespace blyss
          * @sa https://www.glfw.org/docs/latest/group__window.html#ga5c336fddf2cbb5b92f65f10fb6043344
         */
         BGlfwWindowW(int width, int height, const char* title);
-        
+
         ~BGlfwWindowW();
 
         /**
@@ -48,7 +48,7 @@ namespace blyss
          * @sa https://www.glfw.org/docs/latest/group__context.html#ga1c04dc242268f827290fe40aa1c91157
         */
         void MakeContextCurrent();
-        
+
         /**
          * @brief Returns whether or not the user has requested that the window should close.
          * @return True if the close button has been pressed, false if it has not.
@@ -82,7 +82,7 @@ namespace blyss
          * new height of the window. When an instance of this class is destroyed, all of its
          * signal handlers are cleared.
         */
-        boost::signals2::signal<void(BGlfwWindowW&, int, int)> OnWindowResize;
+        boost::signals2::signal<void(BGlfwWindowW&, int, int)> on_window_resize;
 
     private:
         GLFWwindow* const window_;

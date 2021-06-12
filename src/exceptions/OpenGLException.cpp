@@ -68,5 +68,4 @@ namespace blyss
             throw OpenGLException(ss.str().c_str());
         }
     }
-
 }

@@ -34,7 +34,7 @@ namespace blyss
             std::fprintf(stderr, "Unknown error.\n");
         }
     }
-    
+
     void BGlfwWindowW::MakeContextCurrent()
     {
         glfwMakeContextCurrent(window_);
@@ -45,7 +45,7 @@ namespace blyss
         bool should_close = glfwWindowShouldClose(window_);
         return should_close;
     }
-    
+
     void BGlfwWindowW::SwapBuffers()
     {
         glfwSwapBuffers(window_);
@@ -64,9 +64,7 @@ namespace blyss
 
     void BGlfwWindowW::GlfwWindowResizeCallback(GLFWwindow* window, int width, int height)
     {
-        auto *wrapper = static_cast<BGlfwWindowW*>(glfwGetWindowUserPointer(window));
+        auto* wrapper = static_cast<BGlfwWindowW*>(glfwGetWindowUserPointer(window));
         wrapper->on_window_resize(*wrapper, width, height);
     }
-
-
 }

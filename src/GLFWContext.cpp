@@ -18,5 +18,4 @@ namespace blyss
         glfwTerminate();
         glfwSetErrorCallback(nullptr);
     }
-
 }

@@ -15,7 +15,6 @@ namespace blyss
     private:
         std::int32_t width_;
         std::int32_t height_;
-
     };
 }
 
