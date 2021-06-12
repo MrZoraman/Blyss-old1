@@ -87,8 +87,22 @@ namespace blyss
     private:
         GLFWwindow* const window_;
 
+        /**
+         * @brief Allocates a GLFWwindow struct instance.
+         * @param width The width of the window, in pixels.
+         * @param height The height of the window, in pixels.
+         * @param title The title of the window.
+         * @return A newly allocated GLFW window.
+         * @throws GLFWException if the window cannot be created.
+        */
         static GLFWwindow* MakeWindow(int width, int height, const char* title);
 
+        /**
+         * @brief This callback is called when the window is resized.
+         * @param window The window that was resized.
+         * @param width The new width of the window, in pixels.
+         * @param height The new height of the window, in pixels.
+        */
         static void GlfwWindowResizeCallback(GLFWwindow* window, int width, int height);
     };
 }

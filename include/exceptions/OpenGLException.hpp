@@ -5,6 +5,9 @@
 
 namespace blyss
 {
+    /**
+     * @brief Thrown when an OpenGL error occurs.
+    */
     class OpenGLException final : public std::exception
     {
     public:
