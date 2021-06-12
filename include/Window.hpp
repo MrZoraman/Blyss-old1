@@ -20,7 +20,7 @@ namespace blyss
          * @param height The height of the window, in pixels.
          * @param title The title of the window.
          * @exception runtime_error if GLAD cannot be initialized.
-         * @exception ??? There are a lot of exceptions this constructor can throw.
+         * @exception Many There are a lot of exceptions this constructor can throw.
         */
         Window(int width, int height, const char* title);
         ~Window();
@@ -33,7 +33,7 @@ namespace blyss
 
         /**
          * @brief Runs the render loop until the user closes the window.
-         * @exception ??? There are a lot of exceptions this method can throw.
+         * @exception Many There are a lot of exceptions this method can throw.
         */
         void RunUntilClose();
 
