@@ -74,6 +74,13 @@ namespace blyss
 
     void Window::OnWindowResize(BGlfwWindowW&, int width, int height)
     {
+        if (width <= 0 || height <= 0)
+        {
+            BOOST_LOG_TRIVIAL(warning) << "Window was resized, and the new dimensions are " << width
+                << ", " << height << ", which is strange. This resize operation will be ignored.";
+            return;
+        }
+
         glViewport(0, 0, width, height);
     }
 }
