@@ -2,9 +2,9 @@
 
 #include <boost/log/trivial.hpp>
 
-#include "exceptions/GLFWException.hpp"
 #include "GLFWContext.hpp"
 #include "Window.hpp"
+#include "exceptions/GLFWException.hpp"
 
 int main()
 {

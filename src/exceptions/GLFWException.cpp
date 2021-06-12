@@ -1,7 +1,7 @@
 #include "exceptions/GLFWException.hpp"
 
-#include <sstream>
 #include <exception>
+#include <sstream>
 
 namespace blyss
 {

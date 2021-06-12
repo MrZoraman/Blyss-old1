@@ -1,7 +1,7 @@
 #include "Rectangle.hpp"
 
-#include <cstdint>
 #include <cassert>
+#include <cstdint>
 
 namespace blyss
 {

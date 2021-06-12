@@ -1,11 +1,12 @@
+#include <glad/glad.h>
+
 #include "Window.hpp"
 
 #include <exception>
-
-#include <boost/log/trivial.hpp>
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
+#include <boost/log/trivial.hpp>
 
 #include "exceptions/OpenGLException.hpp"
 
