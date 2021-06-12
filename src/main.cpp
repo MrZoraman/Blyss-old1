@@ -1,3 +1,4 @@
+#include <cstdio>
 #include <cstdlib>
 
 #include <boost/log/trivial.hpp>
@@ -6,7 +7,7 @@
 #include "Window.hpp"
 #include "exceptions/GLFWException.hpp"
 
-int main()
+int main() noexcept
 {
     try
     {
@@ -19,8 +20,19 @@ int main()
     }
     catch (const blyss::GLFWException& e)
     {
-        BOOST_LOG_TRIVIAL(fatal) << "Fatal GLFW exception: " << e.what();
+        try
+        {
+            BOOST_LOG_TRIVIAL(fatal) << "Fatal GLFW exception: " << e.what();
+        }
+        catch (...)
+        {
+            std::fprintf(stderr, "Unable to print error message!");
+        }
         return EXIT_FAILURE;
+    }
+    catch (...)
+    {
+        std::fprintf(stderr, "An unknown error occurred!");
     }
 
     return EXIT_SUCCESS;
