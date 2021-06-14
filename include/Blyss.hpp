@@ -32,7 +32,7 @@ namespace blyss
 
         void Frame();
 
-        bool IsCloseRequested() const;
+        [[nodiscard]] bool IsCloseRequested() const;
 
     private:
         Gui gui_;

@@ -29,7 +29,7 @@ namespace blyss
 
         void Draw();
 
-        bool IsCloseRequested() const;
+        [[nodiscard]] bool IsCloseRequested() const;
 
     private:
         bool show_demo_window_;
