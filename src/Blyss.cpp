@@ -22,9 +22,26 @@
 
 namespace blyss
 {
+    Blyss::Blyss()
+        : gui_{}
+        , is_close_requested_{false}
+    {
+    }
+
     void Blyss::Frame()
     {
         gui_.Draw();
+
+        if (gui_.IsCloseRequested())
+        {
+            is_close_requested_ = true;
+        }
     }
+
+    bool Blyss::IsCloseRequested() const
+    {
+        return is_close_requested_;
+    }
+
 
 }

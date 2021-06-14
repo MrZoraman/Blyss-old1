@@ -24,9 +24,49 @@
 
 namespace blyss
 {
+    Gui::Gui()
+        : show_demo_window_{false}
+        , is_close_requested_{false}
+    {
+    }
+
     void Gui::Draw()
     {
-        ImGui::ShowDemoWindow();
+        if (show_demo_window_)
+        {
+            ImGui::ShowDemoWindow(&show_demo_window_);
+        }
+
+        DrawMainMenuBar();
     }
+
+    void Gui::DrawMainMenuBar()
+    {
+        ImGui::BeginMainMenuBar();
+
+        if (ImGui::BeginMenu("File"))
+        {
+            if (ImGui::MenuItem("Show Demo Window"))
+            {
+                show_demo_window_ = true;
+            }
+
+            if (ImGui::MenuItem("Exit"))
+            {
+                is_close_requested_ = true;
+            }
+
+            ImGui::EndMenu();
+        }
+
+        ImGui::EndMainMenuBar();
+    }
+
+    bool Gui::IsCloseRequested() const
+    {
+        return is_close_requested_;
+    }
+
+
 
 }

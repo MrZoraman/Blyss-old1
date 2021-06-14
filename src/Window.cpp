@@ -63,7 +63,7 @@ namespace blyss
 
     void Window::RunUntilClose()
     {
-        while (!glfw_window_.ShouldClose())
+        while (!(glfw_window_.ShouldClose() || blyss_.IsCloseRequested()))
         {
             try
             {

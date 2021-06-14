@@ -28,10 +28,16 @@ namespace blyss
     class Blyss final
     {
     public:
+        Blyss();
+
         void Frame();
+
+        bool IsCloseRequested() const;
 
     private:
         Gui gui_;
+
+        bool is_close_requested_;
     };
 
 }

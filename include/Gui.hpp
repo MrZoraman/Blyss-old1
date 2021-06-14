@@ -25,6 +25,16 @@ namespace blyss
     class Gui final
     {
     public:
+        Gui();
+
         void Draw();
+
+        bool IsCloseRequested() const;
+
+    private:
+        bool show_demo_window_;
+        bool is_close_requested_;
+
+        void DrawMainMenuBar();
     };
 }
