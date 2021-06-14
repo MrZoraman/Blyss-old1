@@ -18,8 +18,7 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#ifndef BLYSS_EXCEPTIONS_GLFWEXCEPTION_H
-#define BLYSS_EXCEPTIONS_GLFWEXCEPTION_H
+#pragma once
 
 #include <exception>
 
@@ -42,5 +41,3 @@ namespace blyss
         explicit GLFWException(const char* message);
     };
 }
-
-#endif

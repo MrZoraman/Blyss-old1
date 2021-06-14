@@ -18,8 +18,7 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#ifndef BLYSS_RECTANGLE_H
-#define BLYSS_RECTANGLE_H
+#pragma once
 
 #include <cstdint>
 
@@ -37,5 +36,3 @@ namespace blyss
         std::int32_t height_;
     };
 }
-
-#endif

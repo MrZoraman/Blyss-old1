@@ -18,8 +18,7 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#ifndef BLYSS_EXCEPTIONS_OPENGLEXCEPTION_H
-#define BLYSS_EXCEPTIONS_OPENGLEXCEPTION_H
+#pragma once
 
 #include <exception>
 
@@ -38,5 +37,3 @@ namespace blyss
         explicit OpenGLException(const char* message);
     };
 }
-
-#endif

@@ -18,8 +18,7 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#ifndef BLYSS_GLFWCONTEXT_H
-#define BLYSS_GLFWCONTEXT_H
+#pragma once
 
 namespace blyss
 {
@@ -39,5 +38,3 @@ namespace blyss
         GLFWContext& operator=(GLFWContext&&) = delete;
     };
 }
-
-#endif

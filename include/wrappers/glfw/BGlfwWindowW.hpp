@@ -18,8 +18,7 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#ifndef BLYSS_WRAPPERS_GLFW_BGLFWWINDOWW_H
-#define BLYSS_WRAPPERS_GLFW_BGLFWWINDOWW_H
+#pragma once
 
 #include <boost/signals2.hpp>
 
@@ -126,5 +125,3 @@ namespace blyss
         static void GlfwWindowResizeCallback(GLFWwindow* window, int width, int height);
     };
 }
-
-#endif

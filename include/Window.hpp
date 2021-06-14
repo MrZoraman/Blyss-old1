@@ -18,8 +18,7 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#ifndef BLYSS_WINDOW_H
-#define BLYSS_WINDOW_H
+#pragma once
 
 #include "wrappers/glfw/BGlfwWindowW.hpp"
 
@@ -82,5 +81,3 @@ namespace blyss
         static void OnWindowResize(BGlfwWindowW& glfw_window, int width, int height);
     };
 }
-
-#endif
