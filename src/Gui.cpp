@@ -27,6 +27,7 @@ namespace blyss
     Gui::Gui()
         : show_demo_window_{false}
         , is_close_requested_{false}
+        , show_fps_overlay_{false}
     {
     }
 
@@ -37,8 +38,12 @@ namespace blyss
             ImGui::ShowDemoWindow(&show_demo_window_);
         }
 
+        if (show_fps_overlay_)
+        {
+            DrawFPSWindow(delta_seconds);
+        }
+
         DrawMainMenuBar();
-        DrawFPSWindow(delta_seconds);
     }
 
     void Gui::DrawMainMenuBar()
@@ -51,6 +56,8 @@ namespace blyss
             {
                 show_demo_window_ = true;
             }
+
+            ImGui::MenuItem("Show FPS Overlay", nullptr, &show_fps_overlay_, true);
 
             if (ImGui::MenuItem("Exit"))
             {
@@ -78,10 +85,8 @@ namespace blyss
 
         ImGui::Begin("FPS Overlay", nullptr, window_flags);
 
-        ImGui::Text("Frame time: %.15f s", delta_seconds);
-        ImGui::Text("%f FPS", 1 / delta_seconds);
-
-        ImGui::Text("Hello!");
+        ImGui::Text("Frame time: %.3f s", delta_seconds);
+        ImGui::Text("%.3f FPS", 1 / delta_seconds);
 
         ImGui::End();
     }

@@ -34,6 +34,7 @@ namespace blyss
     private:
         bool show_demo_window_;
         bool is_close_requested_;
+        bool show_fps_overlay_;
 
         void DrawMainMenuBar();
         void DrawFPSWindow(double delta_seconds);
