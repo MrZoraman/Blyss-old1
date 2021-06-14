@@ -19,3 +19,9 @@
  */
 
 #pragma once
+
+class GuiState final
+{
+public:
+    void Draw();
+};
