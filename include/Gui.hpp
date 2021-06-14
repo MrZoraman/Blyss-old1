@@ -20,8 +20,11 @@
 
 #pragma once
 
-class GuiState final
+namespace blyss
 {
-public:
-    void Draw();
-};
+    class Gui final
+    {
+    public:
+        void Draw();
+    };
+}

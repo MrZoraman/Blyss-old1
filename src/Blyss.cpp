@@ -20,13 +20,11 @@
 
 #include "Blyss.hpp"
 
-#include <imgui.h>
-
 namespace blyss
 {
     void Blyss::Frame()
     {
-        ImGui::ShowDemoWindow();
+        gui_.Draw();
     }
 
 }

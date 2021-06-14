@@ -20,6 +20,8 @@
 
 #pragma once
 
+#include "Gui.hpp"
+
 namespace blyss
 {
 
@@ -27,6 +29,9 @@ namespace blyss
     {
     public:
         void Frame();
+
+    private:
+        Gui gui_;
     };
 
 }

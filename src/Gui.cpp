@@ -18,3 +18,15 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
+#include "Gui.hpp"
+
+#include <imgui.h>
+
+namespace blyss
+{
+    void Gui::Draw()
+    {
+        ImGui::ShowDemoWindow();
+    }
+
+}
