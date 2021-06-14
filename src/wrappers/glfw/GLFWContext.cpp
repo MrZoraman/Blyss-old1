@@ -18,7 +18,7 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#include "GLFWContext.hpp"
+#include "wrappers/glfw/GLFWContext.hpp"
 
 #include <GLFW/glfw3.h>
 

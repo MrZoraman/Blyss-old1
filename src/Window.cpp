@@ -34,6 +34,7 @@ namespace blyss
 {
     Window::Window(int width, int height, const char* title)
         : glfw_window_{width, height, title}
+        , blyss_{}
     {
         glfw_window_.MakeContextCurrent();
 
@@ -69,7 +70,7 @@ namespace blyss
                 ImGui_ImplOpenGL3_NewFrame();
                 ImGui_ImplGlfw_NewFrame();
                 ImGui::NewFrame();
-                Frame();
+                blyss_.Frame();
                 ImGui::Render();
                 glClear(GL_COLOR_BUFFER_BIT);
 
@@ -84,17 +85,6 @@ namespace blyss
 
             glfwPollEvents();
         }
-    }
-
-    // ReSharper disable once CppMemberFunctionMayBeStatic
-    void Window::Frame()
-    {
-        ImGui::ShowDemoWindow(nullptr);
-    }
-
-    void Window::DoGuiCommands()
-    {
-        
     }
 
     void Window::OnWindowResize(BGlfwWindowW&, int width, int height)

@@ -23,9 +23,9 @@
 
 #include <boost/log/trivial.hpp>
 
-#include "GLFWContext.hpp"
 #include "Window.hpp"
 #include "exceptions/GLFWException.hpp"
+#include "wrappers/glfw/GLFWContext.hpp"
 
 int main() noexcept
 {

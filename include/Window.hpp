@@ -20,6 +20,7 @@
 
 #pragma once
 
+#include "Blyss.hpp"
 #include "wrappers/glfw/BGlfwWindowW.hpp"
 
 namespace blyss
@@ -59,16 +60,7 @@ namespace blyss
     private:
 
         BGlfwWindowW glfw_window_;
-
-        /**
-         * @brief Logic to be executed each frame.
-        */
-        void Frame();
-
-        /**
-         * @brief Executes all the ImGui function calls for creating the desired GUI.
-        */
-        void DoGuiCommands();
+        Blyss blyss_;
 
         /**
          * @brief Called when the user resizes the window.

@@ -23,12 +23,12 @@ endmacro()
 # Sources                                                   #
 # --------------------------------------------------------- #
 libblyss_add_source(Rectangle)
-libblyss_add_source(GLFWContext)
 libblyss_add_source(Window)
-libblyss_add_source(GuiState)
+libblyss_add_source(Gui)
 libblyss_add_source(Blyss)
 libblyss_add_source(exceptions/GLFWException)
 libblyss_add_source(exceptions/OpenGLException)
+libblyss_add_source(wrappers/glfw/GLFWContext)
 libblyss_add_source(wrappers/glfw/BGlfwWindowW)
 
 # --------------------------------------------------------- #
