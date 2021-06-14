@@ -28,9 +28,9 @@ namespace blyss
     {
     }
 
-    void Blyss::Frame()
+    void Blyss::Frame(double delta_seconds)
     {
-        gui_.Draw();
+        gui_.Draw(delta_seconds);
 
         if (gui_.IsCloseRequested())
         {

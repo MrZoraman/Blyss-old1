@@ -30,7 +30,7 @@ namespace blyss
     public:
         Blyss();
 
-        void Frame();
+        void Frame(double delta_seconds);
 
         [[nodiscard]] bool IsCloseRequested() const;
 

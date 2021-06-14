@@ -30,7 +30,7 @@ namespace blyss
     {
     }
 
-    void Gui::Draw()
+    void Gui::Draw(double delta_seconds)
     {
         if (show_demo_window_)
         {
@@ -38,6 +38,7 @@ namespace blyss
         }
 
         DrawMainMenuBar();
+        DrawFPSWindow(delta_seconds);
     }
 
     void Gui::DrawMainMenuBar()
@@ -67,6 +68,23 @@ namespace blyss
         return is_close_requested_;
     }
 
+    void Gui::DrawFPSWindow(double delta_seconds)
+    {
+        ImGuiWindowFlags window_flags = 
+            ImGuiWindowFlags_NoDecoration | // NOLINT(hicpp-signed-bitwise)
+            ImGuiWindowFlags_NoSavedSettings |
+            ImGuiWindowFlags_NoFocusOnAppearing |
+            ImGuiWindowFlags_NoNav;
+
+        ImGui::Begin("FPS Overlay", nullptr, window_flags);
+
+        ImGui::Text("Frame time: %.15f s", delta_seconds);
+        ImGui::Text("%f FPS", 1 / delta_seconds);
+
+        ImGui::Text("Hello!");
+
+        ImGui::End();
+    }
 
 
 }

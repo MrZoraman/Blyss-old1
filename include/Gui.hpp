@@ -27,7 +27,7 @@ namespace blyss
     public:
         Gui();
 
-        void Draw();
+        void Draw(double delta_seconds);
 
         [[nodiscard]] bool IsCloseRequested() const;
 
@@ -36,5 +36,6 @@ namespace blyss
         bool is_close_requested_;
 
         void DrawMainMenuBar();
+        void DrawFPSWindow(double delta_seconds);
     };
 }

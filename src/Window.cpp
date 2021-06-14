@@ -22,7 +22,10 @@
 
 #include "Window.hpp"
 
+#include <chrono>
 #include <exception>
+#include <thread>
+
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
@@ -37,6 +40,7 @@ namespace blyss
         , blyss_{}
     {
         glfw_window_.MakeContextCurrent();
+        glfwSwapInterval(1);
 
         if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)))
         {
@@ -52,6 +56,7 @@ namespace blyss
         ImGui::StyleColorsDark();
         ImGui_ImplGlfw_InitForOpenGL(glfw_window_.GetRawWinPtr(), true);
         ImGui_ImplOpenGL3_Init("#version 130");
+
     }
 
     Window::~Window()
@@ -63,14 +68,20 @@ namespace blyss
 
     void Window::RunUntilClose()
     {
+        auto previous_time = std::chrono::high_resolution_clock::now();
         while (!(glfw_window_.ShouldClose() || blyss_.IsCloseRequested()))
         {
+
             try
             {
+                auto now = std::chrono::high_resolution_clock::now();
+                std::chrono::duration<double> delta_time = now - previous_time;
+                previous_time = now;
+
                 ImGui_ImplOpenGL3_NewFrame();
                 ImGui_ImplGlfw_NewFrame();
                 ImGui::NewFrame();
-                blyss_.Frame();
+                blyss_.Frame(delta_time.count());
                 ImGui::Render();
                 glClear(GL_COLOR_BUFFER_BIT);
 
