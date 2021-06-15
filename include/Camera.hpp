@@ -22,5 +22,8 @@
 
 namespace blyss
 {
-    
+    class Camera final
+    {
+        
+    };
 }
