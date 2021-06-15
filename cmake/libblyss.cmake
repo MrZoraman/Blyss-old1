@@ -28,10 +28,12 @@ libblyss_add_source(Gui)
 libblyss_add_source(Blyss)
 libblyss_add_source(Camera)
 libblyss_add_source(Renderer)
+libblyss_add_source(ShaderSources)
 libblyss_add_source(exceptions/GLFWException)
 libblyss_add_source(exceptions/OpenGLException)
 libblyss_add_source(wrappers/glfw/GLFWContext)
 libblyss_add_source(wrappers/glfw/BGlfwWindowW)
+
 
 # --------------------------------------------------------- #
 # Visual Studio Folder Hierarchy                            #

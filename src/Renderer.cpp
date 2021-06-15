@@ -23,6 +23,8 @@
 #include <glad/glad.h>
 #include <boost/log/trivial.hpp>
 
+#include "ShaderSources.hpp"
+
 namespace blyss
 {
     Renderer::Renderer()
@@ -54,16 +56,8 @@ namespace blyss
 
     GLuint Renderer::MakeShaderProgram()
     {
-
-        const char* vertexShaderSource = "#version 330 core\n"
-            "layout (location = 0) in vec3 aPos;\n"
-            "void main()\n"
-            "{\n"
-            "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-            "}\0";
-
         GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-        glShaderSource(vertexShader, 1, &vertexShaderSource, nullptr);
+        glShaderSource(vertexShader, 1, &kVertexShaderSource, nullptr);
         glCompileShader(vertexShader);
         GLint success = 0;
         char infoLog[512];
@@ -74,15 +68,8 @@ namespace blyss
             BOOST_LOG_TRIVIAL(error) << infoLog;
         }
 
-        const char* fragmentShaderSource = "#version 330 core\n"
-            "out vec4 FragColor;\n"
-            "void main()\n"
-            "{\n"
-            "    FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-            "}";
-
         GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-        glShaderSource(fragmentShader, 1, &fragmentShaderSource, nullptr);
+        glShaderSource(fragmentShader, 1, &kFragmentShaderSource, nullptr);
         glCompileShader(fragmentShader);
         glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
         if (!success)
