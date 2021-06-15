@@ -31,13 +31,13 @@
 #include <imgui_impl_opengl3.h>
 #include <boost/log/trivial.hpp>
 
+#include "Blyss.hpp"
 #include "exceptions/OpenGLException.hpp"
 
 namespace blyss
 {
     Window::Window(int width, int height, const char* title)
         : glfw_window_{width, height, title}
-        , blyss_{}
     {
         glfw_window_.MakeContextCurrent();
         glfwSwapInterval(1);
@@ -68,8 +68,10 @@ namespace blyss
 
     void Window::RunUntilClose()
     {
+        Blyss blyss;
+
         auto previous_time = std::chrono::high_resolution_clock::now();
-        while (!(glfw_window_.ShouldClose() || blyss_.IsCloseRequested()))
+        while (!(glfw_window_.ShouldClose() || blyss.IsCloseRequested()))
         {
 
             try
@@ -78,12 +80,13 @@ namespace blyss
                 std::chrono::duration<double> delta_time = now - previous_time;
                 previous_time = now;
 
+                glClear(GL_COLOR_BUFFER_BIT);
+
                 ImGui_ImplOpenGL3_NewFrame();
                 ImGui_ImplGlfw_NewFrame();
                 ImGui::NewFrame();
-                blyss_.Frame(delta_time.count());
+                blyss.Frame(delta_time.count());
                 ImGui::Render();
-                glClear(GL_COLOR_BUFFER_BIT);
 
                 ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
             }

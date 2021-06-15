@@ -20,7 +20,6 @@
 
 #pragma once
 
-#include "Blyss.hpp"
 #include "wrappers/glfw/BGlfwWindowW.hpp"
 
 namespace blyss
@@ -60,7 +59,6 @@ namespace blyss
     private:
 
         BGlfwWindowW glfw_window_;
-        Blyss blyss_;
 
         /**
          * @brief Called when the user resizes the window.

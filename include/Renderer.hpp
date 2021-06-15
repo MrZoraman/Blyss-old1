@@ -20,10 +20,29 @@
 
 #pragma once
 
+#include <glad/glad.h>
+
 namespace blyss
 {
     class Renderer final
     {
-        
+    public:
+        Renderer();
+        void Draw();
+
+    private:
+        float vertices_[9] = {
+            -0.5f, -0.5f, 0.0f,
+             0.5f, -0.5f, 0.0f,
+             0.0f,  0.5f, 0.0f
+        };
+
+        GLuint vbo_;
+        GLuint shader_program_;
+        GLuint vao_;
+
+        static GLuint MakeVbo();
+        static GLuint MakeShaderProgram();
+        static GLuint MakeVao();
     };
 }

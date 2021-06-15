@@ -21,6 +21,7 @@
 #pragma once
 
 #include "Gui.hpp"
+#include "Renderer.hpp"
 
 namespace blyss
 {
@@ -36,6 +37,7 @@ namespace blyss
 
     private:
         Gui gui_;
+        Renderer renderer_;
 
         bool is_close_requested_;
     };

@@ -24,6 +24,7 @@ namespace blyss
 {
     Blyss::Blyss()
         : gui_{}
+        , renderer_{}
         , is_close_requested_{false}
     {
     }
@@ -31,6 +32,8 @@ namespace blyss
     void Blyss::Frame(double delta_seconds)
     {
         gui_.Draw(delta_seconds);
+
+        renderer_.Draw();
 
         if (gui_.IsCloseRequested())
         {
