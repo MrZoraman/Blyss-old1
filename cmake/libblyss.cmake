@@ -33,6 +33,7 @@ libblyss_add_source(exceptions/GLFWException)
 libblyss_add_source(exceptions/OpenGLException)
 libblyss_add_source(wrappers/glfw/GLFWContext)
 libblyss_add_source(wrappers/glfw/BGlfwWindowW)
+libblyss_add_source(wrappers/opengl/GLBuffer)
 
 
 # --------------------------------------------------------- #

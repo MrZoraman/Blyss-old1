@@ -22,28 +22,25 @@
 
 #include <glad/glad.h>
 
-#include "wrappers/opengl/GLBuffer.hpp"
-
 namespace blyss
 {
-    class Renderer final
+    class GLBuffer final
     {
     public:
-        Renderer();
-        void Draw();
+        GLBuffer();
+        ~GLBuffer();
+
+        // This class is move only
+        GLBuffer(const GLBuffer&) = delete;
+        GLBuffer(GLBuffer&&) = delete;
+        GLBuffer& operator=(const GLBuffer&) = delete;
+        GLBuffer& operator=(GLBuffer&&) = delete;
+
+        [[nodiscard]] GLuint get_handle() const;
+
+        void Bind(GLenum target) const;
 
     private:
-        float vertices_[9] = {
-            -0.5f, -0.5f, 0.0f,
-             0.5f, -0.5f, 0.0f,
-             0.0f,  0.5f, 0.0f
-        };
-
-        GLBuffer vbo_;
-        GLuint shader_program_;
-        GLuint vao_;
-        
-        static GLuint MakeShaderProgram();
-        static GLuint MakeVao();
+        GLuint handle_;
     };
 }

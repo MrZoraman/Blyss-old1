@@ -28,12 +28,12 @@
 namespace blyss
 {
     Renderer::Renderer()
-        : vbo_{ MakeVbo() }
+        : vbo_{}
         , shader_program_{MakeShaderProgram()}
         , vao_{MakeVao()}
     {
         glBindVertexArray(vao_);
-        glBindBuffer(GL_ARRAY_BUFFER, vbo_);
+        vbo_.Bind(GL_ARRAY_BUFFER);
         glBufferData(GL_ARRAY_BUFFER, sizeof(vertices_), vertices_, GL_STATIC_DRAW);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
         glEnableVertexAttribArray(0);
@@ -45,13 +45,6 @@ namespace blyss
         glUseProgram(shader_program_);
         glBindVertexArray(vao_);
         glDrawArrays(GL_TRIANGLES, 0, 3);
-    }
-
-    GLuint Renderer::MakeVbo()
-    {
-        GLuint vbo = 0;
-        glGenBuffers(1, &vbo);
-        return vbo;
     }
 
     GLuint Renderer::MakeShaderProgram()
