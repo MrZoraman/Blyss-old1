@@ -45,14 +45,13 @@ def install_basic_dependencies():
     for dependency in BASIC_DEPENDENCIES:
         folder_name = dependency["Folder Name"]
         url = dependency["Url"]
-        remove_root_path = dependency["Remove root path"]
 
         # Don't download the file if it is already downloaded.
         # I don't want to unecessarily download stuff from servers. Tragedy
         # of the commons and all that. To force a re-download, the folder must
         # be deleted before running this script.
         if (os.path.isdir(folder_name)):
-            print(f"{folder_name} already found, skipping")
+            print(f"{folder_name} already found, skipping.")
             continue
 
         r = requests.get(url)
@@ -78,18 +77,20 @@ def install_basic_dependencies():
         os.rename(root_folder, folder_name)
 
 def install_glad():
+    os.chdir("glad_builder")
+
     # I don't want to overwrite the glad directory, since I'm worried in the
     # future if glad changes and has different files, the glad folder will
     # turn into a mess, because its no longer "overwriting", its just adding
     # new files to the folder with the old files.
     if (os.path.isdir("glad")):
-        print("Glad is already configured. Skipping...")
+        print("Glad is already configured, skipping.")
         return
 
-    os.chdir("glad_builder")
-    os.system("python -m glad --spec gl --generator c-debug --out-path ../gladtest --reproducible")
+    os.system("python -m glad --spec gl --generator c-debug --out-path ../glad --reproducible")
     os.chdir("..")
 
 if __name__ == '__main__':
+    os.chdir("lib")
     install_basic_dependencies()
     install_glad()
