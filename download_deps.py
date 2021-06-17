@@ -50,7 +50,7 @@ def install_basic_dependencies():
         # I don't want to unecessarily download stuff from servers. Tragedy
         # of the commons and all that. To force a re-download, the folder must
         # be deleted before running this script.
-        if (os.path.isdir(folder_name)):
+        if (os.path.exists(folder_name)):
             print(f"{folder_name} already found, skipping.")
             continue
 
@@ -85,7 +85,7 @@ def install_glad():
     # future if glad changes and has different files, the glad folder will
     # turn into a mess, because its no longer "overwriting", its just adding
     # new files to the folder with the old files.
-    if (os.path.isdir("../glad")):
+    if (os.path.exists("../glad")):
         print("Glad is already configured, skipping.")
         return
 
@@ -95,6 +95,9 @@ def install_glad():
     print("Glad files generated successfully!")
 
 if __name__ == '__main__':
+    if not os.path.exists("lib"):
+        os.mkdir("lib")
+
     os.chdir("lib")
     install_basic_dependencies()
     install_glad()
