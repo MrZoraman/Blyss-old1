@@ -24,6 +24,7 @@
 #include <boost/log/trivial.hpp>
 
 #include "ShaderSources.hpp"
+#include "wrappers/opengl/Shader.hpp"
 
 namespace blyss
 {
@@ -49,42 +50,27 @@ namespace blyss
 
     GLuint Renderer::MakeShaderProgram()
     {
-        GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-        glShaderSource(vertexShader, 1, &kVertexShaderSource, nullptr);
-        glCompileShader(vertexShader);
-        GLint success = 0;
-        char infoLog[512];
-        glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-        if (!success)
-        {
-            glGetShaderInfoLog(vertexShader, 512, nullptr, infoLog);
-            BOOST_LOG_TRIVIAL(error) << infoLog;
-        }
+        Shader vertex_shader(GL_VERTEX_SHADER);
+        vertex_shader.set_source(kVertexShaderSource);
+        vertex_shader.Compile();
 
-        GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-        glShaderSource(fragmentShader, 1, &kFragmentShaderSource, nullptr);
-        glCompileShader(fragmentShader);
-        glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-        if (!success)
-        {
-            glGetShaderInfoLog(fragmentShader, 512, nullptr, infoLog);
-            BOOST_LOG_TRIVIAL(error) << infoLog;
-        }
+        Shader fragment_shader(GL_FRAGMENT_SHADER);
+        fragment_shader.set_source(kFragmentShaderSource);
+        fragment_shader.Compile();
 
         GLuint shaderProgram = glCreateProgram();
-        glAttachShader(shaderProgram, vertexShader);
-        glAttachShader(shaderProgram, fragmentShader);
+        glAttachShader(shaderProgram, vertex_shader.get_handle());
+        glAttachShader(shaderProgram, fragment_shader.get_handle());
         glLinkProgram(shaderProgram);
 
+        int success = 0;
+        char infoLog[512];
         glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
         if (!success)
         {
             glGetProgramInfoLog(shaderProgram, 512, nullptr, infoLog);
             BOOST_LOG_TRIVIAL(error) << infoLog;
         }
-
-        glDeleteShader(vertexShader);
-        glDeleteShader(fragmentShader);
 
         return shaderProgram;
     }

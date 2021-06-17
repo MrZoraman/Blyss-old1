@@ -31,9 +31,6 @@ namespace blyss
     {
     public:
         static void OpenGLPostCallback(const char* name, void* funcptr, int len_args, ...);
-
-    private:
-
         explicit OpenGLException(const char* message);
     };
 }

@@ -18,45 +18,20 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#include "wrappers/opengl/GLBuffer.hpp"
-
-#include <cstdio>
-#include <exception>
-
-#include <glad/glad.h>
+#pragma once
 
 namespace blyss
 {
-    GLBuffer::GLBuffer()
-        : handle_{0}
+    class ShaderProgram final
     {
-        glGenBuffers(1, &handle_);
-    }
+    public:
+        ShaderProgram();
+        ~ShaderProgram();
 
-    GLBuffer::~GLBuffer()
-    {
-        try
-        {
-            glDeleteBuffers(1, &handle_);
-        }
-        catch (const std::exception& e)
-        {
-            std::printf("Failed to delete buffer %d: %s\n", handle_, e.what());
-        }
-        catch (...)
-        {
-            std::printf("Unknown error occurred while deleting buffer %d\n", handle_);
-        }
-    }
-
-    GLuint GLBuffer::get_handle() const
-    {
-        return handle_;
-    }
-
-    void GLBuffer::Bind(GLenum target) const
-    {
-        glBindBuffer(target, handle_);
-    }
-
+        // This class is move only
+        ShaderProgram(const ShaderProgram&) = delete;
+        ShaderProgram(ShaderProgram&&) = delete;
+        ShaderProgram& operator=(const ShaderProgram&) = delete;
+        ShaderProgram& operator=(ShaderProgram&&) = delete;
+    };
 }
