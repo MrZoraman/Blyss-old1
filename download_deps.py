@@ -76,6 +76,8 @@ def install_basic_dependencies():
         # doesn't break a bunch of stuff because file paths changed.
         os.rename(root_folder, folder_name)
 
+        print(f"{folder_name} downloaded and extracted successfully!")
+
 def install_glad():
     os.chdir("glad_builder")
 
@@ -83,12 +85,14 @@ def install_glad():
     # future if glad changes and has different files, the glad folder will
     # turn into a mess, because its no longer "overwriting", its just adding
     # new files to the folder with the old files.
-    if (os.path.isdir("glad")):
+    if (os.path.isdir("../glad")):
         print("Glad is already configured, skipping.")
         return
 
     os.system("python -m glad --spec gl --generator c-debug --out-path ../glad --reproducible")
     os.chdir("..")
+
+    print("Glad files generated successfully!")
 
 if __name__ == '__main__':
     os.chdir("lib")
