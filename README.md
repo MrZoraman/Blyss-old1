@@ -28,3 +28,14 @@ This variable should point to the path where you installed Boost.
 Once you have run the scripts and set the boost root CMake variable,
 you can now run CMake on the project like normal. There should not be any
 other CMake variables you need to set.
+
+Here is a full example that works for me to get a running version of Blyss:
+
+1. `git clone https://github.com/MrZoraman/Blyss.git`
+1. `cd Blyss`
+1. `python download_deps.py`
+1. `cd build`
+1. `cmake -DBOOST_ROOT=C:\Lib\boost_1_71_0 ..`
+1. `msbuild Blyss.sln /p:Configuration=Release`
+1. `cd Release`
+1. `blyss.exe`
