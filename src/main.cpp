@@ -20,11 +20,11 @@
 
 #include <cstdio>
 #include <cstdlib>
+#include <exception>
 
 #include <boost/log/trivial.hpp>
 
 #include "Window.hpp"
-#include "exceptions/GLFWException.hpp"
 #include "wrappers/glfw/GLFWContext.hpp"
 
 int main() noexcept
@@ -38,11 +38,11 @@ int main() noexcept
         blyss::Window w(default_width, default_height, "Hello, world!");
         w.RunUntilClose();
     }
-    catch (const blyss::GLFWException& e)
+    catch (const std::exception& e)
     {
         try
         {
-            BOOST_LOG_TRIVIAL(fatal) << "Fatal GLFW exception: " << e.what();
+            BOOST_LOG_TRIVIAL(fatal) << "Fatal exception: " << e.what();
         }
         catch (...)
         {
