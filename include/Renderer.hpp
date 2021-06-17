@@ -23,6 +23,7 @@
 #include <glad/glad.h>
 
 #include "wrappers/opengl/GLBuffer.hpp"
+#include "wrappers/opengl/ShaderProgram.hpp"
 
 namespace blyss
 {
@@ -40,10 +41,9 @@ namespace blyss
         };
 
         GLBuffer vbo_;
-        GLuint shader_program_;
+        ShaderProgram shader_program_;
         GLuint vao_;
         
-        static GLuint MakeShaderProgram();
         static GLuint MakeVao();
     };
 }

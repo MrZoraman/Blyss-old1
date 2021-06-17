@@ -20,17 +20,70 @@
 
 #include "wrappers/opengl/ShaderProgram.hpp"
 
+#include <cstdio>
+#include <cstring>
+#include <exception>
+#include <sstream>
+
+#include <glad/glad.h>
+
+#include "exceptions/OpenGLException.hpp"
+
+const size_t kInfoLogSize = 512;
+
 namespace blyss
 {
     ShaderProgram::ShaderProgram()
+        : handle_{glCreateProgram()}
     {
-        
+        if (handle_ == 0)
+        {
+            throw OpenGLException("glCreateShader failed to create a shader!");
+        }
     }
 
     ShaderProgram::~ShaderProgram()
     {
-        
+        try
+        {
+            glDeleteProgram(handle_);
+        }
+        catch (const std::exception& e)
+        {
+            std::printf("Failed to destroy shader program %d: %s\n", handle_, e.what());
+        }
+        catch (...)
+        {
+            std::printf("Unknown error occurred while destroying shader program %d\n", handle_);
+        }
     }
 
+    void ShaderProgram::AttachShader(const Shader& shader) const
+    {
+        glAttachShader(handle_, shader.get_handle());
+    }
 
+    void ShaderProgram::Link() const
+    {
+        char info_log[kInfoLogSize];
+        std::memset(&info_log, 0, sizeof(info_log));
+
+        glLinkProgram(handle_);
+
+        int success = 0;
+        glGetProgramiv(handle_, GL_LINK_STATUS, &success);
+        if (!success)
+        {
+            glGetProgramInfoLog(handle_, kInfoLogSize, nullptr, static_cast<char*>(info_log));
+            std::stringstream ss;
+            ss << "Failed to link shader program: ";
+            ss << static_cast<char*>(info_log);
+            throw OpenGLException(ss.str().c_str());
+        }
+    }
+
+    void ShaderProgram::Use() const
+    {
+        glUseProgram(handle_);
+    }
 }

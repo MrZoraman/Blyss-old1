@@ -20,6 +20,10 @@
 
 #pragma once
 
+#include <glad/glad.h>
+
+#include "wrappers/opengl/Shader.hpp"
+
 namespace blyss
 {
     class ShaderProgram final
@@ -33,5 +37,14 @@ namespace blyss
         ShaderProgram(ShaderProgram&&) = delete;
         ShaderProgram& operator=(const ShaderProgram&) = delete;
         ShaderProgram& operator=(ShaderProgram&&) = delete;
+
+        void AttachShader(const Shader& shader) const;
+
+        void Link() const;
+
+        void Use() const;
+
+    private:
+        GLuint handle_;
     };
 }

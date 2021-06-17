@@ -29,7 +29,7 @@
 
 #include "exceptions/OpenGLException.hpp"
 
-const size_t INFO_LOG_SIZE = 512;
+const size_t kInfoLogSize = 512;
 
 namespace blyss
 {
@@ -65,7 +65,7 @@ namespace blyss
 
     void Shader::Compile() const
     {
-        char info_log[INFO_LOG_SIZE];
+        char info_log[kInfoLogSize];
         std::memset(&info_log, 0, sizeof(info_log));
 
         GLint success = 0;
@@ -73,7 +73,7 @@ namespace blyss
         glGetShaderiv(handle_, GL_COMPILE_STATUS, &success);
         if (!success)
         {
-            glGetShaderInfoLog(handle_, INFO_LOG_SIZE, nullptr, static_cast<char*>(info_log));
+            glGetShaderInfoLog(handle_, kInfoLogSize, nullptr, static_cast<char*>(info_log));
             std::stringstream ss;
             ss << "Failed to compile shader: ";
             ss << static_cast<char*>(info_log);

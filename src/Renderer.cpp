@@ -30,25 +30,8 @@ namespace blyss
 {
     Renderer::Renderer()
         : vbo_{}
-        , shader_program_{MakeShaderProgram()}
+        , shader_program_{}
         , vao_{MakeVao()}
-    {
-        glBindVertexArray(vao_);
-        vbo_.Bind(GL_ARRAY_BUFFER);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(vertices_), vertices_, GL_STATIC_DRAW);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
-        glEnableVertexAttribArray(0);
-        glUseProgram(shader_program_);
-    }
-
-    void Renderer::Draw()
-    {
-        glUseProgram(shader_program_);
-        glBindVertexArray(vao_);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
-    }
-
-    GLuint Renderer::MakeShaderProgram()
     {
         Shader vertex_shader(GL_VERTEX_SHADER);
         vertex_shader.set_source(kVertexShaderSource);
@@ -58,21 +41,23 @@ namespace blyss
         fragment_shader.set_source(kFragmentShaderSource);
         fragment_shader.Compile();
 
-        GLuint shaderProgram = glCreateProgram();
-        glAttachShader(shaderProgram, vertex_shader.get_handle());
-        glAttachShader(shaderProgram, fragment_shader.get_handle());
-        glLinkProgram(shaderProgram);
+        shader_program_.AttachShader(vertex_shader);
+        shader_program_.AttachShader(fragment_shader);
+        shader_program_.Link();
 
-        int success = 0;
-        char infoLog[512];
-        glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-        if (!success)
-        {
-            glGetProgramInfoLog(shaderProgram, 512, nullptr, infoLog);
-            BOOST_LOG_TRIVIAL(error) << infoLog;
-        }
+        glBindVertexArray(vao_);
+        vbo_.Bind(GL_ARRAY_BUFFER);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(vertices_), vertices_, GL_STATIC_DRAW);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+        glEnableVertexAttribArray(0);
+        shader_program_.Use();
+    }
 
-        return shaderProgram;
+    void Renderer::Draw()
+    {
+        shader_program_.Use();
+        glBindVertexArray(vao_);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
     }
 
     GLuint Renderer::MakeVao()
