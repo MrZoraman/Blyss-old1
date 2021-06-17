@@ -27,20 +27,17 @@ import io
 import os
 
 BASIC_DEPENDENCIES = [
-    # {
-    #     "Folder Name": "imgui",
-    #     "Url": "https://github.com/ocornut/imgui/archive/refs/tags/v1.83.zip",
-    #     "Remove root path": True
-    # },
-    # {
-    #     "Folder Name": "glfw",
-    #     "Url": "https://github.com/glfw/glfw/releases/download/3.3.4/glfw-3.3.4.zip",
-    #     "Remove root path": True
-    # },
+    {
+        "Folder Name": "imgui",
+        "Url": "https://github.com/ocornut/imgui/archive/refs/tags/v1.83.zip"
+    },
+    {
+        "Folder Name": "glfw",
+        "Url": "https://github.com/glfw/glfw/releases/download/3.3.4/glfw-3.3.4.zip"
+    },
     {
         "Folder Name": "glad_builder",
-        "Url": "https://github.com/Dav1dde/glad/archive/refs/tags/v0.1.34.zip",
-        "Remove root path": False
+        "Url": "https://github.com/Dav1dde/glad/archive/refs/tags/v0.1.34.zip"
     }
 ]
 

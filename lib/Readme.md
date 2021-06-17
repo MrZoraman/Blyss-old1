@@ -1,3 +1,0 @@
-# How to set up dependencies
-
-// todo...
