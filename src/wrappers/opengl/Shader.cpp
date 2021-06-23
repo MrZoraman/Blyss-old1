@@ -20,6 +20,7 @@
 
 #include "wrappers/opengl/Shader.hpp"
 
+#include <cassert>
 #include <cstdio>
 #include <cstring>
 #include <exception>
@@ -36,14 +37,22 @@ namespace blyss
     Shader::Shader(GLenum shader_type)
         : handle_{glCreateShader(shader_type)}
     {
-        if (handle_ == 0)
-        {
-            throw OpenGLException("glCreateShader failed to create a shader!");
-        }
+        /*
+         * We have an error callback registered with Glad. If an opengl error occurs, that callback
+         * should be called, and that callback should then throw an exception. If everything goes
+         * right, then it should be impossible for handle_ to be 0 ("null") at this point.
+         */
+        assert(handle_ != 0);
     }
 
     Shader::~Shader()
     {
+        // Nothing to do if the handle was never successfully created.
+        if (handle_ == 0)
+        {
+            return;
+        }
+
         try
         {
             glDeleteShader(handle_);
