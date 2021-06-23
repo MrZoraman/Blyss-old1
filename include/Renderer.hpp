@@ -33,13 +33,20 @@ namespace blyss
         void Draw();
 
     private:
-        float vertices_[9] = {
-            -0.5f, -0.5f, 0.0f,
-             0.5f, -0.5f, 0.0f,
-             0.0f,  0.5f, 0.0f
+        float vertices_[12] = {
+             0.5f,  0.5f, 0.0f,  // top right
+             0.5f, -0.5f, 0.0f,  // bottom right
+            -0.5f, -0.5f, 0.0f,  // bottom left
+            -0.5f,  0.5f, 0.0f   // top left 
+        };
+
+        unsigned int indices_[6] = {
+            0, 1, 3,   // first triangle
+            1, 2, 3    // second triangle
         };
 
         GLBuffer vbo_;
+        GLBuffer ebo_;
         ShaderProgram shader_program_;
         GLVertexArrayObject vao_;
     };

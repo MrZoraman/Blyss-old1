@@ -30,6 +30,7 @@ namespace blyss
 {
     Renderer::Renderer()
         : vbo_{}
+        , ebo_{}
         , shader_program_{}
         , vao_{}
     {
@@ -48,6 +49,10 @@ namespace blyss
         vao_.Bind();
         vbo_.Bind(GL_ARRAY_BUFFER);
         glBufferData(GL_ARRAY_BUFFER, sizeof(vertices_), vertices_, GL_STATIC_DRAW);
+
+        ebo_.Bind(GL_ELEMENT_ARRAY_BUFFER);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices_), indices_, GL_STATIC_DRAW);
+
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
         glEnableVertexAttribArray(0);
         shader_program_.Use();
@@ -57,7 +62,8 @@ namespace blyss
     {
         shader_program_.Use();
         vao_.Bind();
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        // glDrawArrays(GL_TRIANGLES, 0, 3);
     }
 
 }
