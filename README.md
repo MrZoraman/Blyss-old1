@@ -6,6 +6,7 @@ The following dependencies need to be installed beforehand to bootstrap
 the build process:
 
 * [Python3](https://www.python.org/) must be installed and on your path.
+* [Requests](https://docs.python-requests.org/en/master/index.html) python module must be installed.
 * [Boost](https://www.boost.org/) must be installed somewhere on your system.
 * [CMake](https://cmake.org/) must be installed.
 
