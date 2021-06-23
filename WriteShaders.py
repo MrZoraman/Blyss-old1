@@ -22,13 +22,16 @@ OUT_FILE = "src/ShaderSources.cpp"
 
 IN_FRAG = "shaders/shader.frag"
 IN_VERT = "shaders/shader.vert"
-IN_LICENSE = "license_comments.txt"
+IN_LICENSE = "license.txt"
 
 if __name__ == '__main__':
     with open(OUT_FILE, "w") as out_file:
+        out_file.write("/*\n")
         with open(IN_LICENSE, "r") as license_file:
             for line in license_file:
+                out_file.write(" * ")
                 out_file.write(line)
+        out_file.write(" */\n")
         out_file.write("\n")
         out_file.write("#include \"ShaderSources.hpp\"\n\n")
         out_file.write("namespace blyss\n")
