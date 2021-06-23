@@ -34,17 +34,11 @@ namespace blyss
         gui_.Draw(delta_seconds);
 
         renderer_.Draw();
-
-        if (gui_.IsCloseRequested())
-        {
-            is_close_requested_ = true;
-        }
     }
 
     bool Blyss::IsCloseRequested() const
     {
-        return is_close_requested_;
+        return gui_.IsCloseRequested();
     }
-
 
 }
