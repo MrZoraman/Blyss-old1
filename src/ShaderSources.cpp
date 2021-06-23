@@ -24,7 +24,7 @@ namespace blyss
 {
     const char* const kVertexShaderSource =
         "#version 330 core\n"
-        "layout (location = 0) in vec3 aPos;\n"
+        "in vec3 aPos;\n"
         "\n"
         "void main()\n"
         "{\n"
