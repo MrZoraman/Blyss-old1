@@ -24,6 +24,7 @@
 #include <cstdio>
 #include <cstring>
 #include <exception>
+#include <string>
 #include <sstream>
 
 #include <glad/glad.h>
@@ -95,4 +96,10 @@ namespace blyss
     {
         glUseProgram(handle_);
     }
+
+    GLint ShaderProgram::GetAttribLocation(const GLchar* name)
+    {
+        return glGetAttribLocation(handle_, name);
+    }
+
 }
