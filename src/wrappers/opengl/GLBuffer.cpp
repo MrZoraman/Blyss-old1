@@ -20,6 +20,7 @@
 
 #include "wrappers/opengl/GLBuffer.hpp"
 
+#include <cassert>
 #include <cstdio>
 #include <exception>
 
@@ -31,10 +32,23 @@ namespace blyss
         : handle_{0}
     {
         glGenBuffers(1, &handle_);
+
+        /*
+         * We have an error callback registered with Glad. If an opengl error occurs, that callback
+         * should be called, and that callback should then throw an exception. If everything goes
+         * right, then it should be impossible for handle_ to be 0 ("null") at this point.
+         */
+        assert(handle_ != 0);
     }
 
     GLBuffer::~GLBuffer()
     {
+        // Nothing to do if the handle was never successfully created.
+        if (handle_ == 0)
+        {
+            return;
+        }
+
         try
         {
             glDeleteBuffers(1, &handle_);
