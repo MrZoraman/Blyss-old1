@@ -26,8 +26,15 @@
 namespace blyss
 {
     BGlfwWindowW::BGlfwWindowW(int width, int height, const char* title)
-        : window_{MakeWindow(width, height, title)}
+        : window_{ glfwCreateWindow(width, height, title, nullptr, nullptr) }
     {
+        /*
+         * glfw SHOULD have raised an error and called my error callback, which then throws an
+         * exception if glfwCreateWindow failed. If all of that is working then it should be
+         * impossible for window_ to be null.
+         */
+        assert(window_ != nullptr);
+
         glfwSetWindowUserPointer(window_, this);
         glfwSetWindowSizeCallback(window_, GlfwWindowResizeCallback);
     }
@@ -62,19 +69,12 @@ namespace blyss
 
     bool BGlfwWindowW::ShouldClose() const
     {
-        bool should_close = glfwWindowShouldClose(window_);
-        return should_close;
+        return glfwWindowShouldClose(window_);
     }
 
     void BGlfwWindowW::SwapBuffers()
     {
         glfwSwapBuffers(window_);
-    }
-
-    GLFWwindow* BGlfwWindowW::MakeWindow(int width, int height, const char* title)
-    {
-        GLFWwindow* window = glfwCreateWindow(width, height, title, nullptr, nullptr);
-        return window;
     }
 
     GLFWwindow* BGlfwWindowW::GetRawWinPtr() const
