@@ -37,8 +37,24 @@ namespace blyss
         std::stringstream ss;
         ss << "The following OpenGL error flags were set when calling " << name << ": ";
 
-        auto processing_errors = true;
+        /*
+         * According to the OpenGL spec, glGetError() will keep returning error codes until
+         * GL_NO_ERROR is returned, since some opengl calls can raise multiple errors.
+         */
+
+        /*
+         * We keep track of a flag indicating if there is an error or not so that we can decide
+         * if an exception should be thrown or not. This needs to happen after all the errors are
+         * read, otherwise an exception with possibly incomplete info would be thrown.
+         */
         auto has_error = false;
+
+        /*
+         * This flag is for looping until glGetError returns GL_NO_ERROR. This flag is used
+         * instead of an infinite loop with a break because most of the loop body is in a switch
+         * statement, which also uses the break keyword.
+         */
+        auto processing_errors = true;
         while (processing_errors)
         {
             GLenum error_code = glad_glGetError();
