@@ -44,7 +44,7 @@ namespace blyss
 
         void Use() const;
 
-        GLint GetAttribLocation(const GLchar* name);
+        [[nodiscard]] GLint GetAttribLocation(const GLchar* name) const;
 
     private:
         GLuint handle_;

@@ -97,7 +97,7 @@ namespace blyss
         glUseProgram(handle_);
     }
 
-    GLint ShaderProgram::GetAttribLocation(const GLchar* name)
+    GLint ShaderProgram::GetAttribLocation(const GLchar* name) const
     {
         return glGetAttribLocation(handle_, name);
     }

@@ -29,10 +29,17 @@
 namespace blyss
 {
     Renderer::Renderer()
-        : vbo_{}
-        , ebo_{}
-        , shader_program_{}
-        , vao_{}
+        : shader_program_{MakeShader()}
+        , geom_{vertex_data_, index_data_, shader_program_}
+    {
+    }
+
+    void Renderer::Draw()
+    {
+        geom_.Draw();
+    }
+
+    std::shared_ptr<ShaderProgram> Renderer::MakeShader()
     {
         Shader vertex_shader(GL_VERTEX_SHADER);
         vertex_shader.set_source(kVertexShaderSource);
@@ -42,31 +49,13 @@ namespace blyss
         fragment_shader.set_source(kFragmentShaderSource);
         fragment_shader.Compile();
 
-        shader_program_.AttachShader(vertex_shader);
-        shader_program_.AttachShader(fragment_shader);
-        shader_program_.Link();
+        auto program = std::make_unique<ShaderProgram>();
+        program->AttachShader(vertex_shader);
+        program->AttachShader(fragment_shader);
+        program->Link();
 
-        vao_.Bind();
-        vbo_.Bind(GL_ARRAY_BUFFER);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(vertices_), vertices_, GL_STATIC_DRAW);
-        GLuint aPos = shader_program_.GetAttribLocation("aPos");
-        glVertexAttribPointer(aPos, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
-        glEnableVertexAttribArray(aPos);
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-        ebo_.Bind(GL_ELEMENT_ARRAY_BUFFER);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices_), indices_, GL_STATIC_DRAW);
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-        shader_program_.Use();
+        return program;
     }
 
-    void Renderer::Draw()
-    {
-        shader_program_.Use();
-        vao_.Bind();
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-        // glDrawArrays(GL_TRIANGLES, 0, 3);
-    }
 
 }

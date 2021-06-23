@@ -27,32 +27,33 @@
 #include "wrappers/opengl/GLBuffer.hpp"
 #include "wrappers/opengl/GLVertexArrayObject.hpp"
 #include "wrappers/opengl/ShaderProgram.hpp"
-#include "StaticGeometry.hpp"
 
 namespace blyss
 {
-    class Renderer final
+    class StaticGeometry final
     {
     public:
-        Renderer();
-        void Draw();
+        StaticGeometry(const std::vector<float>& vertex_data, const std::vector<std::uint32_t>& index_data, std::shared_ptr<ShaderProgram> program);
+        ~StaticGeometry() = default;
+
+        // This class is move only
+        StaticGeometry(const StaticGeometry&) = delete;
+        StaticGeometry(StaticGeometry&&) = delete;
+        StaticGeometry& operator=(const StaticGeometry&) = delete;
+        StaticGeometry& operator=(StaticGeometry&&) = delete;
+
+        void Draw() const;
 
     private:
-        std::vector<float> vertex_data_ = {
-             0.5f,  0.5f, 0.0f,  // top right
-             0.5f, -0.5f, 0.0f,  // bottom right
-            -0.5f, -0.5f, 0.0f,  // bottom left
-            -0.5f,  0.5f, 0.0f   // top left 
-        };
+        GLVertexArrayObject vao_;
 
-        std::vector<std::uint32_t> index_data_ = {
-            0, 1, 3,   // first triangle
-            1, 2, 3    // second triangle
-        };
+        // These two variables are stored so that their destructors aren't called until the
+        // geometry is destroyed. Otherwise the GPU resources they wrap will be freed while
+        // they are still in use.
+        GLBuffer vertex_buffer_;
+        GLBuffer index_buffer_;
 
-        std::shared_ptr<ShaderProgram> shader_program_;
-        StaticGeometry geom_;
-
-        static std::shared_ptr<ShaderProgram> MakeShader();
+        std::shared_ptr<ShaderProgram> program_;
+        size_t index_count_;
     };
 }
