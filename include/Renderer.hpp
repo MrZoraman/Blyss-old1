@@ -20,11 +20,9 @@
 
 #pragma once
 
-#include <glad/glad.h>
-
 #include "wrappers/opengl/GLBuffer.hpp"
-#include "wrappers/opengl/ShaderProgram.hpp"
 #include "wrappers/opengl/GLVertexArrayObject.hpp"
+#include "wrappers/opengl/ShaderProgram.hpp"
 
 namespace blyss
 {
