@@ -22,27 +22,24 @@
 
 #include <glad/glad.h>
 
-#include "wrappers/opengl/GLBuffer.hpp"
-#include "wrappers/opengl/ShaderProgram.hpp"
-#include "wrappers/opengl/GLVertexArrayObject.hpp"
-
 namespace blyss
 {
-    class Renderer final
+    class GLVertexArrayObject final
     {
     public:
-        Renderer();
-        void Draw();
+        GLVertexArrayObject();
+        ~GLVertexArrayObject();
+
+        // This class is move only
+        GLVertexArrayObject(const GLVertexArrayObject&) = delete;
+        GLVertexArrayObject(GLVertexArrayObject&&) = delete;
+        GLVertexArrayObject& operator=(const GLVertexArrayObject&) = delete;
+        GLVertexArrayObject& operator=(GLVertexArrayObject&&) = delete;
+
+        void Bind() const;
 
     private:
-        float vertices_[9] = {
-            -0.5f, -0.5f, 0.0f,
-             0.5f, -0.5f, 0.0f,
-             0.0f,  0.5f, 0.0f
-        };
-
-        GLBuffer vbo_;
-        ShaderProgram shader_program_;
-        GLVertexArrayObject vao_;
+        GLuint handle_;
+        
     };
 }

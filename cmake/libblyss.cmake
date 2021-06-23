@@ -36,6 +36,7 @@ libblyss_add_source(wrappers/glfw/BGlfwWindowW)
 libblyss_add_source(wrappers/opengl/GLBuffer)
 libblyss_add_source(wrappers/opengl/ShaderProgram)
 libblyss_add_source(wrappers/opengl/Shader)
+libblyss_add_source(wrappers/opengl/GLVertexArrayObject)
 
 
 # --------------------------------------------------------- #
