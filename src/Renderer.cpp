@@ -49,7 +49,7 @@ namespace blyss
         fragment_shader.set_source(kFragmentShaderSource);
         fragment_shader.Compile();
 
-        auto program = std::make_unique<ShaderProgram>();
+        auto program = std::make_shared<ShaderProgram>();
         program->AttachShader(vertex_shader);
         program->AttachShader(fragment_shader);
         program->Link();
