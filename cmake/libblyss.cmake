@@ -82,4 +82,5 @@ target_link_libraries(${LIBBLYSS_ARTIFACT_NAME}
     glfw
     Glad
     Imgui
+    assimp::assimp
 )

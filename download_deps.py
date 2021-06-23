@@ -38,6 +38,10 @@ BASIC_DEPENDENCIES = [
     {
         "Folder Name": "glad_builder",
         "Url": "https://github.com/Dav1dde/glad/archive/refs/tags/v0.1.34.zip"
+    },
+    {
+        "Folder Name": "assimp",
+        "Url": "https://github.com/assimp/assimp/archive/refs/tags/v5.0.1.zip"
     }
 ]
 
