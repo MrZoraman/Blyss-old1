@@ -25,18 +25,19 @@
 
 #include "ShaderSources.hpp"
 #include "wrappers/opengl/Shader.hpp"
+#include "GeometryLoader.hpp"
 
 namespace blyss
 {
     Renderer::Renderer()
         : shader_program_{MakeShader()}
-        , geom_{vertex_data_, index_data_, shader_program_}
+        , geom_{LoadGeometry(shader_program_, "../models/plane.obj")}
     {
     }
 
     void Renderer::Draw()
     {
-        geom_.Draw();
+        geom_->Draw();
     }
 
     std::shared_ptr<ShaderProgram> Renderer::MakeShader()

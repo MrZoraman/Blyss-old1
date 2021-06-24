@@ -20,6 +20,13 @@
 
 #pragma once
 
+#include <memory>
+#include <string>
+
+#include "StaticGeometry.hpp"
+#include "wrappers/opengl/ShaderProgram.hpp"
+
 namespace blyss
 {
+    std::unique_ptr<StaticGeometry> LoadGeometry(std::shared_ptr<ShaderProgram> program, const std::string& path);
 }

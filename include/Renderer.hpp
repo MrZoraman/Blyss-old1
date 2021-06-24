@@ -38,20 +38,20 @@ namespace blyss
         void Draw();
 
     private:
-        std::vector<float> vertex_data_ = {
-             0.5f,  0.5f, 0.0f,  // top right
-             0.5f, -0.5f, 0.0f,  // bottom right
-            -0.5f, -0.5f, 0.0f,  // bottom left
-            -0.5f,  0.5f, 0.0f   // top left 
-        };
-
-        std::vector<std::uint32_t> index_data_ = {
-            0, 1, 3,   // first triangle
-            1, 2, 3    // second triangle
-        };
+        // std::vector<float> vertex_data_ = {
+        //      0.5f,  0.5f, 0.0f,  // top right
+        //      0.5f, -0.5f, 0.0f,  // bottom right
+        //     -0.5f, -0.5f, 0.0f,  // bottom left
+        //     -0.5f,  0.5f, 0.0f   // top left 
+        // };
+        //
+        // std::vector<std::uint32_t> index_data_ = {
+        //     0, 1, 3,   // first triangle
+        //     1, 2, 3    // second triangle
+        // };
 
         std::shared_ptr<ShaderProgram> shader_program_;
-        StaticGeometry geom_;
+        std::unique_ptr<StaticGeometry> geom_;
 
         static std::shared_ptr<ShaderProgram> MakeShader();
     };

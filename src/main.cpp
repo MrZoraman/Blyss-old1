@@ -18,6 +18,8 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
+#define GLFW_INCLUDE_NONE
+
 #include <cstdio>
 #include <cstdlib>
 #include <exception>
@@ -26,6 +28,7 @@
 
 #include "Window.hpp"
 #include "wrappers/glfw/GLFWContext.hpp"
+#include "GeometryLoader.hpp"
 
 int main() noexcept
 {
@@ -33,10 +36,11 @@ int main() noexcept
     {
         const int default_width = 640;
         const int default_height = 480;
-
+        
         blyss::GLFWContext glfw_context;
         blyss::Window w(default_width, default_height, "Hello, world!");
         w.RunUntilClose();
+
     }
     catch (const std::exception& e)
     {
