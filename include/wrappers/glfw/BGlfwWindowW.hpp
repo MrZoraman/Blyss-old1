@@ -20,12 +20,15 @@
 
 #pragma once
 
+#include <cstdint>
+
 #include <boost/signals2.hpp>
 
-#include "GLFW/glfw3.h"
+#include "GladGLFW.hpp"
 
 namespace blyss
 {
+
     /**
      * @brief Wrapper class around GLFW's window struct.
      *
@@ -41,6 +44,9 @@ namespace blyss
         BGlfwWindowW(BGlfwWindowW&&) = delete;
         BGlfwWindowW& operator=(const BGlfwWindowW&) = delete;
         BGlfwWindowW& operator=(BGlfwWindowW&&) = delete;
+
+
+        typedef boost::signals2::signal<void(BGlfwWindowW&, int, int)> OnWindowResizeType;
 
         /**
          * @brief Constructor.
@@ -94,6 +100,8 @@ namespace blyss
         */
         [[nodiscard]] GLFWwindow* GetRawWinPtr() const;
 
+        void GetWindowSize(std::int32_t* width, std::int32_t* height);
+
         /**
          * @brief Emitted when the window size is changed.
          *
@@ -101,7 +109,7 @@ namespace blyss
          * new height of the window. When an instance of this class is destroyed, all of its
          * signal handlers are cleared.
         */
-        boost::signals2::signal<void(BGlfwWindowW&, int, int)> on_window_resize;
+        OnWindowResizeType on_window_resize;
 
     private:
         GLFWwindow* const window_;

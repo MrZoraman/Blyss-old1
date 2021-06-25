@@ -20,7 +20,33 @@
 
 #include "Camera.hpp"
 
+#include <boost/log/trivial.hpp>
+#include <glm/mat4x4.hpp>
+#include <glm/ext/matrix_clip_space.hpp>
+
+#include "wrappers/glfw/BGlfwWindowW.hpp"
+
 namespace blyss
 {
-    
+    const float kFovDegrees = 45.0f;
+    const float kNear = 0.1f;
+    const float kFar = 100.0f;
+
+    Camera::Camera(float window_width, float window_height)
+        : perspective_{MakePerspectiveMatrix(window_width, window_height)}
+    {
+    }
+
+    glm::mat4 Camera::MakePerspectiveMatrix(float window_width, float window_height)
+    {
+        return glm::perspective(glm::radians(kFovDegrees), window_width / window_height, kNear, kFar);
+    }
+
+    void Camera::OnWindowResize(BGlfwWindowW&, int width, int height)
+    {
+        BOOST_LOG_TRIVIAL(debug) << "Window resize event captured by camera!";
+        perspective_ = MakePerspectiveMatrix(static_cast<float>(width), static_cast<float>(height));
+    }
+
+
 }

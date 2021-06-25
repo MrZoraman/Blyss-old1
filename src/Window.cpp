@@ -24,15 +24,18 @@
 
 #include <chrono>
 #include <exception>
+#include <memory>
 #include <thread>
 
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
 #include <boost/log/trivial.hpp>
+#include <boost/bind.hpp>
 
 #include "Blyss.hpp"
 #include "exceptions/OpenGLException.hpp"
+#include "Camera.hpp"
 
 namespace blyss
 {
@@ -68,7 +71,14 @@ namespace blyss
 
     void Window::RunUntilClose()
     {
-        Blyss blyss;
+        std::int32_t window_width = 0;
+        std::int32_t window_height = 0;
+        glfw_window_.GetWindowSize(&window_width, &window_height);
+
+        Blyss blyss(window_width, window_height);
+
+        std::shared_ptr<Camera> camera = blyss.GetCamera();
+        glfw_window_.on_window_resize.connect(BGlfwWindowW::OnWindowResizeType::slot_type(&Camera::OnWindowResize, camera.get(), _1, _2, _3).track_foreign(camera));
 
         auto previous_time = std::chrono::high_resolution_clock::now();
         while (!(glfw_window_.ShouldClose() || blyss.IsCloseRequested()))

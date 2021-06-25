@@ -18,8 +18,6 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#define GLFW_INCLUDE_NONE
-
 #include <cstdio>
 #include <cstdlib>
 #include <exception>

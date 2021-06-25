@@ -20,12 +20,14 @@
 
 #include "Blyss.hpp"
 
+#include <cstdint>
+
 namespace blyss
 {
-    Blyss::Blyss()
+    Blyss::Blyss(std::int32_t window_width, std::int32_t window_height)
         : gui_{}
         , renderer_{}
-        , is_close_requested_{false}
+        , camera_{std::make_shared<Camera>(window_width, window_height)}
     {
     }
 
@@ -40,5 +42,11 @@ namespace blyss
     {
         return gui_.IsCloseRequested();
     }
+
+    std::shared_ptr<Camera> Blyss::GetCamera()
+    {
+        return camera_;
+    }
+
 
 }

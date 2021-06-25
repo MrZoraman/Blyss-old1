@@ -20,10 +20,23 @@
 
 #pragma once
 
+#include <glm/mat4x4.hpp>
+
+#include "wrappers/glfw/BGlfwWindowW.hpp"
+
 namespace blyss
 {
     class Camera final
     {
-        
+    public:
+        Camera(float window_width, float window_height);
+
+        void OnWindowResize(BGlfwWindowW&, int width, int height);
+
+    private:
+
+        glm::mat4 perspective_;
+
+        static glm::mat4 MakePerspectiveMatrix(float window_width, float window_height);
     };
 }

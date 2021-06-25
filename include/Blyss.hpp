@@ -20,6 +20,10 @@
 
 #pragma once
 
+#include <cstdint>
+#include <memory>
+
+#include "Camera.hpp"
 #include "Gui.hpp"
 #include "Renderer.hpp"
 
@@ -29,17 +33,19 @@ namespace blyss
     class Blyss final
     {
     public:
-        Blyss();
+        Blyss(std::int32_t window_width, std::int32_t window_height);
 
         void Frame(double delta_seconds);
 
         [[nodiscard]] bool IsCloseRequested() const;
 
+        std::shared_ptr<Camera> GetCamera();
+
     private:
         Gui gui_;
         Renderer renderer_;
 
-        bool is_close_requested_;
+        std::shared_ptr<Camera> camera_;
     };
 
 }
