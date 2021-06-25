@@ -82,6 +82,12 @@ namespace blyss
         return window_;
     }
 
+    void BGlfwWindowW::GetWindowSize(std::int32_t* width, std::int32_t* height)
+    {
+        glfwGetWindowSize(window_, width, height);
+    }
+
+
     void BGlfwWindowW::GlfwWindowResizeCallback(GLFWwindow* window, int width, int height)
     {
         auto* wrapper = static_cast<BGlfwWindowW*>(glfwGetWindowUserPointer(window));
