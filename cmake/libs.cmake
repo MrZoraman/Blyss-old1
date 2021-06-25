@@ -62,3 +62,8 @@ set(ASSIMP_NO_EXPORT ON)
 set(ASSIMP_BUILD_ASSIMP_TOOLS OFF)
 set(IGNORE_GIT_HASH ON)
 add_subdirectory(lib/assimp)
+
+# --------------------------------------------------------- #
+# Glm                                                       #
+# --------------------------------------------------------- #
+add_subdirectory(lib/glm)

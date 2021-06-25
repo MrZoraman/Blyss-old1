@@ -42,6 +42,10 @@ BASIC_DEPENDENCIES = [
     {
         "Folder Name": "assimp",
         "Url": "https://github.com/assimp/assimp/archive/refs/tags/v5.0.1.zip"
+    },
+    {
+        "Folder Name": "glm",
+        "Url": "https://github.com/g-truc/glm/archive/refs/tags/0.9.9.8.zip"
     }
 ]
 
