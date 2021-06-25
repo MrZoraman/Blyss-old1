@@ -20,7 +20,6 @@
 
 #include "Camera.hpp"
 
-#include <boost/log/trivial.hpp>
 #include <glm/mat4x4.hpp>
 #include <glm/ext/matrix_clip_space.hpp>
 
@@ -44,7 +43,6 @@ namespace blyss
 
     void Camera::OnWindowResize(BGlfwWindowW&, int width, int height)
     {
-        BOOST_LOG_TRIVIAL(debug) << "Window resize event captured by camera!";
         perspective_ = MakePerspectiveMatrix(static_cast<float>(width), static_cast<float>(height));
     }
 
