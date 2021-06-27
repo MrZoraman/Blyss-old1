@@ -1,12 +1,12 @@
 # --------------------------------------------------------- #
 # GLFW                                                      #
 # --------------------------------------------------------- #
-set(GLFW_BUILD_DOCS off)
-set(GLFW_BUILD_EXAMPLES off)
-set(GLFW_BUILD_TESTS off)
-set(GLFW_INSTALL off)
-set(GLFW_USE_HYBRID_HPG off)
-set(GLFW_VULKAN_STATIC off)
+set(GLFW_BUILD_DOCS off CACHE BOOL "" FORCE)
+set(GLFW_BUILD_EXAMPLES off CACHE BOOL "" FORCE)
+set(GLFW_BUILD_TESTS off CACHE BOOL "" FORCE)
+set(GLFW_INSTALL off CACHE BOOL "" FORCE)
+set(GLFW_USE_HYBRID_HPG off CACHE BOOL "" FORCE)
+set(GLFW_VULKAN_STATIC off CACHE BOOL "" FORCE)
 add_subdirectory(lib/glfw)
 
 # --------------------------------------------------------- #
@@ -18,8 +18,8 @@ target_include_directories(Glad PUBLIC lib/glad/include)
 # --------------------------------------------------------- #
 # Boost                                                     #
 # --------------------------------------------------------- #
-SET(Boost_USE_STATIC_LIBS ON)  
-SET(Boost_USE_MULTITHREADED ON)
+SET(Boost_USE_STATIC_LIBS ON CACHE BOOL "" FORCE)  
+SET(Boost_USE_MULTITHREADED ON CACHE BOOL "" FORCE)
 if (MSVC)
   SET(BOOST_ROOT "changeme" CACHE PATH "Boost root directory")
 endif()
@@ -57,10 +57,10 @@ target_link_libraries(Imgui
 # --------------------------------------------------------- #
 # Assimp                                                    #
 # --------------------------------------------------------- #
-set(ASSIMP_BUILD_TESTS OFF)
-set(ASSIMP_NO_EXPORT ON)
-set(ASSIMP_BUILD_ASSIMP_TOOLS OFF)
-set(IGNORE_GIT_HASH ON)
+set(ASSIMP_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(ASSIMP_NO_EXPORT ON CACHE BOOL "" FORCE)
+set(ASSIMP_BUILD_ASSIMP_TOOLS OFF CACHE BOOL "" FORCE)
+set(IGNORE_GIT_HASH ON CACHE BOOL "" FORCE)
 add_subdirectory(lib/assimp)
 
 # --------------------------------------------------------- #
@@ -71,5 +71,5 @@ add_subdirectory(lib/glm)
 # --------------------------------------------------------- #
 # GSL                                                       #
 # --------------------------------------------------------- #
-set(GSL_CXX_STANDARD 17)
+set(GSL_CXX_STANDARD 17 CACHE STRING "" FORCE)
 add_subdirectory(lib/gsl)

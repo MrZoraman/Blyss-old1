@@ -76,6 +76,7 @@ endif()
 target_include_directories(${LIBBLYSS_ARTIFACT_NAME} PUBLIC
     ${LIBBLYSS_INCLUDE_DIR}
     ${Boost_INCLUDE_DIRS}
+    lib/gsl/include
 )
 
 # --------------------------------------------------------- #
@@ -88,5 +89,4 @@ target_link_libraries(${LIBBLYSS_ARTIFACT_NAME}
     Imgui
     assimp::assimp
     glm
-    gsl
 )
