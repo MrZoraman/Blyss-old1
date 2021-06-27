@@ -32,7 +32,7 @@
 
 #include "Logging.hpp"
 
-// This is the size of the info log buffer that OpenGL will write to when a shader compile/link
+// This is the size of the info log buffer that OpenGL will write to when a shader compile
 // error occurs.
 const size_t kInfoLogSize = 512;
 
