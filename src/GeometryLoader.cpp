@@ -54,16 +54,29 @@ namespace blyss
             throw std::exception("Unable to load file!");
         }
 
-        // Grab the first mesh in the scene. We are assuming the scene only has one mesh.
+        // Span provides safety with bounds checking.
         gsl::span<aiMesh*> meshes(scene->mMeshes, scene->mNumMeshes);
+
+        // If there's no meshes, bail.
+        if (meshes.empty())
+        {
+            throw std::logic_error("No meshes were found in model!");
+        }
+
+        // If there is more than one mesh, bail. I don't know which one to use.
+        if (meshes.size() > 1)
+        {
+            throw std::logic_error("There is more than one mesh!");
+        }
+
+        // Grab the first (and only) mesh in the scene.
         aiMesh* mesh = meshes[0];
 
         // Create the vertex data buffer. The vertex data is a list of floats strung together,
         // so we multiply the number of vertices by 3 (x, y, z is 3 data points).
         const size_t data_points_per_vertex = 3;
         std::vector<float> vertex_data(mesh->mNumVertices * data_points_per_vertex);
-
-        // Span provides safety with bounds checking.
+        
         gsl::span<aiVector3D> vertices(mesh->mVertices, mesh->mNumVertices);
 
         // Fill up the vertex data buffer.
@@ -79,16 +92,14 @@ namespace blyss
         // so we multiply the number of indices by 3 (3 points per triangle).
         const size_t sides_per_triangle = 3;
         std::vector<std::uint32_t> index_data(mesh->mNumFaces * sides_per_triangle);
-
-        // Span provides safety with bounds checking.
+        
         gsl::span<aiFace> faces(mesh->mFaces, mesh->mNumFaces);
 
         // Fill up the index data buffer.
         for (size_t ii = 0; ii < faces.size(); ++ii)
         {
             aiFace f = faces[ii];
-
-            // Span provides safety with bounds checking.
+            
             gsl::span<unsigned> indices(f.mIndices, f.mNumIndices);
 
             // We are assuming that each face has three vertices. If the mesh contains quads
@@ -98,7 +109,6 @@ namespace blyss
             {
                 throw std::logic_error("Mesh had a face that does not have exactly three vertices!");
             }
-
 
             // We can safely iterate, knowing that this face has exactly three vertices.
             for (size_t kk = 0; kk < indices.size(); ++kk)
