@@ -46,6 +46,10 @@ BASIC_DEPENDENCIES = [
     {
         "Folder Name": "glm",
         "Url": "https://github.com/g-truc/glm/archive/refs/tags/0.9.9.8.zip"
+    },
+    {
+        "Folder Name": "gsl",
+        "Url": "https://github.com/microsoft/GSL/archive/refs/tags/v3.1.0.zip"
     }
 ]
 

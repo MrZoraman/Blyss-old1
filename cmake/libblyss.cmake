@@ -88,4 +88,5 @@ target_link_libraries(${LIBBLYSS_ARTIFACT_NAME}
     Imgui
     assimp::assimp
     glm
+    gsl
 )
