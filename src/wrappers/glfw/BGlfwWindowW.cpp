@@ -50,15 +50,22 @@ namespace blyss
 
     BGlfwWindowW::~BGlfwWindowW()
     {
+        // Nothing to do if the window was never successfully created.
+        if (window_ == nullptr)
+        {
+            return;
+        }
+
         try
         {
-            if (window_ != nullptr)
-            {
-                glfwSetWindowUserPointer(window_, nullptr);
-                glfwSetWindowSizeCallback(window_, nullptr);
-                glfwDestroyWindow(window_);
-            }
+            // These probably aren't necessary, but I don't think it hurts to call.
+            glfwSetWindowUserPointer(window_, nullptr);
+            glfwSetWindowSizeCallback(window_, nullptr);
 
+            // Destroy the window itself.
+            glfwDestroyWindow(window_);
+
+            // I'm not sure if this call is necessary, but I don't think it hurts to call.
             on_window_resize.disconnect_all_slots();
         }
         catch (const std::exception& e)
