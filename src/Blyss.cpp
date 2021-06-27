@@ -33,8 +33,10 @@ namespace blyss
 
     void Blyss::Frame(double delta_seconds)
     {
+        // All the ImGui draw calls are done here.
         gui_.Draw(delta_seconds);
 
+        // Draw everything else on the screen.
         renderer_.Draw();
     }
 
