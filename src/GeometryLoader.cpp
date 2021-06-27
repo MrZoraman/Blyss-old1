@@ -44,7 +44,7 @@ namespace blyss
         // Load the file.
         const aiScene* scene = importer.ReadFile(
             path,
-            aiProcess_CalcTangentSpace
+            aiProcess_CalcTangentSpace  // NOLINT(hicpp-signed-bitwise)
             | aiProcess_Triangulate
             | aiProcess_JoinIdenticalVertices
             | aiProcess_SortByPType);
