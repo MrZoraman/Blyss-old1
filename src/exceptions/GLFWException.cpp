@@ -32,9 +32,9 @@ namespace blyss
 
     void GLFWException::OnGlfwError(int error_code, const char* description)
     {
+        // Build the error message
         std::stringstream ss;
         ss << "GLFW error: " << error_code << ": ";
-
         if (description)
         {
             ss << description;
