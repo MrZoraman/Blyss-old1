@@ -23,6 +23,7 @@
 #include <cstdint>
 #include <exception>
 #include <memory>
+#include <stdexcept>
 #include <vector>
 
 #include <assimp/Importer.hpp>
@@ -36,7 +37,10 @@ namespace blyss
 {
     std::unique_ptr<StaticGeometry> LoadGeometry(std::shared_ptr<ShaderProgram> program, const std::string& path)
     {
+        // Create importer.
         Assimp::Importer importer;
+
+        // Load the file.
         const aiScene* scene = importer.ReadFile(
             path,
             aiProcess_CalcTangentSpace
@@ -49,27 +53,49 @@ namespace blyss
             throw std::exception("Unable to load file!");
         }
 
+        // Grab the first mesh in the scene. We are assuming the scene only has one mesh.
         aiMesh* mesh = scene->mMeshes[0];
-        std::vector<float> vertex_data(mesh->mNumVertices * 3);
-        
+
+        // Create the vertex data buffer. The vertex data is a list of floats strung together,
+        // so we multiply the number of vertices by 3 (x, y, z is 3 data points).
+        const size_t data_points_per_vertex = 3;
+        std::vector<float> vertex_data(mesh->mNumVertices * data_points_per_vertex);
+
+        // Fill up the vertex data buffer.
         for (auto ii = 0; ii < mesh->mNumVertices; ++ii)
         {
             aiVector3D v = mesh->mVertices[ii];
-            vertex_data[ii * 3 + 0] = v.x;
-            vertex_data[ii * 3 + 1] = v.y;
-            vertex_data[ii * 3 + 2] = v.z;
+            vertex_data[ii * data_points_per_vertex + 0] = v.x;
+            vertex_data[ii * data_points_per_vertex + 1] = v.y;
+            vertex_data[ii * data_points_per_vertex + 2] = v.z;
         }
 
-        std::vector<std::uint32_t> index_data(mesh->mNumFaces * 3);
+        // Create the index data buffer. The index data is a list of ints strung together,
+        // so we multiply the number of indices by 3 (3 points per triangle).
+        const size_t sides_per_triangle = 3;
+        std::vector<std::uint32_t> index_data(mesh->mNumFaces * sides_per_triangle);
+
+        // Fill up the index data buffer.
         for (auto ii = 0; ii < mesh->mNumFaces; ++ii)
         {
             aiFace f = mesh->mFaces[ii];
-            for (auto kk = 0; kk < f.mNumIndices; ++kk)
+
+            // We are assuming that each face has three vertices. If the mesh contains quads
+            // or something else for whatever reason, this won't work. So, we're going to bail
+            // out if this assumption isn't right.
+            if (f.mNumIndices != sides_per_triangle)
             {
-                index_data[ii * 3 + kk] = f.mIndices[kk];
+                throw std::logic_error("Mesh had a face that does not have exactly three vertices!");
+            }
+
+            // We can safely iterate, knowing that this face has exactly three vertices.
+            for (auto kk = 0; kk < sides_per_triangle; ++kk)
+            {
+                index_data[ii * sides_per_triangle + kk] = f.mIndices[kk];
             }
         }
 
+        // Construct and return the static geometry instance.
         return std::make_unique<StaticGeometry>(vertex_data, index_data, std::move(program));
     }
 }
