@@ -36,13 +36,13 @@ namespace blyss
         }
         catch (const std::exception& e)
         {
-            printf("Unable to print error message: %s\n", e.what());
-            printf("Original error message: %s\n", message.c_str());
+            std::fprintf(stderr, "Unable to print error message: %s\n", e.what());
+            std::fprintf(stderr, "Original error message: %s\n", message.c_str());
         }
         catch (...)
         {
-            printf("Unknown error while printing error message.\n");
-            printf("Original error message: %s\n", message.c_str());
+            fprintf(stderr, "Unknown error while printing error message.\n");
+            fprintf(stderr, "Original error message: %s\n", message.c_str());
         }
     }
 

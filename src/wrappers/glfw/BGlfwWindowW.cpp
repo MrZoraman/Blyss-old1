@@ -23,6 +23,8 @@
 #include <cstdio>
 #include <exception>
 
+#include "Logging.hpp"
+
 namespace blyss
 {
     BGlfwWindowW::BGlfwWindowW(int width, int height, const char* title)
@@ -35,7 +37,14 @@ namespace blyss
          */
         assert(window_ != nullptr);
 
+        // This class can fire events. However, the event sender is a member variable. Thus,
+        // we store the instance of this class as the user data for this window. When GLFW
+        // calls callbacks, we can use that user pointer to get the instance of the window
+        // that fired the event, and then call the event sender on that instance.
         glfwSetWindowUserPointer(window_, this);
+
+        // This wrapper class has an event that fires when the window resizes. The callback will
+        // fire that event.
         glfwSetWindowSizeCallback(window_, GlfwWindowResizeCallback);
     }
 
@@ -54,11 +63,11 @@ namespace blyss
         }
         catch (const std::exception& e)
         {
-            std::fprintf(stderr, "%s\n", e.what());
+            LogErrorNoExcept(e.what());
         }
         catch (...)
         {
-            std::fprintf(stderr, "Unknown error.\n");
+            LogErrorNoExcept("Unknown error while deconstructing GLFW window wrapper.");
         }
     }
 
@@ -87,10 +96,12 @@ namespace blyss
         glfwGetWindowSize(window_, width, height);
     }
 
-
     void BGlfwWindowW::GlfwWindowResizeCallback(GLFWwindow* window, int width, int height)
     {
+        // Get the instance that caused the callback to be called.
         auto* wrapper = static_cast<BGlfwWindowW*>(glfwGetWindowUserPointer(window));
+
+        // Fire the event!
         wrapper->on_window_resize(*wrapper, width, height);
     }
 }
