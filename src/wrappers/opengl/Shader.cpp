@@ -30,6 +30,10 @@
 
 #include "exceptions/OpenGLException.hpp"
 
+#include "Logging.hpp"
+
+// This is the size of the info log buffer that OpenGL will write to when a shader compile/link
+// error occurs.
 const size_t kInfoLogSize = 512;
 
 namespace blyss
@@ -59,11 +63,11 @@ namespace blyss
         }
         catch (const std::exception& e)
         {
-            std::printf("Failed to delete shader %d: %s\n", handle_, e.what());
+            LogErrorNoExcept(e.what());
         }
         catch (...)
         {
-            std::printf("Unknown error occurred when trying to delete shader %d\n", handle_);
+            LogErrorNoExcept("Unknown error occurred while trying to delete shader.");
         }
     }
 
@@ -74,15 +78,22 @@ namespace blyss
 
     void Shader::Compile() const
     {
+        // Create our info log buffer and zero it out.
         char info_log[kInfoLogSize];
         std::memset(&info_log, 0, sizeof(info_log));
 
-        GLint success = 0;
+        // Compile the shader.
         glCompileShader(handle_);
+
+        // Check if compilation was successful or not.
+        GLint success = 0;
         glGetShaderiv(handle_, GL_COMPILE_STATUS, &success);
         if (!success)
         {
+            // If not successful, get the error message from OpenGL.
             glGetShaderInfoLog(handle_, kInfoLogSize, nullptr, static_cast<char*>(info_log));
+
+            // Create the exception message and throw.
             std::stringstream ss;
             ss << "Failed to compile shader: ";
             ss << static_cast<char*>(info_log);
