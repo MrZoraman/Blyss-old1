@@ -26,6 +26,8 @@
 
 #include <glad/glad.h>
 
+#include "Logging.hpp"
+
 namespace blyss
 {
     GLVertexArrayObject::GLVertexArrayObject()
@@ -55,11 +57,11 @@ namespace blyss
         }
         catch (const std::exception& e)
         {
-            std::printf("Failed to delete buffer %d: %s\n", handle_, e.what());
+            LogErrorNoExcept(e.what());
         }
         catch (...)
         {
-            std::printf("Unknown error occurred while deleting buffer %d\n", handle_);
+            LogErrorNoExcept("Unknown error occurred while deleting vertex array object.");
         }
     }
 
