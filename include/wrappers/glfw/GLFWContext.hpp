@@ -22,10 +22,6 @@
 
 namespace blyss
 {
-    /**
-     * @brief GLFW context. This class only exists so that GLFW's state init and destroy functions
-     * can be called using RAII.
-    */
     class GLFWContext final
     {
     public:
