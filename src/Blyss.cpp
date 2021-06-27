@@ -22,6 +22,9 @@
 
 #include <cstdint>
 
+#include "GeometryLoader.hpp"
+#include "StaticSceneObject.hpp"
+
 namespace blyss
 {
     Blyss::Blyss(std::int32_t window_width, std::int32_t window_height)
@@ -29,6 +32,9 @@ namespace blyss
         , renderer_{}
         , camera_{std::make_shared<Camera>(window_width, window_height)}
     {
+        std::shared_ptr<StaticGeometry> geom = LoadGeometry(renderer_.GetStaticShader(), "../models/plane.obj");
+        auto object = std::make_shared<StaticSceneObject>(geom);
+        renderer_.AddObject(object);
     }
 
     void Blyss::Frame(double delta_seconds)

@@ -23,21 +23,34 @@
 #include <glad/glad.h>
 #include <boost/log/trivial.hpp>
 
+#include "GeometryLoader.hpp"
 #include "ShaderSources.hpp"
 #include "wrappers/opengl/Shader.hpp"
-#include "GeometryLoader.hpp"
 
 namespace blyss
 {
     Renderer::Renderer()
-        : shader_program_{MakeShader()}
-        , geom_{LoadGeometry(shader_program_, "../models/plane.obj")}
+        : static_objects_{}
+        , shader_program_{MakeShader()}
     {
     }
 
-    void Renderer::Draw()
+    void Renderer::Draw() const
     {
-        geom_->Draw();
+        for (const auto& object : static_objects_)
+        {
+            object->Draw();
+        }
+    }
+
+    void Renderer::AddObject(std::shared_ptr<StaticSceneObject> object)
+    {
+        static_objects_.push_back(std::move(object));
+    }
+
+    std::shared_ptr<ShaderProgram> Renderer::GetStaticShader() const
+    {
+        return shader_program_;
     }
 
     std::shared_ptr<ShaderProgram> Renderer::MakeShader()
@@ -57,6 +70,5 @@ namespace blyss
 
         return program;
     }
-
 
 }

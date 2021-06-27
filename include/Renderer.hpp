@@ -20,14 +20,11 @@
 
 #pragma once
 
-#include <cstdint>
 #include <memory>
 #include <vector>
 
-#include "wrappers/opengl/GLBuffer.hpp"
-#include "wrappers/opengl/GLVertexArrayObject.hpp"
+#include "StaticSceneObject.hpp"
 #include "wrappers/opengl/ShaderProgram.hpp"
-#include "StaticGeometry.hpp"
 
 namespace blyss
 {
@@ -35,23 +32,17 @@ namespace blyss
     {
     public:
         Renderer();
-        void Draw();
+
+        void Draw() const;
+
+        void AddObject(std::shared_ptr<StaticSceneObject> object);
+
+        [[nodiscard]] std::shared_ptr<ShaderProgram> GetStaticShader() const;
 
     private:
-        // std::vector<float> vertex_data_ = {
-        //      0.5f,  0.5f, 0.0f,  // top right
-        //      0.5f, -0.5f, 0.0f,  // bottom right
-        //     -0.5f, -0.5f, 0.0f,  // bottom left
-        //     -0.5f,  0.5f, 0.0f   // top left 
-        // };
-        //
-        // std::vector<std::uint32_t> index_data_ = {
-        //     0, 1, 3,   // first triangle
-        //     1, 2, 3    // second triangle
-        // };
+        std::vector<std::shared_ptr<StaticSceneObject>> static_objects_;
 
         std::shared_ptr<ShaderProgram> shader_program_;
-        std::unique_ptr<StaticGeometry> geom_;
 
         static std::shared_ptr<ShaderProgram> MakeShader();
     };

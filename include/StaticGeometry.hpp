@@ -44,6 +44,8 @@ namespace blyss
 
         void Draw() const;
 
+        [[nodiscard]] std::shared_ptr<ShaderProgram> GetShader() const;
+
     private:
         GLVertexArrayObject vao_;
 
