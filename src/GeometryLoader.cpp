@@ -29,6 +29,7 @@
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
+#include <gsl/span>
 
 #include "StaticGeometry.hpp"
 #include "wrappers/opengl/ShaderProgram.hpp"
@@ -54,17 +55,21 @@ namespace blyss
         }
 
         // Grab the first mesh in the scene. We are assuming the scene only has one mesh.
-        aiMesh* mesh = scene->mMeshes[0];
+        gsl::span<aiMesh*> meshes(scene->mMeshes, scene->mNumMeshes);
+        aiMesh* mesh = meshes[0];
 
         // Create the vertex data buffer. The vertex data is a list of floats strung together,
         // so we multiply the number of vertices by 3 (x, y, z is 3 data points).
         const size_t data_points_per_vertex = 3;
         std::vector<float> vertex_data(mesh->mNumVertices * data_points_per_vertex);
 
+        // Span provides safety with bounds checking.
+        gsl::span<aiVector3D> vertices(mesh->mVertices, mesh->mNumVertices);
+
         // Fill up the vertex data buffer.
-        for (auto ii = 0; ii < mesh->mNumVertices; ++ii)
+        for (size_t ii = 0; ii < vertices.size(); ++ii)
         {
-            aiVector3D v = mesh->mVertices[ii];
+            aiVector3D v = vertices[ii];
             vertex_data[ii * data_points_per_vertex + 0] = v.x;
             vertex_data[ii * data_points_per_vertex + 1] = v.y;
             vertex_data[ii * data_points_per_vertex + 2] = v.z;
@@ -75,23 +80,30 @@ namespace blyss
         const size_t sides_per_triangle = 3;
         std::vector<std::uint32_t> index_data(mesh->mNumFaces * sides_per_triangle);
 
+        // Span provides safety with bounds checking.
+        gsl::span<aiFace> faces(mesh->mFaces, mesh->mNumFaces);
+
         // Fill up the index data buffer.
-        for (auto ii = 0; ii < mesh->mNumFaces; ++ii)
+        for (size_t ii = 0; ii < faces.size(); ++ii)
         {
-            aiFace f = mesh->mFaces[ii];
+            aiFace f = faces[ii];
+
+            // Span provides safety with bounds checking.
+            gsl::span<unsigned> indices(f.mIndices, f.mNumIndices);
 
             // We are assuming that each face has three vertices. If the mesh contains quads
             // or something else for whatever reason, this won't work. So, we're going to bail
             // out if this assumption isn't right.
-            if (f.mNumIndices != sides_per_triangle)
+            if (indices.size() != sides_per_triangle)
             {
                 throw std::logic_error("Mesh had a face that does not have exactly three vertices!");
             }
 
+
             // We can safely iterate, knowing that this face has exactly three vertices.
-            for (auto kk = 0; kk < sides_per_triangle; ++kk)
+            for (size_t kk = 0; kk < indices.size(); ++kk)
             {
-                index_data[ii * sides_per_triangle + kk] = f.mIndices[kk];
+                index_data[ii * sides_per_triangle + kk] = indices[kk];
             }
         }
 
