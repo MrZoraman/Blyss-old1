@@ -20,6 +20,7 @@
 
 #include "wrappers/glfw/BGlfwWindowW.hpp"
 
+#include <cassert>
 #include <exception>
 
 #include "Logging.hpp"
