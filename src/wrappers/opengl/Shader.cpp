@@ -78,7 +78,7 @@ namespace blyss
 
     void Shader::Compile() const
     {
-        // Create our info log buffer and zero it out.
+        // Create our error log buffer and zero it out.
         char info_log[kInfoLogSize];
         std::memset(&info_log, 0, sizeof(info_log));
 
@@ -90,7 +90,7 @@ namespace blyss
         glGetShaderiv(handle_, GL_COMPILE_STATUS, &success);
         if (!success)
         {
-            // If not successful, get the error message from OpenGL.
+            // Get the error message from OpenGL.
             glGetShaderInfoLog(handle_, kInfoLogSize, nullptr, static_cast<char*>(info_log));
 
             // Create the exception message and throw.

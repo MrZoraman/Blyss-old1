@@ -24,13 +24,16 @@
 #include <cstdio>
 #include <cstring>
 #include <exception>
-#include <string>
 #include <sstream>
+#include <string>
 
 #include <glad/glad.h>
 
+#include "Logging.hpp"
 #include "exceptions/OpenGLException.hpp"
 
+ // This is the size of the info log buffer that OpenGL will write to when a shader link
+ // error occurs.
 const size_t kInfoLogSize = 512;
 
 namespace blyss
@@ -60,11 +63,11 @@ namespace blyss
         }
         catch (const std::exception& e)
         {
-            std::printf("Failed to destroy shader program %d: %s\n", handle_, e.what());
+            LogErrorNoExcept(e.what());
         }
         catch (...)
         {
-            std::printf("Unknown error occurred while destroying shader program %d\n", handle_);
+            LogErrorNoExcept("Unknown error occurred while destroying shader program.");
         }
     }
 
@@ -75,16 +78,22 @@ namespace blyss
 
     void ShaderProgram::Link() const
     {
+        // Create our error log buffer and zero it out.
         char info_log[kInfoLogSize];
         std::memset(&info_log, 0, sizeof(info_log));
 
+        // Link the shader program.
         glLinkProgram(handle_);
 
+        // Check if linking was successful or not.
         int success = 0;
         glGetProgramiv(handle_, GL_LINK_STATUS, &success);
         if (!success)
         {
+            // Get the error message from OpenGL.
             glGetProgramInfoLog(handle_, kInfoLogSize, nullptr, static_cast<char*>(info_log));
+            
+            // Create the exception message and throw.
             std::stringstream ss;
             ss << "Failed to link shader program: ";
             ss << static_cast<char*>(info_log);
