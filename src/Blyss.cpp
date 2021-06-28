@@ -22,6 +22,8 @@
 
 #include <cstdint>
 
+#include <glm/vec3.hpp>
+
 #include "GeometryLoader.hpp"
 #include "StaticSceneObject.hpp"
 
@@ -35,6 +37,8 @@ namespace blyss
         std::shared_ptr<StaticGeometry> geom = LoadGeometry(renderer_.GetStaticShader(), "../models/plane.obj");
         auto object = std::make_shared<StaticSceneObject>(geom);
         renderer_.AddObject(object);
+
+        camera_->SetPosition(glm::vec3{ 0, 0, -5 });
     }
 
     void Blyss::Frame(double delta_seconds)
