@@ -119,6 +119,7 @@ namespace blyss
 
     void ShaderProgram::UniformMatrix(GLint model_loc, glm::mat4 matrix) const
     {
+        Use();
         glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(matrix));
     }
 
