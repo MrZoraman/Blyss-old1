@@ -43,7 +43,7 @@ namespace blyss
         gui_.Draw(delta_seconds);
 
         // Draw everything else on the screen.
-        renderer_.Draw();
+        renderer_.Draw(*camera_);
     }
 
     bool Blyss::IsCloseRequested() const

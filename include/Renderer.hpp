@@ -23,8 +23,9 @@
 #include <memory>
 #include <vector>
 
+#include "Camera.hpp"
 #include "StaticSceneObject.hpp"
-#include "wrappers/opengl/ShaderProgram.hpp"
+#include "StaticShader.hpp"
 
 namespace blyss
 {
@@ -33,7 +34,7 @@ namespace blyss
     public:
         Renderer();
 
-        void Draw() const;
+        void Draw(const Camera& camera) const;
 
         void AddObject(std::shared_ptr<StaticSceneObject> object);
 
@@ -42,8 +43,6 @@ namespace blyss
     private:
         std::vector<std::shared_ptr<StaticSceneObject>> static_objects_;
 
-        std::shared_ptr<ShaderProgram> shader_program_;
-
-        static std::shared_ptr<ShaderProgram> MakeShader();
+        StaticShader static_shader_;
     };
 }

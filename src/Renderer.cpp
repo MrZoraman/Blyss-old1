@@ -31,15 +31,15 @@ namespace blyss
 {
     Renderer::Renderer()
         : static_objects_{}
-        , shader_program_{MakeShader()}
+        , static_shader_{}
     {
     }
 
-    void Renderer::Draw() const
+    void Renderer::Draw(const Camera& camera) const
     {
         for (const auto& object : static_objects_)
         {
-            object->Draw();
+            static_shader_.Draw(camera, *object);
         }
     }
 
@@ -50,25 +50,8 @@ namespace blyss
 
     std::shared_ptr<ShaderProgram> Renderer::GetStaticShader() const
     {
-        return shader_program_;
+        return static_shader_.GetProgram();
     }
 
-    std::shared_ptr<ShaderProgram> Renderer::MakeShader()
-    {
-        Shader vertex_shader(GL_VERTEX_SHADER);
-        vertex_shader.set_source(kVertexShaderSource);
-        vertex_shader.Compile();
-
-        Shader fragment_shader(GL_FRAGMENT_SHADER);
-        fragment_shader.set_source(kFragmentShaderSource);
-        fragment_shader.Compile();
-
-        auto program = std::make_shared<ShaderProgram>();
-        program->AttachShader(vertex_shader);
-        program->AttachShader(fragment_shader);
-        program->Link();
-
-        return program;
-    }
 
 }

@@ -39,7 +39,9 @@ namespace blyss
         void SetView(glm::mat4 view) const;
         void SetModel(glm::mat4 model) const;
 
-        void Draw(const Camera& camera, const StaticSceneObject& object);
+        void Draw(const Camera& camera, const StaticSceneObject& object) const;
+
+        std::shared_ptr<ShaderProgram> GetProgram() const;
 
     private:
         std::shared_ptr<ShaderProgram> program_;

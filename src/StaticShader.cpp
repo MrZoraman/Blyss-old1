@@ -53,13 +53,18 @@ namespace blyss
         program_->UniformMatrix(view_location, view);
     }
 
-    void StaticShader::Draw(const Camera& camera, const StaticSceneObject& object)
+    void StaticShader::Draw(const Camera& camera, const StaticSceneObject& object) const
     {
         SetProjection(camera.GetProjection());
         SetModel(object.MakeModelMatrix());
         SetView(camera.MakeViewMatrix());
 
         object.Draw();
+    }
+
+    std::shared_ptr<ShaderProgram> StaticShader::GetProgram() const
+    {
+        return program_;
     }
 
     std::shared_ptr<ShaderProgram> StaticShader::MakeProgram()
