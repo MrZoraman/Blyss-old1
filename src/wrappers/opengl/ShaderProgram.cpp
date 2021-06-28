@@ -21,13 +21,14 @@
 #include "wrappers/opengl/ShaderProgram.hpp"
 
 #include <cassert>
-#include <cstdio>
 #include <cstring>
 #include <exception>
 #include <sstream>
 #include <string>
 
 #include <glad/glad.h>
+#include <glm/mat4x4.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include "Logging.hpp"
 #include "exceptions/OpenGLException.hpp"
@@ -110,5 +111,16 @@ namespace blyss
     {
         return glGetAttribLocation(handle_, name);
     }
+
+    GLint ShaderProgram::GetUniformLocation(const GLchar* name) const
+    {
+        return glGetUniformLocation(handle_, name);
+    }
+
+    void ShaderProgram::UniformMatrix(GLint model_loc, glm::mat4 matrix) const
+    {
+        glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(matrix));
+    }
+
 
 }

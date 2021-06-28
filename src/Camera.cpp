@@ -23,6 +23,7 @@
 #include <glm/mat4x4.hpp>
 #include <glm/vec3.hpp>
 #include <glm/ext/matrix_clip_space.hpp>
+#include <glm/ext/matrix_transform.hpp>
 
 #include "wrappers/glfw/BGlfwWindowW.hpp"
 
@@ -33,7 +34,7 @@ namespace blyss
     const float kFar = 100.0f;
 
     Camera::Camera(float window_width, float window_height)
-        : perspective_{MakePerspectiveMatrix(window_width, window_height)}
+        : projection_{MakeProjectionMatrix(window_width, window_height)}
         , position_{0, 0, 0}
     {
     }
@@ -43,14 +44,30 @@ namespace blyss
         position_ = position;
     }
 
-    glm::mat4 Camera::MakePerspectiveMatrix(float window_width, float window_height)
+    glm::mat4 Camera::MakeProjectionMatrix(float window_width, float window_height)
     {
         return glm::perspective(glm::radians(kFovDegrees), window_width / window_height, kNear, kFar);
     }
 
     void Camera::OnWindowResize(BGlfwWindowW&, int width, int height)
     {
-        perspective_ = MakePerspectiveMatrix(static_cast<float>(width), static_cast<float>(height));
+        projection_ = MakeProjectionMatrix(static_cast<float>(width), static_cast<float>(height));
+    }
+
+    glm::mat4 Camera::GetProjection() const
+    {
+        return projection_;
+    }
+
+    glm::mat4 Camera::MakeViewMatrix() const
+    {
+        // Make identity matrix
+        glm::mat4 view{ 1.0f };
+
+        // Apply translation
+        view = glm::translate(view, position_);
+
+        return view;
     }
 
 

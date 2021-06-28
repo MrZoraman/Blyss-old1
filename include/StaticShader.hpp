@@ -20,10 +20,30 @@
 
 #pragma once
 
+#include <memory>
+
+#include <glm/mat4x4.hpp>
+
+#include "Camera.hpp"
+#include "StaticSceneObject.hpp"
+#include "wrappers/opengl/ShaderProgram.hpp"
+
 namespace blyss
 {
     class StaticShader final
     {
-        
+    public:
+        StaticShader();
+
+        void SetProjection(glm::mat4 projection) const;
+        void SetView(glm::mat4 view) const;
+        void SetModel(glm::mat4 model) const;
+
+        void Draw(const Camera& camera, const StaticSceneObject& object);
+
+    private:
+        std::shared_ptr<ShaderProgram> program_;
+
+        static std::shared_ptr<ShaderProgram> MakeProgram();
     };
 }

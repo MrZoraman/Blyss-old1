@@ -22,6 +22,8 @@
 
 #include <glad/glad.h>
 
+#include <glm/mat4x4.hpp>
+
 #include "wrappers/opengl/Shader.hpp"
 
 namespace blyss
@@ -45,6 +47,10 @@ namespace blyss
         void Use() const;
 
         [[nodiscard]] GLint GetAttribLocation(const GLchar* name) const;
+
+        GLint GetUniformLocation(const GLchar* name) const;
+
+        void UniformMatrix(GLint model_loc, glm::mat4 matrix) const;
 
     private:
         GLuint handle_;

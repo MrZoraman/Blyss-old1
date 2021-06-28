@@ -36,11 +36,15 @@ namespace blyss
 
         void SetPosition(glm::vec3 position);
 
+        glm::mat4 GetProjection() const;
+
+        glm::mat4 MakeViewMatrix() const;
+
     private:
 
-        glm::mat4 perspective_;
+        glm::mat4 projection_;
         glm::vec3 position_;
 
-        static glm::mat4 MakePerspectiveMatrix(float window_width, float window_height);
+        static glm::mat4 MakeProjectionMatrix(float window_width, float window_height);
     };
 }

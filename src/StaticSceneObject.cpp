@@ -22,7 +22,9 @@
 
 #include <memory>
 
+#include <glm/mat4x4.hpp>
 #include <glm/vec3.hpp>
+#include <glm/ext/matrix_transform.hpp>
 
 #include "StaticGeometry.hpp"
 #include "wrappers/opengl/ShaderProgram.hpp"
@@ -50,5 +52,18 @@ namespace blyss
     {
         geometry_->Draw();
     }
+
+    glm::mat4 StaticSceneObject::MakeModelMatrix() const
+    {
+        // build identity matrix
+        glm::mat4 model{ 1.0 };
+
+        // apply transforms
+        model = glm::translate(model, position_);
+        model = glm::scale(model, scale_);
+
+        return model;
+    }
+
 
 }

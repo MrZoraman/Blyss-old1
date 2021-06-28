@@ -26,9 +26,13 @@ namespace blyss
         "#version 330 core\n"
         "in vec3 aPos;\n"
         "\n"
+        "uniform mat4 model;\n"
+        "uniform mat4 view;\n"
+        "uniform mat4 projection;\n"
+        "\n"
         "void main()\n"
         "{\n"
-        "gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+        "gl_Position = projection * view * model * vec4(aPos, 1.0);\n"
         "}\n";
 
     const char* const kFragmentShaderSource =

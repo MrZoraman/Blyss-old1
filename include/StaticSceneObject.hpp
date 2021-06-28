@@ -22,6 +22,7 @@
 
 #include <memory>
 
+#include <glm/mat4x4.hpp>
 #include <glm/vec3.hpp>
 
 #include "StaticGeometry.hpp"
@@ -37,6 +38,8 @@ namespace blyss
         void SetScale(const glm::vec3& scale);
 
         void Draw() const;
+
+        glm::mat4 MakeModelMatrix() const;
 
     private:
         std::shared_ptr<StaticGeometry> geometry_;
