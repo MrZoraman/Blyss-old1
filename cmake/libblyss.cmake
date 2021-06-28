@@ -42,6 +42,7 @@ libblyss_add_source(wrappers/opengl/GLVertexArrayObject)
 libblyss_add_header(GladGLFW)
 libblyss_add_source(Logging)
 libblyss_add_source(StaticSceneObject)
+libblyss_add_source(StaticShader)
 
 
 # --------------------------------------------------------- #
