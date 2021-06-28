@@ -21,6 +21,7 @@
 #pragma once
 
 #include <glm/mat4x4.hpp>
+#include <glm/vec3.hpp>
 
 #include "wrappers/glfw/BGlfwWindowW.hpp"
 
@@ -33,9 +34,12 @@ namespace blyss
 
         void OnWindowResize(BGlfwWindowW&, int width, int height);
 
+        void SetPosition(glm::vec3 position);
+
     private:
 
         glm::mat4 perspective_;
+        glm::vec3 position_;
 
         static glm::mat4 MakePerspectiveMatrix(float window_width, float window_height);
     };

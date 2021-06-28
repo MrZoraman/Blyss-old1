@@ -21,6 +21,7 @@
 #include "Camera.hpp"
 
 #include <glm/mat4x4.hpp>
+#include <glm/vec3.hpp>
 #include <glm/ext/matrix_clip_space.hpp>
 
 #include "wrappers/glfw/BGlfwWindowW.hpp"
@@ -33,7 +34,13 @@ namespace blyss
 
     Camera::Camera(float window_width, float window_height)
         : perspective_{MakePerspectiveMatrix(window_width, window_height)}
+        , position_{0, 0, 0}
     {
+    }
+
+    void Camera::SetPosition(glm::vec3 position)
+    {
+        position_ = position;
     }
 
     glm::mat4 Camera::MakePerspectiveMatrix(float window_width, float window_height)
