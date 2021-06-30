@@ -21,31 +21,25 @@
 #pragma once
 
 #include <memory>
-#include <vector>
+#include <string>
 
-#include "Camera.hpp"
-#include "StaticSceneObject.hpp"
+#include <assimp/Importer.hpp>
+
+#include "StaticGeometry.hpp"
 #include "StaticShader.hpp"
-#include "StaticGeometryLoader.hpp"
 
 namespace blyss
 {
-    class Renderer final
+    class StaticGeometryLoader final
     {
     public:
-        Renderer();
+        explicit StaticGeometryLoader(std::shared_ptr<StaticShader> shader);
 
-        void Draw(const Camera& camera) const;
-
-        void AddObject(std::shared_ptr<StaticSceneObject> object);
-
-        [[nodiscard]] std::shared_ptr<StaticShader> GetStaticShader() const;
-
-        [[nodiscard]] std::unique_ptr<StaticGeometryLoader> GetStaticLoader() const;
+        std::unique_ptr<StaticGeometry> LoadGeometry(const std::string& path) const;
 
     private:
-        std::vector<std::shared_ptr<StaticSceneObject>> static_objects_;
+        Assimp::Importer importer_;
 
-        std::shared_ptr<StaticShader> static_shader_;
+        std::shared_ptr<StaticShader> shader_;
     };
 }

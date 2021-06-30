@@ -46,5 +46,9 @@ namespace blyss
         return static_shader_;
     }
 
+    std::unique_ptr<StaticGeometryLoader> Renderer::GetStaticLoader() const
+    {
+        return std::make_unique<StaticGeometryLoader>(static_shader_);
+    }
 
 }

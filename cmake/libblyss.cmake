@@ -43,6 +43,7 @@ libblyss_add_header(GladGLFW)
 libblyss_add_source(Logging)
 libblyss_add_source(StaticSceneObject)
 libblyss_add_source(StaticShader)
+libblyss_add_source(StaticGeometryLoader)
 
 
 # --------------------------------------------------------- #
