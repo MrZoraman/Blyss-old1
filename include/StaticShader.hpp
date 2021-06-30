@@ -20,8 +20,6 @@
 
 #pragma once
 
-#include <memory>
-
 #include <glm/mat4x4.hpp>
 
 #include "wrappers/opengl/ShaderProgram.hpp"
@@ -37,12 +35,9 @@ namespace blyss
         void SetView(glm::mat4 view) const;
         void SetModel(glm::mat4 model) const;
 
-        std::shared_ptr<ShaderProgram> GetProgram() const;
+        const ShaderProgram& GetProgram() const;
 
     private:
-        std::shared_ptr<ShaderProgram> program_;
-
-        static std::shared_ptr<ShaderProgram> MakeProgram();
-
+        ShaderProgram program_;
     };
 }

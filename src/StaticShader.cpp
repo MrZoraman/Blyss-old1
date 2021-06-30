@@ -23,7 +23,6 @@
 #include <glad/glad.h>
 
 #include "ShaderSources.hpp"
-#include "StaticSceneObject.hpp"
 
 namespace blyss
 {
@@ -32,34 +31,7 @@ namespace blyss
     const char* const kViewUniformName = "view";
 
     StaticShader::StaticShader()
-        : program_(MakeProgram())
-    {
-    }
-
-    void StaticShader::SetProjection(glm::mat4 projection) const
-    {
-        GLint uniform_location = program_->GetUniformLocation(kProjectionUniformName);
-        program_->UniformMatrix(uniform_location, projection);
-    }
-
-    void StaticShader::SetModel(glm::mat4 model) const
-    {
-        GLint model_location = program_->GetUniformLocation(kModelUniformName);
-        program_->UniformMatrix(model_location, model);
-    }
-
-    void StaticShader::SetView(glm::mat4 view) const
-    {
-        GLint view_location = program_->GetUniformLocation(kViewUniformName);
-        program_->UniformMatrix(view_location, view);
-    }
-
-    std::shared_ptr<ShaderProgram> StaticShader::GetProgram() const
-    {
-        return program_;
-    }
-
-    std::shared_ptr<ShaderProgram> StaticShader::MakeProgram()
+        : program_{}
     {
         Shader vertex_shader(GL_VERTEX_SHADER);
         vertex_shader.set_source(kVertexShaderSource);
@@ -68,12 +40,32 @@ namespace blyss
         Shader fragment_shader(GL_FRAGMENT_SHADER);
         fragment_shader.set_source(kFragmentShaderSource);
         fragment_shader.Compile();
+        
+        program_.AttachShader(vertex_shader);
+        program_.AttachShader(fragment_shader);
+        program_.Link();
+    }
 
-        auto program = std::make_shared<ShaderProgram>();
-        program->AttachShader(vertex_shader);
-        program->AttachShader(fragment_shader);
-        program->Link();
+    void StaticShader::SetProjection(glm::mat4 projection) const
+    {
+        GLint uniform_location = program_.GetUniformLocation(kProjectionUniformName);
+        program_.UniformMatrix(uniform_location, projection);
+    }
 
-        return program;
+    void StaticShader::SetModel(glm::mat4 model) const
+    {
+        GLint model_location = program_.GetUniformLocation(kModelUniformName);
+        program_.UniformMatrix(model_location, model);
+    }
+
+    void StaticShader::SetView(glm::mat4 view) const
+    {
+        GLint view_location = program_.GetUniformLocation(kViewUniformName);
+        program_.UniformMatrix(view_location, view);
+    }
+
+    const ShaderProgram& StaticShader::GetProgram() const
+    {
+        return program_;
     }
 }
