@@ -25,14 +25,16 @@
 #include <glm/mat4x4.hpp>
 #include <glm/vec3.hpp>
 
+#include "Camera.hpp"
 #include "StaticGeometry.hpp"
+#include "StaticShader.hpp"
 
 namespace blyss
 {
     class StaticSceneObject final
     {
     public:
-        explicit StaticSceneObject(std::shared_ptr<StaticGeometry> geometry);
+        explicit StaticSceneObject(std::shared_ptr<StaticGeometry> geometry, std::shared_ptr<StaticShader> shader);
 
         void SetPosition(const glm::vec3& position);
         void SetScale(const glm::vec3& scale);
@@ -41,8 +43,11 @@ namespace blyss
 
         std::shared_ptr<StaticGeometry> GetGeometry() const;
 
+        void Draw(const Camera& camera) const;
+
     private:
         std::shared_ptr<StaticGeometry> geometry_;
+        std::shared_ptr<StaticShader> shader_;
         
         glm::vec3 position_;
         glm::vec3 scale_;

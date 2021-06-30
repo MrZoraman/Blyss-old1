@@ -27,12 +27,14 @@
 #include <glm/ext/matrix_transform.hpp>
 
 #include "StaticGeometry.hpp"
+#include "StaticShader.hpp"
 #include "wrappers/opengl/ShaderProgram.hpp"
 
 namespace blyss
 {
-    StaticSceneObject::StaticSceneObject(std::shared_ptr<StaticGeometry> geometry)
+    StaticSceneObject::StaticSceneObject(std::shared_ptr<StaticGeometry> geometry, std::shared_ptr<StaticShader> shader)
         : geometry_{std::move(geometry)}
+        , shader_{std::move(shader)}
         , position_{0, 0, 0}
         , scale_{1, 1, 1}
     {
@@ -65,5 +67,21 @@ namespace blyss
         return model;
     }
 
+    void StaticSceneObject::Draw(const Camera& camera) const
+    {
+        // Set the various uniforms.
+        shader_->SetProjection(camera.GetProjection());
+        shader_->SetModel(MakeModelMatrix());
+        shader_->SetView(camera.MakeViewMatrix());
+
+        // Use the program that knows how to draw this geometry.
+        shader_->GetProgram()->Use();
+
+        // Bind the vao for the geometry so the draw triangles call draws the correct thing.
+        geometry_->BindVao();
+
+        // Tell opengl to draw the object on the screen.
+        geometry_->DrawTriangles();
+    }
 
 }

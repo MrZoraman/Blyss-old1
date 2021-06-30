@@ -39,7 +39,7 @@ namespace blyss
     {
         for (const auto& object : static_objects_)
         {
-            static_shader_->Draw(camera, *object);
+            object->Draw(camera);
         }
     }
 
