@@ -24,16 +24,16 @@
 #include <memory>
 #include <vector>
 
+#include "StaticShader.hpp"
 #include "wrappers/opengl/GLBuffer.hpp"
 #include "wrappers/opengl/GLVertexArrayObject.hpp"
-#include "wrappers/opengl/ShaderProgram.hpp"
 
 namespace blyss
 {
     class StaticGeometry final
     {
     public:
-        StaticGeometry(const std::vector<float>& vertex_data, const std::vector<std::uint32_t>& index_data, std::shared_ptr<ShaderProgram> program);
+        StaticGeometry(const std::vector<float>& vertex_data, const std::vector<std::uint32_t>& index_data, std::shared_ptr<StaticShader> program);
         ~StaticGeometry() = default;
 
         // This class is move only
@@ -42,7 +42,9 @@ namespace blyss
         StaticGeometry& operator=(const StaticGeometry&) = delete;
         StaticGeometry& operator=(StaticGeometry&&) = delete;
 
-        void Draw() const;
+        void BindVao() const;
+
+        void DrawTriangles() const;
 
     private:
         GLVertexArrayObject vao_;
@@ -53,7 +55,7 @@ namespace blyss
         GLBuffer vertex_buffer_;
         GLBuffer index_buffer_;
 
-        std::shared_ptr<ShaderProgram> program_;
+        std::shared_ptr<StaticShader> program_;
         size_t index_count_;
     };
 }

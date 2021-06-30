@@ -38,11 +38,11 @@ namespace blyss
 
         void AddObject(std::shared_ptr<StaticSceneObject> object);
 
-        [[nodiscard]] std::shared_ptr<ShaderProgram> GetStaticShader() const;
+        [[nodiscard]] std::shared_ptr<StaticShader> GetStaticShader() const;
 
     private:
         std::vector<std::shared_ptr<StaticSceneObject>> static_objects_;
 
-        StaticShader static_shader_;
+        std::shared_ptr<StaticShader> static_shader_;
     };
 }

@@ -24,9 +24,9 @@
 #include <string>
 
 #include "StaticGeometry.hpp"
-#include "wrappers/opengl/ShaderProgram.hpp"
+#include "StaticShader.hpp"
 
 namespace blyss
 {
-    std::unique_ptr<StaticGeometry> LoadGeometry(std::shared_ptr<ShaderProgram> program, const std::string& path);
+    std::unique_ptr<StaticGeometry> LoadGeometry(std::shared_ptr<StaticShader> program, const std::string& path);
 }

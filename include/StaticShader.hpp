@@ -25,11 +25,12 @@
 #include <glm/mat4x4.hpp>
 
 #include "Camera.hpp"
-#include "StaticSceneObject.hpp"
 #include "wrappers/opengl/ShaderProgram.hpp"
 
 namespace blyss
 {
+    class StaticSceneObject;
+
     class StaticShader final
     {
     public:

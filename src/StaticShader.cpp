@@ -23,6 +23,7 @@
 #include <glad/glad.h>
 
 #include "ShaderSources.hpp"
+#include "StaticSceneObject.hpp"
 
 namespace blyss
 {
@@ -55,11 +56,19 @@ namespace blyss
 
     void StaticShader::Draw(const Camera& camera, const StaticSceneObject& object) const
     {
+        // Set the various uniforms.
         SetProjection(camera.GetProjection());
         SetModel(object.MakeModelMatrix());
         SetView(camera.MakeViewMatrix());
 
-        object.Draw();
+        // Use the program that knows how to draw this geometry.
+        program_->Use();
+
+        // Bind the vao for the geometry so the draw triangles call draws the correct thing.
+        object.GetGeometry()->BindVao();
+
+        // Tell opengl to draw the object on the screen.
+        object.GetGeometry()->DrawTriangles();
     }
 
     std::shared_ptr<ShaderProgram> StaticShader::GetProgram() const

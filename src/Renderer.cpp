@@ -31,7 +31,7 @@ namespace blyss
 {
     Renderer::Renderer()
         : static_objects_{}
-        , static_shader_{}
+        , static_shader_{std::make_unique<StaticShader>()}
     {
     }
 
@@ -39,7 +39,7 @@ namespace blyss
     {
         for (const auto& object : static_objects_)
         {
-            static_shader_.Draw(camera, *object);
+            static_shader_->Draw(camera, *object);
         }
     }
 
@@ -48,9 +48,9 @@ namespace blyss
         static_objects_.push_back(std::move(object));
     }
 
-    std::shared_ptr<ShaderProgram> Renderer::GetStaticShader() const
+    std::shared_ptr<StaticShader> Renderer::GetStaticShader() const
     {
-        return static_shader_.GetProgram();
+        return static_shader_;
     }
 
 

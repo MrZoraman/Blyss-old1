@@ -48,9 +48,9 @@ namespace blyss
         scale_ = scale;
     }
 
-    void StaticSceneObject::Draw() const
+    std::shared_ptr<StaticGeometry> StaticSceneObject::GetGeometry() const
     {
-        geometry_->Draw();
+        return geometry_;
     }
 
     glm::mat4 StaticSceneObject::MakeModelMatrix() const

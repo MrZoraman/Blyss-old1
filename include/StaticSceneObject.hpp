@@ -37,9 +37,9 @@ namespace blyss
         void SetPosition(const glm::vec3& position);
         void SetScale(const glm::vec3& scale);
 
-        void Draw() const;
-
         glm::mat4 MakeModelMatrix() const;
+
+        std::shared_ptr<StaticGeometry> GetGeometry() const;
 
     private:
         std::shared_ptr<StaticGeometry> geometry_;

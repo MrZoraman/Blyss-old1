@@ -23,13 +23,13 @@
 #include <cstdint>
 #include <vector>
 
+#include "StaticShader.hpp"
 #include "wrappers/opengl/GLBuffer.hpp"
 #include "wrappers/opengl/GLVertexArrayObject.hpp"
-#include "wrappers/opengl/ShaderProgram.hpp"
 
 namespace blyss
 {
-    StaticGeometry::StaticGeometry(const std::vector<float>& vertex_data, const std::vector<std::uint32_t>& index_data, std::shared_ptr<ShaderProgram> program)
+    StaticGeometry::StaticGeometry(const std::vector<float>& vertex_data, const std::vector<std::uint32_t>& index_data, std::shared_ptr<StaticShader> program)
         : vao_{}
         , vertex_buffer_{}
         , index_buffer_{}
@@ -48,7 +48,7 @@ namespace blyss
          */
         vertex_buffer_.Bind(GL_ARRAY_BUFFER);
         glBufferData(GL_ARRAY_BUFFER, vertex_data.size() * sizeof(float), vertex_data.data(), GL_STATIC_DRAW);
-        GLuint aPos = program_->GetAttribLocation("aPos");
+        GLuint aPos = program_->GetProgram()->GetAttribLocation("aPos");
         glVertexAttribPointer(aPos, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
         glEnableVertexAttribArray(aPos);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -68,15 +68,13 @@ namespace blyss
         glBindVertexArray(0);
     }
 
-    void StaticGeometry::Draw() const
+    void StaticGeometry::BindVao() const
     {
-        // Use our shader program.
-        program_->Use();
-
-        // Bind the VAO with all the info that was written to it in the constructor.
         vao_.Bind();
+    }
 
-        // The draw call itself.
+    void StaticGeometry::DrawTriangles() const
+    {
         glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(index_count_), GL_UNSIGNED_INT, nullptr);
     }
 
