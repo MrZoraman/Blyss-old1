@@ -33,7 +33,7 @@ namespace blyss
         : vao_{}
         , vertex_buffer_{}
         , index_buffer_{}
-        , program_{std::move(program)}
+        , shader_{std::move(program)}
         , index_count_{index_data.size()}
     {
         /*
@@ -48,7 +48,7 @@ namespace blyss
          */
         vertex_buffer_.Bind(GL_ARRAY_BUFFER);
         glBufferData(GL_ARRAY_BUFFER, vertex_data.size() * sizeof(float), vertex_data.data(), GL_STATIC_DRAW);
-        GLuint aPos = program_->GetProgram()->GetAttribLocation("aPos");
+        GLuint aPos = shader_->GetProgram()->GetAttribLocation("aPos");
         glVertexAttribPointer(aPos, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
         glEnableVertexAttribArray(aPos);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -80,7 +80,7 @@ namespace blyss
 
     std::shared_ptr<StaticShader> StaticGeometry::GetShader() const
     {
-        return program_;
+        return shader_;
     }
 
 

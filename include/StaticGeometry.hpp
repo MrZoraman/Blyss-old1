@@ -57,7 +57,7 @@ namespace blyss
         GLBuffer vertex_buffer_;
         GLBuffer index_buffer_;
 
-        std::shared_ptr<StaticShader> program_;
+        std::shared_ptr<StaticShader> shader_;
         size_t index_count_;
     };
 }
