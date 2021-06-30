@@ -20,13 +20,6 @@
 
 #include "Renderer.hpp"
 
-#include <glad/glad.h>
-#include <boost/log/trivial.hpp>
-
-#include "GeometryLoader.hpp"
-#include "ShaderSources.hpp"
-#include "wrappers/opengl/Shader.hpp"
-
 namespace blyss
 {
     Renderer::Renderer()
