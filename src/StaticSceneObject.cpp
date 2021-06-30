@@ -68,15 +68,15 @@ namespace blyss
 
     void StaticSceneObject::Draw(const Camera& camera) const
     {
-        StaticShader& shader = *(geometry_->GetShader());
+        std::shared_ptr<StaticShader> shader = geometry_->GetShader();
 
         // Set the various uniforms.
-        shader.SetProjection(camera.GetProjection());
-        shader.SetModel(MakeModelMatrix());
-        shader.SetView(camera.MakeViewMatrix());
+        shader->SetProjection(camera.GetProjection());
+        shader->SetModel(MakeModelMatrix());
+        shader->SetView(camera.MakeViewMatrix());
 
         // Use the program that knows how to draw this geometry.
-        shader.GetProgram().Use();
+        shader->GetProgram().Use();
 
         // Bind the vao for the geometry so the draw triangles call draws the correct thing.
         geometry_->BindVao();
