@@ -34,7 +34,7 @@ namespace blyss
     class StaticSceneObject final
     {
     public:
-        explicit StaticSceneObject(std::shared_ptr<StaticGeometry> geometry, std::shared_ptr<StaticShader> shader);
+        explicit StaticSceneObject(std::shared_ptr<StaticGeometry> geometry);
 
         void SetPosition(const glm::vec3& position);
         void SetScale(const glm::vec3& scale);
@@ -47,7 +47,6 @@ namespace blyss
 
     private:
         std::shared_ptr<StaticGeometry> geometry_;
-        std::shared_ptr<StaticShader> shader_;
         
         glm::vec3 position_;
         glm::vec3 scale_;

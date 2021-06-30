@@ -46,6 +46,8 @@ namespace blyss
 
         void DrawTriangles() const;
 
+        std::shared_ptr<StaticShader> GetShader() const;
+
     private:
         GLVertexArrayObject vao_;
 

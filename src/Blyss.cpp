@@ -35,7 +35,7 @@ namespace blyss
         , camera_{std::make_shared<Camera>(window_width, window_height)}
     {
         std::shared_ptr<StaticGeometry> geom = LoadGeometry(renderer_.GetStaticShader(), "../models/plane.obj");
-        auto object = std::make_shared<StaticSceneObject>(geom, renderer_.GetStaticShader());
+        auto object = std::make_shared<StaticSceneObject>(geom);
         renderer_.AddObject(object);
 
         camera_->SetPosition(glm::vec3{ 0, 0, -5 });

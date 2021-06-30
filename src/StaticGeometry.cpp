@@ -78,4 +78,10 @@ namespace blyss
         glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(index_count_), GL_UNSIGNED_INT, nullptr);
     }
 
+    std::shared_ptr<StaticShader> StaticGeometry::GetShader() const
+    {
+        return program_;
+    }
+
+
 }
