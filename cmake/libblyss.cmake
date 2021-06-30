@@ -22,7 +22,6 @@ endmacro()
 # --------------------------------------------------------- #
 # Sources                                                   #
 # --------------------------------------------------------- #
-libblyss_add_source(Rectangle)
 libblyss_add_source(Window)
 libblyss_add_source(Gui)
 libblyss_add_source(Blyss)
@@ -30,7 +29,6 @@ libblyss_add_source(Camera)
 libblyss_add_source(Renderer)
 libblyss_add_source(ShaderSources)
 libblyss_add_source(StaticGeometry)
-libblyss_add_source(GeometryLoader)
 libblyss_add_source(exceptions/GLFWException)
 libblyss_add_source(exceptions/OpenGLException)
 libblyss_add_source(wrappers/glfw/GLFWContext)
