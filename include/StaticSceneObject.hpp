@@ -27,7 +27,6 @@
 
 #include "Camera.hpp"
 #include "StaticGeometry.hpp"
-#include "StaticShader.hpp"
 
 namespace blyss
 {
