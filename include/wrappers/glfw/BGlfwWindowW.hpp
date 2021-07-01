@@ -53,6 +53,8 @@ namespace blyss
         [[nodiscard]] GLFWwindow* GetRawWinPtr() const;
 
         void GetWindowSize(std::int32_t* width, std::int32_t* height);
+
+        void SetInputMode(int mode, int value);
         
         OnWindowResizeType on_window_resize;
         OnKeyType on_key;

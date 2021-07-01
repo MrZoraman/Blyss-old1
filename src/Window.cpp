@@ -42,6 +42,7 @@ namespace blyss
 {
     Window::Window(int width, int height, const char* title)
         : glfw_window_{width, height, title}
+        , is_mouse_captured_{false}
     {
         glfw_window_.MakeContextCurrent();
         glfwSwapInterval(1);
@@ -60,7 +61,6 @@ namespace blyss
         ImGui::StyleColorsDark();
         ImGui_ImplGlfw_InitForOpenGL(glfw_window_.GetRawWinPtr(), true);
         ImGui_ImplOpenGL3_Init("#version 130");
-
     }
 
     Window::~Window()
@@ -83,6 +83,8 @@ namespace blyss
 
         std::shared_ptr<InputSystem> input = blyss.GetInput();
         glfw_window_.on_key.connect(BGlfwWindowW::OnKeyType::slot_type(&InputSystem::OnGlfwKey, input.get(), _1, _2, _3, _4, _5).track_foreign(input));
+
+        input->on_key_press.connect(boost::bind(&Window::OnKeyPress, this, _1));
 
         auto previous_time = std::chrono::high_resolution_clock::now();
         while (!(glfw_window_.ShouldClose() || blyss.IsCloseRequested()))
@@ -115,6 +117,20 @@ namespace blyss
         }
     }
 
+    void Window::ToggleMouseCapture()
+    {
+        if (is_mouse_captured_)
+        {
+            glfw_window_.SetInputMode(GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+        }
+        else
+        {
+            glfw_window_.SetInputMode(GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        }
+
+        is_mouse_captured_ = !is_mouse_captured_;
+    }
+
     void Window::OnWindowResize(BGlfwWindowW&, int width, int height)
     {
         if (width <= 0 || height <= 0)
@@ -126,4 +142,10 @@ namespace blyss
 
         glViewport(0, 0, width, height);
     }
+
+    void Window::OnKeyPress(InputButton button)
+    {
+        ToggleMouseCapture();
+    }
+
 }

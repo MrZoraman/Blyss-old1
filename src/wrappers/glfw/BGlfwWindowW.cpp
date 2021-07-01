@@ -107,6 +107,11 @@ namespace blyss
         glfwGetWindowSize(window_, width, height);
     }
 
+    void BGlfwWindowW::SetInputMode(int mode, int value)
+    {
+        glfwSetInputMode(window_, mode, value);
+    }
+
     void BGlfwWindowW::GlfwWindowResizeCallback(GLFWwindow* window, int width, int height)
     {
         // Get the instance that caused the callback to be called.

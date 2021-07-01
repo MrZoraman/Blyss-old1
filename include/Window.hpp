@@ -22,6 +22,8 @@
 
 #include "wrappers/glfw/BGlfwWindowW.hpp"
 
+#include "InputSystem.hpp"
+
 namespace blyss
 {
     class Window final
@@ -41,6 +43,12 @@ namespace blyss
     private:
 
         BGlfwWindowW glfw_window_;
+
+        bool is_mouse_captured_;
+
+        void ToggleMouseCapture();
+
+        void OnKeyPress(InputButton button);
         
         static void OnWindowResize(BGlfwWindowW& glfw_window, int width, int height);
     };
