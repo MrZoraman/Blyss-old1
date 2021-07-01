@@ -20,15 +20,41 @@
 
 #pragma once
 
+#include <array>
+
 #include "GladGLFW.hpp"
 
 #include "wrappers/glfw/BGlfwWindowW.hpp"
 
 namespace blyss
 {
+    enum class InputButton
+    {
+        kNone = 0,
+        kForward = 1,
+        kReverse = 2,
+        kLeft = 3,
+        kRight = 4,
+        kMouseCaptureToggle = 5,
+        kLastValue
+    };
+
     class InputSystem final
     {
     public:
+        InputSystem();
+        ~InputSystem() = default;
+
+        // This class is move only
+        InputSystem(const InputSystem&) = delete;
+        InputSystem(InputSystem&&) = delete;
+        InputSystem& operator=(const InputSystem&) = delete;
+        InputSystem& operator=(InputSystem&&) = delete;
+
         void OnGlfwKey(BGlfwWindowW& window, int key, int scancode, int action, int mods);
+
+    private:
+        std::array<bool, static_cast<size_t>(InputButton::kLastValue)> pressed_buttons_;
+        std::array<InputButton, GLFW_KEY_LAST> button_mapping_;
     };
 }
