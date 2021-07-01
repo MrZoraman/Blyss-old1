@@ -22,6 +22,7 @@
 
 #include <cstdint>
 
+#include <boost/log/trivial.hpp>
 #include <glm/vec3.hpp>
 
 #include "StaticSceneObject.hpp"
@@ -40,6 +41,15 @@ namespace blyss
         renderer_.AddObject(object);
 
         camera_->SetPosition(glm::vec3{ 1, 0, 5 });
+
+        input_->on_key_press.connect(
+            [](InputButton button)
+            {
+                if (button == InputButton::kMouseCaptureToggle)
+                {
+                    BOOST_LOG_TRIVIAL(info) << "Toggle mouse capture!";
+                }
+            });
     }
 
     void Blyss::Frame(double delta_seconds)

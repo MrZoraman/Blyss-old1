@@ -22,6 +22,8 @@
 
 #include <array>
 
+#include <boost/signals2.hpp>
+
 #include "GladGLFW.hpp"
 
 #include "wrappers/glfw/BGlfwWindowW.hpp"
@@ -51,7 +53,11 @@ namespace blyss
         InputSystem& operator=(const InputSystem&) = delete;
         InputSystem& operator=(InputSystem&&) = delete;
 
+        typedef boost::signals2::signal<void(InputButton)> OnKeyPressType;
+
         void OnGlfwKey(BGlfwWindowW& window, int key, int scancode, int action, int mods);
+
+        OnKeyPressType on_key_press;
 
     private:
         std::array<bool, static_cast<size_t>(InputButton::kLastValue)> pressed_buttons_;

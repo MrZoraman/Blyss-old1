@@ -84,6 +84,9 @@ namespace blyss
         if (action == GLFW_PRESS)
         {
             gsl::at(pressed_buttons_, button_input_index) = true;
+
+            // Fire on key press event!
+            on_key_press(button);
         }
         else if (action == GLFW_RELEASE)
         {
