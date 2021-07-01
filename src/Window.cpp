@@ -30,12 +30,12 @@
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
-#include <boost/log/trivial.hpp>
 #include <boost/bind.hpp>
+#include <boost/log/trivial.hpp>
 
 #include "Blyss.hpp"
-#include "exceptions/OpenGLException.hpp"
 #include "Camera.hpp"
+#include "exceptions/OpenGLException.hpp"
 
 namespace blyss
 {
