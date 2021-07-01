@@ -20,7 +20,15 @@
 
 #pragma once
 
+#include "GladGLFW.hpp"
+
+#include "wrappers/glfw/BGlfwWindowW.hpp"
+
 namespace blyss
 {
-    
+    class InputSystem final
+    {
+    public:
+        void OnGlfwKey(BGlfwWindowW& window, int key, int scancode, int action, int mods);
+    };
 }

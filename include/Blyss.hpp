@@ -25,6 +25,7 @@
 
 #include "Camera.hpp"
 #include "Gui.hpp"
+#include "InputSystem.hpp"
 #include "Renderer.hpp"
 
 namespace blyss
@@ -41,11 +42,14 @@ namespace blyss
 
         std::shared_ptr<Camera> GetCamera();
 
+        std::shared_ptr<InputSystem> GetInput();
+
     private:
         Gui gui_;
         Renderer renderer_;
 
         std::shared_ptr<Camera> camera_;
+        std::shared_ptr<InputSystem> input_;
     };
 
 }

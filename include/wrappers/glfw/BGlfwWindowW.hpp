@@ -36,9 +36,9 @@ namespace blyss
         BGlfwWindowW(BGlfwWindowW&&) = delete;
         BGlfwWindowW& operator=(const BGlfwWindowW&) = delete;
         BGlfwWindowW& operator=(BGlfwWindowW&&) = delete;
-
-
+        
         typedef boost::signals2::signal<void(BGlfwWindowW&, int, int)> OnWindowResizeType;
+        typedef boost::signals2::signal<void(BGlfwWindowW&, int, int, int, int)> OnKeyType;
         
         BGlfwWindowW(int width, int height, const char* title);
 
@@ -55,10 +55,13 @@ namespace blyss
         void GetWindowSize(std::int32_t* width, std::int32_t* height);
         
         OnWindowResizeType on_window_resize;
+        OnKeyType on_key;
 
     private:
         GLFWwindow* const window_;
         
         static void GlfwWindowResizeCallback(GLFWwindow* window, int width, int height);
+
+        static void GlfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
     };
 }

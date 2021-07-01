@@ -35,6 +35,7 @@
 
 #include "Blyss.hpp"
 #include "Camera.hpp"
+#include "InputSystem.hpp"
 #include "exceptions/OpenGLException.hpp"
 
 namespace blyss
@@ -79,6 +80,9 @@ namespace blyss
 
         std::shared_ptr<Camera> camera = blyss.GetCamera();
         glfw_window_.on_window_resize.connect(BGlfwWindowW::OnWindowResizeType::slot_type(&Camera::OnWindowResize, camera.get(), _1, _2, _3).track_foreign(camera));
+
+        std::shared_ptr<InputSystem> input = blyss.GetInput();
+        glfw_window_.on_key.connect(BGlfwWindowW::OnKeyType::slot_type(&InputSystem::OnGlfwKey, input.get(), _1, _2, _3, _4, _5).track_foreign(input));
 
         auto previous_time = std::chrono::high_resolution_clock::now();
         while (!(glfw_window_.ShouldClose() || blyss.IsCloseRequested()))

@@ -20,7 +20,13 @@
 
 #include "InputSystem.hpp"
 
+#include <boost/log/trivial.hpp>
+
 namespace blyss
 {
-    
+    void InputSystem::OnGlfwKey(BGlfwWindowW& window, int key, int scancode, int action, int mods)
+    {
+        BOOST_LOG_TRIVIAL(info) << "Key event: " << key;
+    }
+
 }

@@ -23,6 +23,7 @@
 #include <cassert>
 #include <exception>
 
+#include "GladGLFW.hpp"
 #include "Logging.hpp"
 
 namespace blyss
@@ -43,9 +44,10 @@ namespace blyss
         // that fired the event, and then call the event sender on that instance.
         glfwSetWindowUserPointer(window_, this);
 
-        // This wrapper class has an event that fires when the window resizes. The callback will
-        // fire that event.
+        // This wrapper class uses boost signals instead of callbacks. The implementations of these
+        // callbacks simply call their associated signals.
         glfwSetWindowSizeCallback(window_, GlfwWindowResizeCallback);
+        glfwSetKeyCallback(window_, GlfwKeyCallback);
     }
 
     BGlfwWindowW::~BGlfwWindowW()
@@ -61,12 +63,14 @@ namespace blyss
             // These probably aren't necessary, but I don't think it hurts to call.
             glfwSetWindowUserPointer(window_, nullptr);
             glfwSetWindowSizeCallback(window_, nullptr);
+            glfwSetKeyCallback(window_, nullptr);
 
             // Destroy the window itself.
             glfwDestroyWindow(window_);
 
             // I'm not sure if this call is necessary, but I don't think it hurts to call.
             on_window_resize.disconnect_all_slots();
+            on_key.disconnect_all_slots();
         }
         catch (const std::exception& e)
         {
@@ -111,4 +115,14 @@ namespace blyss
         // Fire the event!
         wrapper->on_window_resize(*wrapper, width, height);
     }
+
+    void BGlfwWindowW::GlfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+    {
+        // Get the instance that caused the callback to be called.
+        auto* wrapper = static_cast<BGlfwWindowW*>(glfwGetWindowUserPointer(window));
+
+        // Fire the event!
+        wrapper->on_key(*wrapper, key, scancode, action, mods);
+    }
+
 }

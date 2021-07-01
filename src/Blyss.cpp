@@ -32,6 +32,7 @@ namespace blyss
         : gui_{}
         , renderer_{}
         , camera_{std::make_shared<Camera>(window_width, window_height)}
+        , input_{std::make_shared<InputSystem>()}
     {
         std::shared_ptr<StaticGeometry> geom = renderer_.GetStaticLoader()->LoadGeometry("../models/plane.obj");
         auto object = std::make_shared<StaticSceneObject>(geom);
@@ -60,5 +61,9 @@ namespace blyss
         return camera_;
     }
 
+    std::shared_ptr<InputSystem> Blyss::GetInput()
+    {
+        return input_;
+    }
 
 }

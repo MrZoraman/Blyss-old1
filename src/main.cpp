@@ -26,7 +26,6 @@
 
 #include "Window.hpp"
 #include "wrappers/glfw/GLFWContext.hpp"
-#include "GeometryLoader.hpp"
 
 int main() noexcept
 {
