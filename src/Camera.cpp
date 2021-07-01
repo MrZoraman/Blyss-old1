@@ -65,7 +65,7 @@ namespace blyss
         glm::mat4 view{ 1.0f };
 
         // Apply translation
-        view = glm::translate(view, position_);
+        view = glm::translate(view, -position_);
 
         return view;
     }
