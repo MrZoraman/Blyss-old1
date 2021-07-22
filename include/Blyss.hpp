@@ -20,36 +20,32 @@
 
 #pragma once
 
-#include <cstdint>
-#include <memory>
+#include <vector>
+#include <typeinfo>
+#include <typeindex>
+#include <map>
 
-#include "Camera.hpp"
-#include "Gui.hpp"
-#include "InputSystem.hpp"
-#include "Renderer.hpp"
+#include "Listener.hpp"
+#include "EventType.hpp"
+#include "Event.hpp"
 
 namespace blyss
 {
-
-    class Blyss final
+    struct ListenerRegistration
     {
-    public:
-        Blyss(std::int32_t window_width, std::int32_t window_height);
-
-        void Frame(double delta_seconds);
-
-        [[nodiscard]] bool IsCloseRequested() const;
-
-        std::shared_ptr<Camera> GetCamera();
-
-        std::shared_ptr<InputSystem> GetInput();
-
-    private:
-        Gui gui_;
-        Renderer renderer_;
-
-        std::shared_ptr<Camera> camera_;
-        std::shared_ptr<InputSystem> input_;
+        std::type_index type;
+        Listener* listener;
     };
 
+    class Blyss
+    {
+        std::vector<ListenerRegistration> listeners_;
+
+    public:
+        void RegisterListener(const std::type_info& type, Listener* l);
+
+        void SendEvent(Event* e);
+
+        void CleanListeners();
+    };
 }

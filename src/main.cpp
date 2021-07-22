@@ -1,6 +1,6 @@
 /*
  * Copyright (c) MrZoraman 2021
- * 
+ *
  * This software is provided 'as-is', without any express or implied
  * warranty. In no event will the authors be held liable for any damages
  * arising from the use of this software.
@@ -18,44 +18,83 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#include <cstdio>
 #include <cstdlib>
-#include <exception>
+#include <typeinfo>
+#include <typeindex>
 
 #include <boost/log/trivial.hpp>
 
-#include "Window.hpp"
-#include "wrappers/glfw/GLFWContext.hpp"
+#include "Blyss.hpp"
+#include "Event.hpp"
+#include "Listener.hpp"
 
-int main() noexcept
+struct A
 {
-    try
-    {
-        const int default_width = 640;
-        const int default_height = 480;
-        
-        blyss::GLFWContext glfw_context;
-        blyss::Window w(default_width, default_height, "Hello, world!");
-        w.RunUntilClose();
+    virtual ~A(){}
+};
 
-    }
-    catch (const std::exception& e)
+struct B : A
+{
+    
+};
+
+void thing(A* a)
+{
+    const auto& hh_id = std::type_index(typeid(*a));
+    BOOST_LOG_TRIVIAL(info) << "hh_id: " << hh_id.name() << ", " << hh_id.hash_code();
+}
+
+
+namespace blyss
+{
+    class FooEvent : public Event
     {
-        try
-        {
-            BOOST_LOG_TRIVIAL(fatal) << "Fatal exception: " << e.what();
-        }
-        catch (...)
-        {
-            std::fprintf(stderr, "Unable to print error message!");
-        }
-        return EXIT_FAILURE;
-    }
-    catch (...)
+    public:
+        int value;
+    };
+
+    class FooListener : public Listener
     {
-        std::fprintf(stderr, "An unknown error occurred!");
+    public:
+
+        void OnEvent(Event* e) override
+        {
+            FooEvent* evt = dynamic_cast<FooEvent*>(e);
+            BOOST_LOG_TRIVIAL(info) << "Got value: " << evt->value;
+            RequestDestroy();
+        }
+    };
+
+    void run()
+    {
+        Blyss b;
+        auto* l = new FooListener();
+        b.RegisterListener(typeid(FooEvent), l);
+        l = nullptr;
+        auto* evt = new FooEvent();
+        evt->value = 42;
+        b.SendEvent(evt);
+        evt = nullptr;
+
+        b.CleanListeners();
     }
+}
+
+int main()
+{
+    // const auto& a_id = typeid(A);
+    // const auto& b_id = typeid(B);
+    //
+    // BOOST_LOG_TRIVIAL(info) << "a_id: " << a_id.name() << ", " << a_id.hash_code();
+    // BOOST_LOG_TRIVIAL(info) << "b_id: " << b_id.name() << ", " << b_id.hash_code();
+    //
+    // B bi;
+    // const auto& bi_id = typeid(bi);
+    // BOOST_LOG_TRIVIAL(info) << "bi_id: " << bi_id.name() << ", " << bi_id.hash_code();
+    //
+    // thing(&bi);
+
+    blyss::run();
 
     return EXIT_SUCCESS;
-
 }

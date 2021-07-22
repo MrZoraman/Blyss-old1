@@ -22,27 +22,11 @@ endmacro()
 # --------------------------------------------------------- #
 # Sources                                                   #
 # --------------------------------------------------------- #
-libblyss_add_source(Window)
-libblyss_add_source(Gui)
 libblyss_add_source(Blyss)
-libblyss_add_source(Camera)
-libblyss_add_source(Renderer)
-libblyss_add_source(ShaderSources)
-libblyss_add_source(StaticGeometry)
-libblyss_add_source(exceptions/GLFWException)
-libblyss_add_source(exceptions/OpenGLException)
-libblyss_add_source(wrappers/glfw/GLFWContext)
-libblyss_add_source(wrappers/glfw/BGlfwWindowW)
-libblyss_add_source(wrappers/opengl/GLBuffer)
-libblyss_add_source(wrappers/opengl/ShaderProgram)
-libblyss_add_source(wrappers/opengl/Shader)
-libblyss_add_source(wrappers/opengl/GLVertexArrayObject)
-libblyss_add_header(GladGLFW)
-libblyss_add_source(Logging)
-libblyss_add_source(StaticSceneObject)
-libblyss_add_source(StaticShader)
-libblyss_add_source(StaticGeometryLoader)
-libblyss_add_source(InputSystem)
+libblyss_add_source(Listener)
+libblyss_add_header(ListenerType)
+libblyss_add_header(EventType)
+libblyss_add_header(Event)
 
 
 # --------------------------------------------------------- #

@@ -18,34 +18,18 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#pragma once
-
-#include <memory>
-#include <vector>
-
-#include "Camera.hpp"
-#include "StaticSceneObject.hpp"
-#include "StaticShader.hpp"
-#include "StaticGeometryLoader.hpp"
+#include "Listener.hpp"
 
 namespace blyss
 {
-    class Renderer final
+    void Listener::RequestDestroy()
     {
-    public:
-        Renderer();
+        should_destroy_ = true;
+    }
 
-        void Draw(const Camera& camera) const;
+    bool Listener::ShouldDestroy()
+    {
+        return should_destroy_;
+    }
 
-        void AddObject(std::shared_ptr<StaticSceneObject> object);
-
-        [[nodiscard]] std::shared_ptr<StaticShader> GetStaticShader() const;
-
-        [[nodiscard]] std::unique_ptr<StaticGeometryLoader> GetStaticLoader() const;
-
-    private:
-        std::vector<std::shared_ptr<StaticSceneObject>> static_objects_;
-
-        std::shared_ptr<StaticShader> static_shader_;
-    };
 }

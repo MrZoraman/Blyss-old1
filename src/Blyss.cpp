@@ -20,60 +20,45 @@
 
 #include "Blyss.hpp"
 
-#include <cstdint>
+#include <typeinfo>
+#include <typeindex>
 
-#include <boost/log/trivial.hpp>
-#include <glm/vec3.hpp>
-
-#include "StaticSceneObject.hpp"
 
 namespace blyss
 {
-    Blyss::Blyss(std::int32_t window_width, std::int32_t window_height)
-        : gui_{}
-        , renderer_{}
-        , camera_{std::make_shared<Camera>(window_width, window_height)}
-        , input_{std::make_shared<InputSystem>()}
+    void Blyss::RegisterListener(const std::type_info& type, Listener* l)
     {
-        std::shared_ptr<StaticGeometry> geom = renderer_.GetStaticLoader()->LoadGeometry("../models/plane.obj");
-        auto object = std::make_shared<StaticSceneObject>(geom);
-        object->SetPosition(glm::vec3(0, 0, -1));
-        renderer_.AddObject(object);
+        ListenerRegistration registration{std::type_index(type), l};
+        listeners_.push_back(registration);
+    }
 
-        camera_->SetPosition(glm::vec3{ 1, 0, 5 });
-
-        input_->on_key_press.connect(
-            [](InputButton button)
+    void Blyss::SendEvent(Event* e)
+    {
+        for (auto& a : listeners_)
+        {
+            if (a.type == std::type_index(typeid(*e)))
             {
-                if (button == InputButton::kMouseCaptureToggle)
-                {
-                    BOOST_LOG_TRIVIAL(info) << "Toggle mouse capture!";
-                }
-            });
+                a.listener->OnEvent(e);
+            }
+        }
+
+        delete e;
     }
 
-    void Blyss::Frame(double delta_seconds)
+    void Blyss::CleanListeners()
     {
-        // All the ImGui draw calls are done here.
-        gui_.Draw(delta_seconds);
+        std::remove_if(listeners_.begin(), listeners_.end(), [](ListenerRegistration r)
+        {
+            if (r.listener->ShouldDestroy())
+            {
+                delete r.listener;
+                return true;
+            }
 
-        // Draw everything else on the screen.
-        renderer_.Draw(*camera_);
+            return false;
+        });
     }
 
-    bool Blyss::IsCloseRequested() const
-    {
-        return gui_.IsCloseRequested();
-    }
 
-    std::shared_ptr<Camera> Blyss::GetCamera()
-    {
-        return camera_;
-    }
-
-    std::shared_ptr<InputSystem> Blyss::GetInput()
-    {
-        return input_;
-    }
 
 }

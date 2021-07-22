@@ -20,27 +20,11 @@
 
 #pragma once
 
-#include <glad/glad.h>
-
 namespace blyss
 {
-    class GLBuffer final
+    struct Event
     {
     public:
-        GLBuffer();
-        ~GLBuffer();
-
-        // This class is move only
-        GLBuffer(const GLBuffer&) = delete;
-        GLBuffer(GLBuffer&&) = delete;
-        GLBuffer& operator=(const GLBuffer&) = delete;
-        GLBuffer& operator=(GLBuffer&&) = delete;
-
-        [[nodiscard]] GLuint get_handle() const;
-
-        void Bind(GLenum target) const;
-
-    private:
-        GLuint handle_;
+        virtual ~Event(){}
     };
 }

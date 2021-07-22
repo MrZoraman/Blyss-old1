@@ -20,36 +20,10 @@
 
 #pragma once
 
-#include "wrappers/glfw/BGlfwWindowW.hpp"
-
-#include "InputSystem.hpp"
-
 namespace blyss
 {
-    class Window final
+    enum class ListenerType
     {
-    public:
-        Window(int width, int height, const char* title);
-        ~Window();
-
-        // This class is move only
-        Window(const Window&) = delete;
-        Window(Window&&) = delete;
-        Window& operator=(const Window&) = delete;
-        Window& operator=(Window&&) = delete;
         
-        void RunUntilClose();
-
-    private:
-
-        BGlfwWindowW glfw_window_;
-
-        bool is_mouse_captured_;
-
-        void ToggleMouseCapture();
-
-        void OnKeyPress(InputButton button);
-        
-        static void OnWindowResize(BGlfwWindowW& glfw_window, int width, int height);
     };
 }
