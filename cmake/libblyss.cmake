@@ -24,6 +24,17 @@ endmacro()
 # --------------------------------------------------------- #
 libblyss_add_source(Blyss)
 libblyss_add_header(Listener)
+libblyss_add_header(GladGLFW)
+libblyss_add_header(ShaderSources)
+libblyss_add_source(Logging)
+libblyss_add_source(wrappers/glfw/BGlfwWindowW)
+libblyss_add_source(wrappers/glfw/GLFWContext)
+libblyss_add_source(wrappers/opengl/GLBuffer)
+libblyss_add_source(wrappers/opengl/GLVertexArrayObject)
+libblyss_add_source(wrappers/opengl/Shader)
+libblyss_add_source(wrappers/opengl/ShaderProgram)
+libblyss_add_source(exceptions/GLFWException)
+libblyss_add_source(exceptions/OpenGLException)
 
 
 # --------------------------------------------------------- #
