@@ -31,11 +31,13 @@
 struct A
 {
     virtual ~A(){}
+
+    int num;
 };
 
 struct B : A
 {
-    
+    int other;
 };
 
 void thing(A* a)
@@ -44,39 +46,27 @@ void thing(A* a)
     BOOST_LOG_TRIVIAL(info) << "hh_id: " << hh_id.name() << ", " << hh_id.hash_code();
 }
 
+struct C
+{
+    
+};
+
 
 namespace blyss
 {
-    class FooEvent : public Event
+    void DoThing(Blyss& b, A& a)
     {
-    public:
-        int value;
-    };
-
-    class FooListener : public Listener
-    {
-    public:
-
-        void OnEvent(Event* e) override
-        {
-            FooEvent* evt = dynamic_cast<FooEvent*>(e);
-            BOOST_LOG_TRIVIAL(info) << "Got value: " << evt->value;
-            RequestDestroy();
-        }
-    };
+        BOOST_LOG_TRIVIAL(info) << "Thing done with a: " << a.num;
+    }
 
     void run()
     {
         Blyss b;
-        auto* l = new FooListener();
-        b.RegisterListener(typeid(FooEvent), l);
-        l = nullptr;
-        auto* evt = new FooEvent();
-        evt->value = 42;
-        b.SendEvent(evt);
-        evt = nullptr;
-
-        b.CleanListeners();
+        b.RegisterListener<A>(&DoThing);
+        auto thing = std::make_unique<A>();
+        thing->num = 42;
+        b.SendEvent(std::move(thing));
+        
     }
 }
 

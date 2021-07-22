@@ -24,6 +24,10 @@
 #include <typeinfo>
 #include <typeindex>
 #include <map>
+#include <unordered_map>
+#include <memory>
+
+#include <boost/log/trivial.hpp>
 
 #include "Listener.hpp"
 #include "EventType.hpp"
@@ -34,18 +38,44 @@ namespace blyss
     struct ListenerRegistration
     {
         std::type_index type;
-        Listener* listener;
     };
+
+    class Blyss;
 
     class Blyss
     {
-        std::vector<ListenerRegistration> listeners_;
+        std::unordered_map<std::type_index, std::unique_ptr<IListener>> listeners_;
 
     public:
-        void RegisterListener(const std::type_info& type, Listener* l);
 
-        void SendEvent(Event* e);
+        template<typename T>
+        void SendEvent(std::unique_ptr<T> evt)
+        {
+            auto key = std::type_index(typeid(T));
 
-        void CleanListeners();
+            if (listeners_.find(key) == listeners_.end())
+            {
+                BOOST_LOG_TRIVIAL(warning) << "No listener registered for type " << typeid(T).name();
+                return;
+            }
+
+            IListener& generic_listener = *listeners_[key];
+            Listener<T>& listener = dynamic_cast<Listener<T>&>(generic_listener);
+            listener.Call(*this, *evt);
+        }
+
+        template<typename T>
+        void RegisterListener(void (*func)(Blyss&, T&))
+        {
+            auto key = std::type_index(typeid(T));
+
+            if (listeners_.find(key) != listeners_.end())
+            {
+                BOOST_LOG_TRIVIAL(warning) << "A listener is already registered for type " << typeid(T).name();
+                return;
+            }
+
+            listeners_.emplace(key, std::make_unique<Listener<T>>(func));
+        }
     };
 }

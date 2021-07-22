@@ -20,30 +20,42 @@
 
 #pragma once
 
+#include <typeindex>
+#include <typeinfo>
+
 #include "Event.hpp"
 
 namespace blyss
 {
-    class Listener
+    class Blyss;
+
+    class IListener
     {
     public:
-        Listener() = default;
-        virtual ~Listener() = default;
+        virtual ~IListener() = default;
+        
+        virtual std::type_index GetTypeIndex() = 0;
+    };
 
-        // This class is move only
-        Listener(const Listener&) = delete;
-        Listener(Listener&&) = delete;
-        Listener& operator=(const Listener&) = delete;
-        Listener& operator=(Listener&&) = delete;
+    template<typename T>
+    class Listener final : public IListener
+    {
+    public:
+        explicit Listener(void (*func)(Blyss&, T&))
+            : func_{func}
+        {
+        }
 
-        virtual void OnEvent(Event* event) = 0;
+        void Call(Blyss& b, T& evt)
+        {
+            func_(b, evt);
+        }
 
-        bool ShouldDestroy();
-
-    protected:
-        void RequestDestroy();
-
+        std::type_index GetTypeIndex() override
+        {
+            return std::type_index(typeid(T));
+        }
     private:
-        bool should_destroy_ = false;
+        void (*func_)(Blyss&, T&);
     };
 }

@@ -22,14 +22,14 @@
 
 namespace blyss
 {
-    void Listener::RequestDestroy()
-    {
-        should_destroy_ = true;
-    }
-
-    bool Listener::ShouldDestroy()
-    {
-        return should_destroy_;
-    }
+    // void Listener::RequestDestroy()
+    // {
+    //     should_destroy_ = true;
+    // }
+    //
+    // bool Listener::ShouldDestroy()
+    // {
+    //     return should_destroy_;
+    // }
 
 }

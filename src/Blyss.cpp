@@ -20,45 +20,7 @@
 
 #include "Blyss.hpp"
 
-#include <typeinfo>
-#include <typeindex>
-
-
 namespace blyss
 {
-    void Blyss::RegisterListener(const std::type_info& type, Listener* l)
-    {
-        ListenerRegistration registration{std::type_index(type), l};
-        listeners_.push_back(registration);
-    }
-
-    void Blyss::SendEvent(Event* e)
-    {
-        for (auto& a : listeners_)
-        {
-            if (a.type == std::type_index(typeid(*e)))
-            {
-                a.listener->OnEvent(e);
-            }
-        }
-
-        delete e;
-    }
-
-    void Blyss::CleanListeners()
-    {
-        std::remove_if(listeners_.begin(), listeners_.end(), [](ListenerRegistration r)
-        {
-            if (r.listener->ShouldDestroy())
-            {
-                delete r.listener;
-                return true;
-            }
-
-            return false;
-        });
-    }
-
-
 
 }
