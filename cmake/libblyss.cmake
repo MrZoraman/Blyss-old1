@@ -23,10 +23,7 @@ endmacro()
 # Sources                                                   #
 # --------------------------------------------------------- #
 libblyss_add_source(Blyss)
-libblyss_add_source(Listener)
-libblyss_add_header(ListenerType)
-libblyss_add_header(EventType)
-libblyss_add_header(Event)
+libblyss_add_header(Listener)
 
 
 # --------------------------------------------------------- #

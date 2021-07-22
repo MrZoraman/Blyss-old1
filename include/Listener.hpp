@@ -20,11 +20,6 @@
 
 #pragma once
 
-#include <typeindex>
-#include <typeinfo>
-
-#include "Event.hpp"
-
 namespace blyss
 {
     class Blyss;
@@ -33,8 +28,6 @@ namespace blyss
     {
     public:
         virtual ~IListener() = default;
-        
-        virtual std::type_index GetTypeIndex() = 0;
     };
 
     template<typename T>
@@ -49,11 +42,6 @@ namespace blyss
         void Call(Blyss& b, T& evt)
         {
             func_(b, evt);
-        }
-
-        std::type_index GetTypeIndex() override
-        {
-            return std::type_index(typeid(T));
         }
     private:
         void (*func_)(Blyss&, T&);

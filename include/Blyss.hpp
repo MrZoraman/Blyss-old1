@@ -20,18 +20,14 @@
 
 #pragma once
 
-#include <vector>
-#include <typeinfo>
-#include <typeindex>
-#include <map>
-#include <unordered_map>
 #include <memory>
+#include <typeindex>
+#include <typeinfo>
+#include <unordered_map>
 
 #include <boost/log/trivial.hpp>
 
 #include "Listener.hpp"
-#include "EventType.hpp"
-#include "Event.hpp"
 
 namespace blyss
 {

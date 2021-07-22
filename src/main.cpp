@@ -25,8 +25,6 @@
 #include <boost/log/trivial.hpp>
 
 #include "Blyss.hpp"
-#include "Event.hpp"
-#include "Listener.hpp"
 
 struct A
 {
