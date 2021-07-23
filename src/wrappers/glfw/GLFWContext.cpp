@@ -22,17 +22,10 @@
 
 #include <GLFW/glfw3.h>
 
-#include "exceptions/GLFWException.hpp"
-
 namespace blyss
 {
     GLFWContext::GLFWContext()
     {
-        // This callback will be called by GLFW whenever an error occurs. This function then
-        // throws an exception with the error info. This is one of the few functions that can
-        // be called before glfwInit().
-        glfwSetErrorCallback(GLFWException::OnGlfwError);
-
         // Initialize GLFW.
         glfwInit();
     }
@@ -41,8 +34,5 @@ namespace blyss
     {
         // This does nothing if there is nothing to terminate.
         glfwTerminate();
-
-        // Unregister our error callback.
-        glfwSetErrorCallback(nullptr);
     }
 }

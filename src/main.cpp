@@ -18,71 +18,52 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#include <cstdlib>
-#include <typeinfo>
-#include <typeindex>
+#include "GladGLFW.hpp"
 
+#include <cstdio>
+#include <cstdlib>
+#include <exception>
+
+#include <imgui.h>
 #include <boost/log/trivial.hpp>
 
 #include "Blyss.hpp"
 
-struct A
+#include "ListenerRegistrar.hpp"
+#include "exceptions/GLFWException.hpp"
+#include "exceptions/OpenGLException.hpp"
+#include "wrappers/glfw/BGlfwWindowW.hpp"
+#include "wrappers/glfw/GLFWContext.hpp"
+
+int SafeRun()
 {
-    virtual ~A(){}
+    glad_set_post_callback(&blyss::OpenGLException::OpenGLPostCallback);
+    glfwSetErrorCallback(&blyss::GLFWException::OnGlfwError);
 
-    int num;
-};
+    IMGUI_CHECKVERSION();
 
-struct B : A
-{
-    int other;
-};
-
-void thing(A* a)
-{
-    const auto& hh_id = std::type_index(typeid(*a));
-    BOOST_LOG_TRIVIAL(info) << "hh_id: " << hh_id.name() << ", " << hh_id.hash_code();
-}
-
-struct C
-{
-    
-};
-
-
-namespace blyss
-{
-    void DoThing(Blyss& b, A& a)
-    {
-        BOOST_LOG_TRIVIAL(info) << "Thing done with a: " << a.num;
-    }
-
-    void run()
-    {
-        Blyss b;
-        b.RegisterListener<A>(&DoThing);
-        auto thing = std::make_unique<A>();
-        thing->num = 42;
-        b.SendEvent(std::move(thing));
-        
-    }
-}
-
-int main()
-{
-    // const auto& a_id = typeid(A);
-    // const auto& b_id = typeid(B);
-    //
-    // BOOST_LOG_TRIVIAL(info) << "a_id: " << a_id.name() << ", " << a_id.hash_code();
-    // BOOST_LOG_TRIVIAL(info) << "b_id: " << b_id.name() << ", " << b_id.hash_code();
-    //
-    // B bi;
-    // const auto& bi_id = typeid(bi);
-    // BOOST_LOG_TRIVIAL(info) << "bi_id: " << bi_id.name() << ", " << bi_id.hash_code();
-    //
-    // thing(&bi);
-
-    blyss::run();
-
+    blyss::GLFWContext context;
+    blyss::Blyss b;
+    b.GetWindow().SetUserPointer(&b);
+    RegisterListeners(b);
+    b.Run();
     return EXIT_SUCCESS;
+}
+
+int main() noexcept
+{
+    try
+    {
+        return SafeRun();
+    }
+    catch (const std::exception& e)
+    {
+        std::fprintf(stderr, "Uncaught exception occurred while running: %s\n", e.what());
+        return EXIT_FAILURE;
+    }
+    catch (...)
+    {
+        std::fprintf(stderr, "Uncaught exception of an unknown type occurred while running!\n");
+        return EXIT_FAILURE;
+    }
 }

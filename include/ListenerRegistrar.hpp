@@ -18,41 +18,11 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#include "GladGLFW.hpp"
-
-#include "Blyss.hpp"
-
-#include <stdexcept>
-
+#pragma once
 
 namespace blyss
 {
-    Blyss::Blyss()
-        : window_{640, 480, "Blyss"}
-    {
-        window_.MakeContextCurrent();
-        glfwSwapInterval(1);
+    class Blyss;
 
-        if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)))
-        {
-            throw std::runtime_error("Unable to initialize GLAD!");
-        }
-
-    }
-
-    void Blyss::Run()
-    {
-        while (!window_.ShouldClose())
-        {
-            window_.SwapBuffers();
-            glfwPollEvents();
-        }
-    }
-
-
-    BGlfwWindowW& Blyss::GetWindow()
-    {
-        return window_;
-    }
-
+    void RegisterListeners(Blyss& blyss);
 }

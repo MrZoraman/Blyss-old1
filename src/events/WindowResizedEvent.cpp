@@ -18,41 +18,17 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#include "GladGLFW.hpp"
+#include "events/WindowResizedEvent.hpp"
 
 #include "Blyss.hpp"
 
-#include <stdexcept>
-
+#include <boost/log/trivial.hpp>
 
 namespace blyss
 {
-    Blyss::Blyss()
-        : window_{640, 480, "Blyss"}
+    void WindowResizedEventHandler(Blyss& b, WindowResizedEventArgs& args)
     {
-        window_.MakeContextCurrent();
-        glfwSwapInterval(1);
-
-        if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)))
-        {
-            throw std::runtime_error("Unable to initialize GLAD!");
-        }
-
-    }
-
-    void Blyss::Run()
-    {
-        while (!window_.ShouldClose())
-        {
-            window_.SwapBuffers();
-            glfwPollEvents();
-        }
-    }
-
-
-    BGlfwWindowW& Blyss::GetWindow()
-    {
-        return window_;
+        BOOST_LOG_TRIVIAL(debug) << "Window resized: " << args.new_width << ", " << args.new_height;
     }
 
 }

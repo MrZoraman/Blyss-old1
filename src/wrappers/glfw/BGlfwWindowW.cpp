@@ -23,8 +23,10 @@
 #include <cassert>
 #include <exception>
 
+#include "Blyss.hpp"
 #include "GladGLFW.hpp"
 #include "Logging.hpp"
+#include "events/WindowResizedEvent.hpp"
 
 namespace blyss
 {
@@ -42,7 +44,7 @@ namespace blyss
         // we store the instance of this class as the user data for this window. When GLFW
         // calls callbacks, we can use that user pointer to get the instance of the window
         // that fired the event, and then call the event sender on that instance.
-        glfwSetWindowUserPointer(window_, this);
+        // glfwSetWindowUserPointer(window_, blyss);
 
         // This wrapper class uses boost signals instead of callbacks. The implementations of these
         // callbacks simply call their associated signals.
@@ -67,10 +69,6 @@ namespace blyss
 
             // Destroy the window itself.
             glfwDestroyWindow(window_);
-
-            // I'm not sure if this call is necessary, but I don't think it hurts to call.
-            on_window_resize.disconnect_all_slots();
-            on_key.disconnect_all_slots();
         }
         catch (const std::exception& e)
         {
@@ -112,22 +110,33 @@ namespace blyss
         glfwSetInputMode(window_, mode, value);
     }
 
-    void BGlfwWindowW::GlfwWindowResizeCallback(GLFWwindow* window, int width, int height)
+    void BGlfwWindowW::SetUserPointer(void* ptr)
     {
-        // Get the instance that caused the callback to be called.
-        auto* wrapper = static_cast<BGlfwWindowW*>(glfwGetWindowUserPointer(window));
-
-        // Fire the event!
-        wrapper->on_window_resize(*wrapper, width, height);
+        glfwSetWindowUserPointer(window_, ptr);
     }
 
-    void BGlfwWindowW::GlfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+    void BGlfwWindowW::GlfwWindowResizeCallback(GLFWwindow* window, int width, int height)
     {
-        // Get the instance that caused the callback to be called.
-        auto* wrapper = static_cast<BGlfwWindowW*>(glfwGetWindowUserPointer(window));
+        void* ptr = glfwGetWindowUserPointer(window);
+        if(!ptr)
+        {
+            BOOST_LOG_TRIVIAL(warning) << "GLFW captured an event, but no user pointer for the window was set!";
+            return;
+        }
 
-        // Fire the event!
-        wrapper->on_key(*wrapper, key, scancode, action, mods);
+        auto* blyss = static_cast<Blyss*>(ptr);
+        WindowResizedEventArgs args{width, height};
+        blyss->SendEvent(args);
+    }
+
+    //void BGlfwWindowW::GlfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+    void BGlfwWindowW::GlfwKeyCallback(GLFWwindow*, int, int, int, int)
+    {
+        // // Get the instance that caused the callback to be called.
+        // auto* wrapper = static_cast<BGlfwWindowW*>(glfwGetWindowUserPointer(window));
+        //
+        // // Fire the event!
+        // wrapper->on_key(*wrapper, key, scancode, action, mods);
     }
 
 }

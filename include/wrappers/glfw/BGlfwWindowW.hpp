@@ -22,12 +22,12 @@
 
 #include <cstdint>
 
-#include <boost/signals2.hpp>
-
 #include "GladGLFW.hpp"
 
 namespace blyss
 {
+    class Blyss;
+
     class BGlfwWindowW final
     {
     public:
@@ -36,9 +36,6 @@ namespace blyss
         BGlfwWindowW(BGlfwWindowW&&) = delete;
         BGlfwWindowW& operator=(const BGlfwWindowW&) = delete;
         BGlfwWindowW& operator=(BGlfwWindowW&&) = delete;
-        
-        typedef boost::signals2::signal<void(BGlfwWindowW&, int, int)> OnWindowResizeType;
-        typedef boost::signals2::signal<void(BGlfwWindowW&, int, int, int, int)> OnKeyType;
         
         BGlfwWindowW(int width, int height, const char* title);
 
@@ -55,9 +52,8 @@ namespace blyss
         void GetWindowSize(std::int32_t* width, std::int32_t* height);
 
         void SetInputMode(int mode, int value);
-        
-        OnWindowResizeType on_window_resize;
-        OnKeyType on_key;
+
+        void SetUserPointer(void* ptr);
 
     private:
         GLFWwindow* const window_;

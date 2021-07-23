@@ -28,6 +28,7 @@
 #include <boost/log/trivial.hpp>
 
 #include "Listener.hpp"
+#include "wrappers/glfw/BGlfwWindowW.hpp"
 
 namespace blyss
 {
@@ -41,11 +42,18 @@ namespace blyss
     class Blyss
     {
         std::unordered_map<std::type_index, std::unique_ptr<IListener>> listeners_;
-
+        BGlfwWindowW window_;
+        
     public:
 
+        Blyss();
+
+        BGlfwWindowW& GetWindow();
+
+        void Run();
+
         template<typename T>
-        void SendEvent(std::unique_ptr<T> evt)
+        void SendEvent(T& evt)
         {
             auto key = std::type_index(typeid(T));
 
@@ -57,7 +65,7 @@ namespace blyss
 
             IListener& generic_listener = *listeners_[key];
             Listener<T>& listener = dynamic_cast<Listener<T>&>(generic_listener);
-            listener.Call(*this, *evt);
+            listener.Call(*this, evt);
         }
 
         template<typename T>
