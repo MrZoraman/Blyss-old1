@@ -25,7 +25,7 @@
 #include <exception>
 
 #include <imgui.h>
-#include <boost/log/trivial.hpp>
+#include <imgui_impl_glfw.h>
 
 #include "Blyss.hpp"
 
@@ -37,16 +37,44 @@
 
 int SafeRun()
 {
+    // Set Glad error callback so an exception is thrown whenever an OpenGL error occurrs.
     glad_set_post_callback(&blyss::OpenGLException::OpenGLPostCallback);
+
+    // Set GLFW error callback. This is one of the only GLFW functions that can be called before
+    // GLFW is initialized. The registered callback will throw an exception any time there is
+    // a GLFW error.
     glfwSetErrorCallback(&blyss::GLFWException::OnGlfwError);
 
+    // Ensure that ImGui is not linking with a different version for whatever reason.
     IMGUI_CHECKVERSION();
 
+    // Start up the GLFW context. This is GLFW's internal global state, which will be cleaned up
+    // when this context object goes out of scope. If this fails, an exception will be thrown.
     blyss::GLFWContext context;
+
+    // Construct Blyss instance. This instance is going to live for the entire duration of the
+    // application, so pointers and references to it are safe to pass around and store.
     blyss::Blyss b;
+
+    // Set Blyss's user pointer for the internal GLFW window to blyss itself. This pointer is used
+    // in the callbacks to convert GLFW's callbacks to Blyss's callbacks.
     b.GetWindow().SetUserPointer(&b);
+
+    // Start up ImGui GLFW implimentation. This needs to be run AFTER Blyss's internal window
+    // instance is constructed, which happens when Blyss is constructed. Inside this function
+    // ImGui will overwrite the callbacks Blyss has registered with GLFW in place of its own.
+    // However, ImGui saves our callbacks and calls them within its own callbacks.
+    //ImGui_ImplGlfw_InitForOpenGL(b.GetWindow().GetRawWinPtr(), true);
+
+    // Register all of Blyss's event listeners. This is unrelated to the callback registration
+    // done by GLFW.
     RegisterListeners(b);
+
+    // Run the program!
     b.Run();
+
+    // If Run() exits, then everything went as expected. If Run() fails for any reason, an
+    // exception will be thrown and this code will never get returned.
     return EXIT_SUCCESS;
 }
 

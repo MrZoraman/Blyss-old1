@@ -28,6 +28,7 @@
 #include <boost/log/trivial.hpp>
 
 #include "Listener.hpp"
+#include "rendering/Renderer.hpp"
 #include "wrappers/glfw/BGlfwWindowW.hpp"
 
 namespace blyss
@@ -43,10 +44,18 @@ namespace blyss
     {
         std::unordered_map<std::type_index, std::unique_ptr<IListener>> listeners_;
         BGlfwWindowW window_;
+        Renderer renderer_;
         
     public:
 
         Blyss();
+        ~Blyss();
+
+        // This class is move only
+        Blyss(const Blyss&) = delete;
+        Blyss(Blyss&&) = delete;
+        Blyss& operator=(const Blyss&) = delete;
+        Blyss& operator=(Blyss&&) = delete;
 
         BGlfwWindowW& GetWindow();
 

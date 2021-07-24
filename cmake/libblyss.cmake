@@ -37,6 +37,7 @@ libblyss_add_source(wrappers/opengl/ShaderProgram)
 libblyss_add_source(exceptions/GLFWException)
 libblyss_add_source(exceptions/OpenGLException)
 libblyss_add_source(events/WindowResizedEvent)
+libblyss_add_source(rendering/Renderer)
 
 
 # --------------------------------------------------------- #

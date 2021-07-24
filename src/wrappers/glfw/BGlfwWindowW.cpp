@@ -40,12 +40,6 @@ namespace blyss
          */
         assert(window_ != nullptr);
 
-        // This class can fire events. However, the event sender is a member variable. Thus,
-        // we store the instance of this class as the user data for this window. When GLFW
-        // calls callbacks, we can use that user pointer to get the instance of the window
-        // that fired the event, and then call the event sender on that instance.
-        // glfwSetWindowUserPointer(window_, blyss);
-
         // This wrapper class uses boost signals instead of callbacks. The implementations of these
         // callbacks simply call their associated signals.
         glfwSetWindowSizeCallback(window_, GlfwWindowResizeCallback);

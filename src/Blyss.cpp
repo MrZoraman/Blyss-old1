@@ -24,28 +24,31 @@
 
 #include <stdexcept>
 
+#include "rendering/Renderer.hpp"
+
 
 namespace blyss
 {
     Blyss::Blyss()
         : window_{640, 480, "Blyss"}
+        , renderer_{window_}
     {
-        window_.MakeContextCurrent();
-        glfwSwapInterval(1);
 
-        if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)))
-        {
-            throw std::runtime_error("Unable to initialize GLAD!");
-        }
+    }
 
+    Blyss::~Blyss()
+    {
     }
 
     void Blyss::Run()
     {
         while (!window_.ShouldClose())
         {
-            window_.SwapBuffers();
             glfwPollEvents();
+
+            renderer_.Render();
+
+            window_.SwapBuffers();
         }
     }
 

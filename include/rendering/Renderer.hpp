@@ -18,21 +18,24 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#include "events/WindowResizedEvent.hpp"
-
-#include "Blyss.hpp"
-
-#include <glad/glad.h>
-#include <boost/log/trivial.hpp>
+#pragma once
 
 namespace blyss
 {
-    void WindowResizedEventHandler(Blyss& b, WindowResizedEventArgs& args)
+    class BGlfwWindowW;
+
+    class Renderer final
     {
-        BOOST_LOG_TRIVIAL(debug) << "Window resized: " << args.new_width << ", " << args.new_height;
-        
+    public:
+        explicit Renderer(BGlfwWindowW& window);
+        ~Renderer();
 
-        glViewport(0, 0, args.new_width, args.new_height);
-    }
+        // This class is move only
+        Renderer(const Renderer&) = delete;
+        Renderer(Renderer&&) = delete;
+        Renderer& operator=(const Renderer&) = delete;
+        Renderer& operator=(Renderer&&) = delete;
 
+        void Render();
+    };
 }
