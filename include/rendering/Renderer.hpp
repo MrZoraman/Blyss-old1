@@ -36,6 +36,7 @@ namespace blyss
         Renderer& operator=(const Renderer&) = delete;
         Renderer& operator=(Renderer&&) = delete;
 
+        void NewImGuiFrame();
         void Render();
     };
 }

@@ -22,7 +22,7 @@
 
 #include "Blyss.hpp"
 
-#include <stdexcept>
+#include <imgui.h>
 
 #include "rendering/Renderer.hpp"
 
@@ -33,7 +33,6 @@ namespace blyss
         : window_{640, 480, "Blyss"}
         , renderer_{window_}
     {
-
     }
 
     Blyss::~Blyss()
@@ -44,7 +43,12 @@ namespace blyss
     {
         while (!window_.ShouldClose())
         {
+            // The ImGui frame is started at the beginning of each loop iteration so that ImGui
+            // functions can be used anywhere at any time in a blyss frame or callback.
+            renderer_.NewImGuiFrame();
+
             glfwPollEvents();
+            ImGui::ShowDemoWindow();
 
             renderer_.Render();
 
