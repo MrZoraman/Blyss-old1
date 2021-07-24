@@ -44,6 +44,7 @@ namespace blyss
         void MakeContextCurrent();
         
         [[nodiscard]] bool ShouldClose() const;
+        void SetShouldClose(int should_close);
         
         void SwapBuffers();
         

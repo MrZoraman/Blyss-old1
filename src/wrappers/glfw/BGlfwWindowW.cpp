@@ -109,6 +109,11 @@ namespace blyss
         glfwSetWindowUserPointer(window_, ptr);
     }
 
+    void BGlfwWindowW::SetShouldClose(int should_close)
+    {
+        glfwSetWindowShouldClose(window_, should_close);
+    }
+
     void BGlfwWindowW::GlfwWindowResizeCallback(GLFWwindow* window, int width, int height)
     {
         void* ptr = glfwGetWindowUserPointer(window);
