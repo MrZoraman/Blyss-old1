@@ -20,6 +20,8 @@
 
 #include "GladGLFW.hpp"
 
+#include <chrono>
+
 #include "Blyss.hpp"
 
 #include <imgui.h>
@@ -35,14 +37,16 @@ namespace blyss
     {
     }
 
-    Blyss::~Blyss()
-    {
-    }
-
     void Blyss::Run()
     {
+        auto previous_time = std::chrono::high_resolution_clock::now();
+
         while (!window_.ShouldClose())
         {
+            auto now = std::chrono::high_resolution_clock::now();
+            delta_ = now - previous_time;
+            previous_time = now;
+
             // The ImGui frame is started at the beginning of each loop iteration so that ImGui
             // functions can be used anywhere at any time in a blyss frame or callback.
             renderer_.NewImGuiFrame();
@@ -61,5 +65,11 @@ namespace blyss
     {
         return window_;
     }
+
+    std::chrono::duration<double> Blyss::GetDelta()
+    {
+        return delta_;
+    }
+
 
 }

@@ -45,11 +45,12 @@ namespace blyss
         std::unordered_map<std::type_index, std::unique_ptr<IListener>> listeners_;
         BGlfwWindowW window_;
         Renderer renderer_;
+
+        std::chrono::duration<double> delta_;
         
     public:
 
         Blyss();
-        ~Blyss();
 
         // This class is move only
         Blyss(const Blyss&) = delete;
@@ -60,6 +61,8 @@ namespace blyss
         BGlfwWindowW& GetWindow();
 
         void Run();
+
+        std::chrono::duration<double> GetDelta();
 
         template<typename T>
         void SendEvent(T& evt)
