@@ -26,9 +26,8 @@
 
 #include <imgui.h>
 
-#include "rendering/Renderer.hpp"
 #include "events/WindowResizedEvent.hpp"
-
+#include "rendering/Renderer.hpp"
 
 namespace blyss
 {
