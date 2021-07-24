@@ -27,21 +27,25 @@
 #include <imgui.h>
 
 #include "rendering/Renderer.hpp"
+#include "events/WindowResizedEvent.hpp"
 
 
 namespace blyss
 {
     Blyss::Blyss()
-        : window_{640, 480, "Blyss"}
-        , renderer_{window_}
+        : window_{glfwCreateWindow(640, 480, "Blyss", nullptr, nullptr), &glfwDestroyWindow}
+        , renderer_{window_.get()}
     {
+        glfwSetWindowSizeCallback(window_.get(), &GlfwWindowResizeCallback);
     }
 
     void Blyss::Run()
     {
+        GLFWwindow* window = window_.get();
+
         auto previous_time = std::chrono::high_resolution_clock::now();
 
-        while (!window_.ShouldClose())
+        while (!glfwWindowShouldClose(window))
         {
             auto now = std::chrono::high_resolution_clock::now();
             delta_ = now - previous_time;
@@ -56,19 +60,33 @@ namespace blyss
 
             renderer_.Render();
 
-            window_.SwapBuffers();
+            glfwSwapBuffers(window);
         }
     }
 
 
-    BGlfwWindowW& Blyss::GetWindow()
+    GLFWwindow* Blyss::GetWindow()
     {
-        return window_;
+        return window_.get();
     }
 
     std::chrono::duration<double> Blyss::GetDelta()
     {
         return delta_;
+    }
+
+    void Blyss::GlfwWindowResizeCallback(GLFWwindow* window, int width, int height)
+    {
+        void* ptr = glfwGetWindowUserPointer(window);
+        if (!ptr)
+        {
+            BOOST_LOG_TRIVIAL(warning) << "GLFW captured an event, but no user pointer for the window was set!";
+            return;
+        }
+        
+        auto* blyss = static_cast<Blyss*>(ptr);
+        WindowResizedEventArgs args{ width, height };
+        blyss->SendEvent(args);
     }
 
 

@@ -18,22 +18,22 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
+#include "GladGLFW.hpp"
+
 #include "rendering/Renderer.hpp"
 
-#include <glad/glad.h>
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
 #include <boost/log/trivial.hpp>
 
 #include "exceptions/OpenGLException.hpp"
-#include "wrappers/glfw/BGlfwWindowW.hpp"
 
 namespace blyss
 {
-    Renderer::Renderer(BGlfwWindowW& window)
+    Renderer::Renderer(GLFWwindow* window)
     {
-        window.MakeContextCurrent();
+        glfwMakeContextCurrent(window);
         glfwSwapInterval(1);
 
         if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)))
@@ -43,7 +43,7 @@ namespace blyss
 
         ImGui::CreateContext();
         ImGui::StyleColorsDark();
-        ImGui_ImplGlfw_InitForOpenGL(window.GetRawWinPtr(), true);
+        ImGui_ImplGlfw_InitForOpenGL(window, true);
         ImGui_ImplOpenGL3_Init("#version 130");
     }
 

@@ -20,6 +20,8 @@
 
 #pragma once
 
+class GLFWwindow;
+
 namespace blyss
 {
     class BGlfwWindowW;
@@ -27,7 +29,7 @@ namespace blyss
     class Renderer final
     {
     public:
-        explicit Renderer(BGlfwWindowW& window);
+        explicit Renderer(GLFWwindow* window);
         ~Renderer();
 
         // This class is move only

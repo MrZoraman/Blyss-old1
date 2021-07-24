@@ -20,6 +20,9 @@
 
 #pragma once
 
+#include "GladGLFW.hpp"
+
+#include <chrono>
 #include <memory>
 #include <typeindex>
 #include <typeinfo>
@@ -29,7 +32,6 @@
 
 #include "Listener.hpp"
 #include "rendering/Renderer.hpp"
-#include "wrappers/glfw/BGlfwWindowW.hpp"
 
 namespace blyss
 {
@@ -43,7 +45,7 @@ namespace blyss
     class Blyss
     {
         std::unordered_map<std::type_index, std::unique_ptr<IListener>> listeners_;
-        BGlfwWindowW window_;
+        std::unique_ptr<GLFWwindow, void(*)(GLFWwindow*)> window_;
         Renderer renderer_;
 
         std::chrono::duration<double> delta_;
@@ -58,7 +60,7 @@ namespace blyss
         Blyss& operator=(const Blyss&) = delete;
         Blyss& operator=(Blyss&&) = delete;
 
-        BGlfwWindowW& GetWindow();
+        GLFWwindow* GetWindow();
 
         void Run();
 
@@ -93,5 +95,8 @@ namespace blyss
 
             listeners_.emplace(key, std::make_unique<Listener<T>>(func));
         }
+
+    private:
+        static void GlfwWindowResizeCallback(GLFWwindow* window, int width, int height);
     };
 }

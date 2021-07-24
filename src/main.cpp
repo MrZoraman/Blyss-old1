@@ -32,7 +32,6 @@
 #include "ListenerRegistrar.hpp"
 #include "exceptions/GLFWException.hpp"
 #include "exceptions/OpenGLException.hpp"
-#include "wrappers/glfw/BGlfwWindowW.hpp"
 #include "wrappers/glfw/GLFWContext.hpp"
 
 int SafeRun()
@@ -58,7 +57,7 @@ int SafeRun()
 
     // Set Blyss's user pointer for the internal GLFW window to blyss itself. This pointer is used
     // in the callbacks to convert GLFW's callbacks to Blyss's callbacks.
-    b.GetWindow().SetUserPointer(&b);
+    glfwSetWindowUserPointer(b.GetWindow(), &b);
 
     // Start up ImGui GLFW implimentation. This needs to be run AFTER Blyss's internal window
     // instance is constructed, which happens when Blyss is constructed. Inside this function
