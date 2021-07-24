@@ -36,13 +36,6 @@
 
 namespace blyss
 {
-    struct ListenerRegistration
-    {
-        std::type_index type;
-    };
-
-    class Blyss;
-
     class Blyss
     {
         std::unordered_map<std::type_index, std::unique_ptr<IListener>> listeners_;
