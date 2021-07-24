@@ -18,18 +18,17 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#include "ListenerRegistrar.hpp"
+#include "events/KeyPressedEvent.hpp"
+
+#include <boost/log/trivial.hpp>
 
 #include "Blyss.hpp"
-#include "events/WindowResizedEvent.hpp"
-#include "events/KeyPressedEvent.hpp"
 
 namespace blyss
 {
-    void RegisterListeners(Blyss& blyss)
+    void KeyPressedEventHandler(Blyss& b, KeyPressedEventArgs& args)
     {
-        blyss.RegisterListener(&WindowResizedEventHandler);
-        blyss.RegisterListener(&KeyPressedEventHandler);
+        BOOST_LOG_TRIVIAL(info) << "Hello!";
     }
 
 }

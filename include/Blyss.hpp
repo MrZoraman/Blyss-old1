@@ -30,6 +30,7 @@
 
 #include <boost/log/trivial.hpp>
 
+#include "InputSystem.hpp"
 #include "Listener.hpp"
 #include "rendering/Renderer.hpp"
 
@@ -47,6 +48,7 @@ namespace blyss
         std::unordered_map<std::type_index, std::unique_ptr<IListener>> listeners_;
         std::unique_ptr<GLFWwindow, void(*)(GLFWwindow*)> window_;
         Renderer renderer_;
+        InputSystem input_;
 
         std::chrono::duration<double> delta_;
         
@@ -65,6 +67,8 @@ namespace blyss
         void Run();
 
         std::chrono::duration<double> GetDelta();
+
+        InputSystem& GetInput();
 
         template<typename T>
         void SendEvent(T& evt)

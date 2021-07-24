@@ -18,18 +18,41 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#include "ListenerRegistrar.hpp"
+#pragma once
 
-#include "Blyss.hpp"
-#include "events/WindowResizedEvent.hpp"
-#include "events/KeyPressedEvent.hpp"
+#include <array>
+
+#include "GladGLFW.hpp"
 
 namespace blyss
 {
-    void RegisterListeners(Blyss& blyss)
+    enum class InputButton
     {
-        blyss.RegisterListener(&WindowResizedEventHandler);
-        blyss.RegisterListener(&KeyPressedEventHandler);
-    }
+        kNone = 0,
+        kForward = 1,
+        kReverse = 2,
+        kLeft = 3,
+        kRight = 4,
+        kMouseCaptureToggle = 5,
+        kLastValue
+    };
 
+    class InputSystem final
+    {
+    public:
+        InputSystem();
+        ~InputSystem() = default;
+
+        // This class is move only
+        InputSystem(const InputSystem&) = delete;
+        InputSystem(InputSystem&&) = delete;
+        InputSystem& operator=(const InputSystem&) = delete;
+        InputSystem& operator=(InputSystem&&) = delete;
+
+        static void GlfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+
+    private:
+        std::array<bool, static_cast<size_t>(InputButton::kLastValue)> pressed_buttons_;
+        std::array<InputButton, GLFW_KEY_LAST> button_mapping_;
+    };
 }

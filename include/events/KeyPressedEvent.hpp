@@ -18,18 +18,18 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#include "ListenerRegistrar.hpp"
+#pragma once
 
-#include "Blyss.hpp"
-#include "events/WindowResizedEvent.hpp"
-#include "events/KeyPressedEvent.hpp"
+#include "InputSystem.hpp"
 
 namespace blyss
 {
-    void RegisterListeners(Blyss& blyss)
-    {
-        blyss.RegisterListener(&WindowResizedEventHandler);
-        blyss.RegisterListener(&KeyPressedEventHandler);
-    }
+    class Blyss;
 
+    struct KeyPressedEventArgs
+    {
+        InputButton button;
+    };
+
+    void KeyPressedEventHandler(Blyss& b, KeyPressedEventArgs& args);
 }

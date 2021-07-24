@@ -36,6 +36,7 @@ namespace blyss
         , renderer_{window_.get()}
     {
         glfwSetWindowSizeCallback(window_.get(), &GlfwWindowResizeCallback);
+        glfwSetKeyCallback(window_.get(), &InputSystem::GlfwKeyCallback);
     }
 
     void Blyss::Run()
@@ -72,6 +73,11 @@ namespace blyss
     std::chrono::duration<double> Blyss::GetDelta()
     {
         return delta_;
+    }
+
+    InputSystem& Blyss::GetInput()
+    {
+        return input_;
     }
 
     void Blyss::GlfwWindowResizeCallback(GLFWwindow* window, int width, int height)
