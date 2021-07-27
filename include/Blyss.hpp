@@ -75,7 +75,7 @@ namespace blyss
             }
 
             IListener& generic_listener = *listeners_[key];
-            Listener<T>& listener = dynamic_cast<Listener<T>&>(generic_listener);
+            Listener<T>& listener = static_cast<Listener<T>&>(generic_listener);
             listener.Call(*this, evt);
         }
 
