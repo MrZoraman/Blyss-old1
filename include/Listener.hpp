@@ -24,6 +24,9 @@ namespace blyss
 {
     class Blyss;
 
+    template<typename T>
+    using ListenerFunc = void (*)(Blyss&, const T&);
+
     class IListener
     {
     public:
@@ -34,7 +37,7 @@ namespace blyss
     class Listener final : public IListener
     {
     public:
-        explicit Listener(void (*func)(Blyss&, T&))
+        explicit Listener(ListenerFunc<T> func)
             : func_{func}
         {
         }
@@ -44,6 +47,6 @@ namespace blyss
             func_(b, evt);
         }
     private:
-        void (*func_)(Blyss&, T&);
+        ListenerFunc<T> func_;
     };
 }

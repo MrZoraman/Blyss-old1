@@ -27,7 +27,7 @@
 
 namespace blyss
 {
-    void WindowResizedEventHandler(Blyss& b, WindowResizedEventArgs& args)
+    void WindowResizedEventHandler(Blyss& b, const WindowResizedEventArgs& args)
     {
         BOOST_LOG_TRIVIAL(debug) << "Window resized: " << args.new_width << ", " << args.new_height;
         

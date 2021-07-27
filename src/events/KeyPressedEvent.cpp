@@ -26,7 +26,7 @@
 
 namespace blyss
 {
-    void KeyPressedEventHandler(Blyss& b, KeyPressedEventArgs& args)
+    void KeyPressedEventHandler(Blyss& b, const KeyPressedEventArgs& args)
     {
         BOOST_LOG_TRIVIAL(info) << "Hello!";
     }

@@ -80,7 +80,7 @@ namespace blyss
         }
 
         template<typename T>
-        void RegisterListener(void (*func)(Blyss&, T&))
+        void RegisterListener(ListenerFunc<T> func)
         {
             auto key = std::type_index(typeid(T));
 

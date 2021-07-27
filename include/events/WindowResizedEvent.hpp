@@ -30,5 +30,5 @@ namespace blyss
         int new_height;
     };
 
-    void WindowResizedEventHandler(Blyss& b, WindowResizedEventArgs& args);
+    void WindowResizedEventHandler(Blyss& b, const WindowResizedEventArgs& args);
 }

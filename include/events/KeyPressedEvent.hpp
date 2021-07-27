@@ -31,5 +31,5 @@ namespace blyss
         InputButton button;
     };
 
-    void KeyPressedEventHandler(Blyss& b, KeyPressedEventArgs& args);
+    void KeyPressedEventHandler(Blyss& b, const KeyPressedEventArgs& args);
 }
