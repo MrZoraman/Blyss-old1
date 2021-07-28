@@ -58,12 +58,6 @@ int SafeRun()
     // in the callbacks to convert GLFW's callbacks to Blyss's callbacks.
     glfwSetWindowUserPointer(b.GetWindow(), &b);
 
-    // Start up ImGui GLFW implimentation. This needs to be run AFTER Blyss's internal window
-    // instance is constructed, which happens when Blyss is constructed. Inside this function
-    // ImGui will overwrite the callbacks Blyss has registered with GLFW in place of its own.
-    // However, ImGui saves our callbacks and calls them within its own callbacks.
-    //ImGui_ImplGlfw_InitForOpenGL(b.GetWindow().GetRawWinPtr(), true);
-
     // Run the program!
     b.Run();
 
