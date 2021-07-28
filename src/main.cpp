@@ -25,7 +25,6 @@
 #include <exception>
 
 #include <imgui.h>
-#include <imgui_impl_glfw.h>
 
 #include "Blyss.hpp"
 
