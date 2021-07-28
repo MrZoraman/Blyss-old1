@@ -29,7 +29,6 @@
 
 #include "Blyss.hpp"
 
-#include "ListenerRegistrar.hpp"
 #include "exceptions/GLFWException.hpp"
 #include "exceptions/OpenGLException.hpp"
 #include "wrappers/glfw/GLFWContext.hpp"
@@ -64,10 +63,6 @@ int SafeRun()
     // ImGui will overwrite the callbacks Blyss has registered with GLFW in place of its own.
     // However, ImGui saves our callbacks and calls them within its own callbacks.
     //ImGui_ImplGlfw_InitForOpenGL(b.GetWindow().GetRawWinPtr(), true);
-
-    // Register all of Blyss's event listeners. This is unrelated to the callback registration
-    // done by GLFW.
-    RegisterListeners(b);
 
     // Run the program!
     b.Run();

@@ -23,11 +23,9 @@ endmacro()
 # Sources                                                   #
 # --------------------------------------------------------- #
 libblyss_add_source(Blyss)
-libblyss_add_header(Listener)
 libblyss_add_header(GladGLFW)
 libblyss_add_header(ShaderSources)
 libblyss_add_source(Logging)
-libblyss_add_source(ListenerRegistrar)
 libblyss_add_source(InputSystem)
 libblyss_add_source(wrappers/glfw/GLFWContext)
 libblyss_add_source(wrappers/opengl/GLBuffer)

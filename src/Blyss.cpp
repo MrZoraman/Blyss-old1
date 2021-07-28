@@ -25,6 +25,7 @@
 #include "Blyss.hpp"
 
 #include <imgui.h>
+#include <boost/log/trivial.hpp>
 
 #include "events/WindowResizedEvent.hpp"
 #include "rendering/Renderer.hpp"
@@ -91,7 +92,7 @@ namespace blyss
         
         auto* blyss = static_cast<Blyss*>(ptr);
         WindowResizedEventArgs args{ width, height };
-        blyss->SendEvent(args);
+        WindowResizedEventHandler(*blyss, args);
     }
 
 

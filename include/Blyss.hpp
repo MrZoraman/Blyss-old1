@@ -24,21 +24,14 @@
 
 #include <chrono>
 #include <memory>
-#include <typeindex>
-#include <typeinfo>
-#include <unordered_map>
-
-#include <boost/log/trivial.hpp>
 
 #include "InputSystem.hpp"
-#include "Listener.hpp"
 #include "rendering/Renderer.hpp"
 
 namespace blyss
 {
     class Blyss
     {
-        std::unordered_map<std::type_index, std::unique_ptr<IListener>> listeners_;
         std::unique_ptr<GLFWwindow, void(*)(GLFWwindow*)> window_;
         Renderer renderer_;
         InputSystem input_;
@@ -62,36 +55,6 @@ namespace blyss
         std::chrono::duration<double> GetDelta();
 
         InputSystem& GetInput();
-
-        template<typename T>
-        void SendEvent(T& evt)
-        {
-            auto key = std::type_index(typeid(T));
-
-            if (listeners_.find(key) == listeners_.end())
-            {
-                BOOST_LOG_TRIVIAL(warning) << "No listener registered for type " << typeid(T).name();
-                return;
-            }
-
-            IListener& generic_listener = *listeners_[key];
-            Listener<T>& listener = static_cast<Listener<T>&>(generic_listener);
-            listener.Call(*this, evt);
-        }
-
-        template<typename T>
-        void RegisterListener(ListenerFunc<T> func)
-        {
-            auto key = std::type_index(typeid(T));
-
-            if (listeners_.find(key) != listeners_.end())
-            {
-                BOOST_LOG_TRIVIAL(warning) << "A listener is already registered for type " << typeid(T).name();
-                return;
-            }
-
-            listeners_.emplace(key, std::make_unique<Listener<T>>(func));
-        }
 
     private:
         static void GlfwWindowResizeCallback(GLFWwindow* window, int width, int height);
