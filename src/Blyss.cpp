@@ -32,9 +32,13 @@
 
 namespace blyss
 {
+    const int kWindowWidth = 640;
+    const int kWindowHeight = 480;
+
     Blyss::Blyss()
-        : window_{glfwCreateWindow(640, 480, "Blyss", nullptr, nullptr), &glfwDestroyWindow}
+        : window_{glfwCreateWindow(kWindowWidth, kWindowHeight, "Blyss", nullptr, nullptr), &glfwDestroyWindow}
         , renderer_{window_.get()}
+        , camera_{ kWindowWidth, kWindowHeight }
     {
         glfwSetWindowSizeCallback(window_.get(), &GlfwWindowResizeCallback);
         glfwSetKeyCallback(window_.get(), &InputSystem::GlfwKeyCallback);
@@ -79,6 +83,11 @@ namespace blyss
     InputSystem& Blyss::GetInput()
     {
         return input_;
+    }
+
+    Camera& Blyss::GetCamera()
+    {
+        return camera_;
     }
 
     void Blyss::GlfwWindowResizeCallback(GLFWwindow* window, int width, int height)

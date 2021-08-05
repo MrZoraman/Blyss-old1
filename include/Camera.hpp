@@ -18,19 +18,29 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#include "events/WindowResizedEvent.hpp"
+#pragma once
 
-#include "Blyss.hpp"
-
-#include <glad/glad.h>
+#include <glm/mat4x4.hpp>
+#include <glm/vec3.hpp>
 
 namespace blyss
 {
-    void WindowResizedEventHandler(Blyss& b, const WindowResizedEventArgs& args)
+    class Camera
     {
-        glViewport(0, 0, args.new_width, args.new_height);
+        glm::mat4 projection_;
+        glm::vec3 position_;
 
-        b.GetCamera().UpdateWindowSize(static_cast<float>(args.new_width), static_cast<float>(args.new_height));
-    }
+    public:
+        Camera(float window_width, float window_height);
 
+        void UpdateWindowSize(float window_width, float window_height);
+
+        void SetPosition(glm::vec3 position);
+
+        glm::mat4 GetProjection() const;
+        glm::mat4 MakeViewMatrix() const;
+
+    private:
+        static glm::mat4 MakeProjectionMatrix(float window_width, float window_height);
+    };
 }

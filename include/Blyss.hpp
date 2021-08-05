@@ -25,6 +25,7 @@
 #include <chrono>
 #include <memory>
 
+#include "Camera.hpp"
 #include "InputSystem.hpp"
 #include "rendering/Renderer.hpp"
 
@@ -35,6 +36,7 @@ namespace blyss
         std::unique_ptr<GLFWwindow, void(*)(GLFWwindow*)> window_;
         Renderer renderer_;
         InputSystem input_;
+        Camera camera_;
 
         std::chrono::duration<double> delta_;
         
@@ -55,6 +57,8 @@ namespace blyss
         std::chrono::duration<double> GetDelta();
 
         InputSystem& GetInput();
+
+        Camera& GetCamera();
 
     private:
         static void GlfwWindowResizeCallback(GLFWwindow* window, int width, int height);
