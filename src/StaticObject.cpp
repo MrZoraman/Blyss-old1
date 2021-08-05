@@ -18,35 +18,9 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#pragma once
-
-#include <memory>
-#include <vector>
-
-struct GLFWwindow;
+#include "StaticObject.hpp"
 
 namespace blyss
 {
-    class BGlfwWindowW;
-    class StaticObject;
-
-    class Renderer final
-    {
-        std::vector<std::unique_ptr<StaticObject>> static_bjects_;
-
-    public:
-        explicit Renderer(GLFWwindow* window);
-        ~Renderer();
-
-        // This class is move only
-        Renderer(const Renderer&) = delete;
-        Renderer(Renderer&&) = delete;
-        Renderer& operator=(const Renderer&) = delete;
-        Renderer& operator=(Renderer&&) = delete;
-
-        void NewImGuiFrame();
-        void Render();
-
-        void AddStaticObject(std::unique_ptr<StaticObject> object);
-    };
+    
 }

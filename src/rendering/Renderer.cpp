@@ -27,6 +27,7 @@
 #include <imgui_impl_opengl3.h>
 #include <boost/log/trivial.hpp>
 
+#include "StaticObject.hpp"
 #include "exceptions/OpenGLException.hpp"
 
 namespace blyss
@@ -76,5 +77,11 @@ namespace blyss
             BOOST_LOG_TRIVIAL(error) << "Failed to render frame: " << e.what();
         }
     }
+
+    void Renderer::AddStaticObject(std::unique_ptr<StaticObject> object)
+    {
+        static_bjects_.push_back(std::move(object));
+    }
+
 
 }
