@@ -32,7 +32,7 @@ namespace blyss
 
     class Renderer final
     {
-        std::vector<std::unique_ptr<StaticObject>> static_bjects_;
+        std::vector<std::unique_ptr<StaticObject>> static_objects_;
 
     public:
         explicit Renderer(GLFWwindow* window);

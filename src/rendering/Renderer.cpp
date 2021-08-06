@@ -71,6 +71,11 @@ namespace blyss
 
             ImGui::Render();
             ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+            for (auto& static_object : static_objects_)
+            {
+                static_object->Draw();
+            }
         }
         catch (const OpenGLException& e)
         {
@@ -80,7 +85,7 @@ namespace blyss
 
     void Renderer::AddStaticObject(std::unique_ptr<StaticObject> object)
     {
-        static_bjects_.push_back(std::move(object));
+        static_objects_.push_back(std::move(object));
     }
 
 

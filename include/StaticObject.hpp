@@ -20,10 +20,29 @@
 
 #pragma once
 
+#include <glm/vec3.hpp>
+#include <glm/gtc/quaternion.hpp>
+
 namespace blyss
 {
     class StaticObject
     {
-        
+        glm::vec3 position_;
+        glm::vec3 scale_;
+        glm::quat rotation_;
+
+    public:
+        StaticObject();
+
+        void Draw();
+
+        [[nodiscard]] glm::vec3 GetPosition() const;
+        void SetPosition(glm::vec3 position);
+
+        [[nodiscard]] glm::vec3 GetScale() const;
+        void SetScale(glm::vec3 scale);
+
+        [[nodiscard]] glm::quat GetRotation() const;
+        void SetRotation(glm::quat rotation);
     };
 }
