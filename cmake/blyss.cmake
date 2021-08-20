@@ -77,4 +77,5 @@ target_link_libraries(${BLYSS_ARTIFACT_NAME}
     assimp::assimp
     glm
     IrrXML
+    uv_a
 )

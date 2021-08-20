@@ -75,3 +75,8 @@ add_subdirectory(lib/glm)
 # --------------------------------------------------------- #
 set(GSL_CXX_STANDARD 17 CACHE STRING "" FORCE)
 add_subdirectory(lib/gsl)
+
+# --------------------------------------------------------- #
+# LibUV                                                     #
+# --------------------------------------------------------- #
+add_subdirectory(lib/libuv)

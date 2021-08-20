@@ -50,6 +50,10 @@ BASIC_DEPENDENCIES = [
     {
         "Folder Name": "gsl",
         "Url": "https://github.com/microsoft/GSL/archive/refs/tags/v3.1.0.zip"
+    },
+    {
+        "Folder Name": "libuv",
+        "Url": "https://github.com/libuv/libuv/archive/refs/tags/v1.42.0.zip"
     }
 ]
 
