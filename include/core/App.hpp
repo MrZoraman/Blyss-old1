@@ -18,17 +18,23 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
+#pragma once
+
 #include <memory>
 
-#include "client/local/LocalGameClient.hpp"
-#include "core/App.hpp"
-#include "host/local/LocalGameHost.hpp"
+#include "core/IAppFrontend.hpp"
+#include "core/IGameHost.hpp"
 
-int main()
+namespace blyss
 {
-    auto host = std::make_unique<blyss::LocalGameHost>();
-    auto frontend = std::make_unique<blyss::LocalGameClient>();
-    blyss::App app(std::move(host), std::move(frontend));
-    app.run();
-    return 0;
+    class App
+    {
+        std::unique_ptr<IGameHost> game_host_;
+        std::unique_ptr<IAppFrontend> app_frontend_;
+
+    public:
+        App(std::unique_ptr<IGameHost> game_host, std::unique_ptr<IAppFrontend> app_frontend);
+
+        void run();
+    };
 }

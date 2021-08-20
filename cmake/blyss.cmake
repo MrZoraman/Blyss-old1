@@ -10,19 +10,24 @@ set(BLYSS_HEADERS "")
 # --------------------------------------------------------- #
 # Macros                                                    #
 # --------------------------------------------------------- #
-macro(BLYSS_add_source SOURCE_NAME)
+macro(blyss_add_source SOURCE_NAME)
     list(APPEND BLYSS_SOURCES ${BLYSS_SRC_DIR}/${SOURCE_NAME}.cpp)
     list(APPEND BLYSS_HEADERS ${BLYSS_INCLUDE_DIR}/${SOURCE_NAME}.hpp)
 endmacro()
 
-macro(BLYSS_add_header HEADER_NAME)
+macro(blyss_add_header HEADER_NAME)
     list(APPEND BLYSS_HEADERS ${BLYSS_INCLUDE_DIR}/${HEADER_NAME}.hpp)
 endmacro()
 
 # --------------------------------------------------------- #
 # Sources                                                   #
 # --------------------------------------------------------- #
-
+blyss_add_source(core/App)
+blyss_add_header(core/IAppFrontend)
+blyss_add_header(core/IGameClient)
+blyss_add_header(core/IGameHost)
+blyss_add_source(host/local/LocalGameHost)
+blyss_add_source(client/local/LocalGameClient)
 
 # --------------------------------------------------------- #
 # Visual Studio Folder Hierarchy                            #
