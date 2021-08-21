@@ -20,26 +20,17 @@
 
 #pragma once
 
-#include "core/IAppFrontend.hpp"
-#include "core/IGameClient.hpp"
+#include <exception>
 
 namespace blyss
 {
-    class LocalGameClient :  public IAppFrontend, public IGameClient
+    /**
+     * @brief Thrown when an OpenGL error occurs.
+    */
+    class OpenGLException final : public std::exception
     {
     public:
-        LocalGameClient();
-        ~LocalGameClient();
-
-        // This class is move only
-        LocalGameClient(const LocalGameClient&) = delete;
-        LocalGameClient(LocalGameClient&&) = delete;
-        LocalGameClient& operator=(const LocalGameClient&) = delete;
-        LocalGameClient& operator=(LocalGameClient&&) = delete;
-
-        void HostEventLoop() override;
-
-
-
+        static void OpenGLPostCallback(const char* name, void* funcptr, int len_args, ...);
+        explicit OpenGLException(const char* message);
     };
 }

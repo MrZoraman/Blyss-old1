@@ -20,26 +20,5 @@
 
 #pragma once
 
-#include "core/IAppFrontend.hpp"
-#include "core/IGameClient.hpp"
-
-namespace blyss
-{
-    class LocalGameClient :  public IAppFrontend, public IGameClient
-    {
-    public:
-        LocalGameClient();
-        ~LocalGameClient();
-
-        // This class is move only
-        LocalGameClient(const LocalGameClient&) = delete;
-        LocalGameClient(LocalGameClient&&) = delete;
-        LocalGameClient& operator=(const LocalGameClient&) = delete;
-        LocalGameClient& operator=(LocalGameClient&&) = delete;
-
-        void HostEventLoop() override;
-
-
-
-    };
-}
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>

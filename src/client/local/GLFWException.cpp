@@ -18,28 +18,32 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#pragma once
+#include "client/local/GLFWException.hpp"
 
-#include "core/IAppFrontend.hpp"
-#include "core/IGameClient.hpp"
+#include <exception>
+#include <sstream>
 
 namespace blyss
 {
-    class LocalGameClient :  public IAppFrontend, public IGameClient
+    GLFWException::GLFWException(const char* message)
+        : std::exception(message)
     {
-    public:
-        LocalGameClient();
-        ~LocalGameClient();
+    }
 
-        // This class is move only
-        LocalGameClient(const LocalGameClient&) = delete;
-        LocalGameClient(LocalGameClient&&) = delete;
-        LocalGameClient& operator=(const LocalGameClient&) = delete;
-        LocalGameClient& operator=(LocalGameClient&&) = delete;
+    void GLFWException::OnGlfwError(int error_code, const char* description)
+    {
+        // Build the error message
+        std::stringstream ss;
+        ss << "GLFW error: " << error_code << ": ";
+        if (description)
+        {
+            ss << description;
+        }
+        else
+        {
+            ss << "No further information is available.";
+        }
 
-        void HostEventLoop() override;
-
-
-
-    };
+        throw GLFWException(ss.str().c_str());
+    }
 }

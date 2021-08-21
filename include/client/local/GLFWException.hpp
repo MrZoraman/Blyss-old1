@@ -20,26 +20,24 @@
 
 #pragma once
 
-#include "core/IAppFrontend.hpp"
-#include "core/IGameClient.hpp"
+#include <exception>
 
 namespace blyss
 {
-    class LocalGameClient :  public IAppFrontend, public IGameClient
+    /**
+     * @brief Thrown when a GLFW error occurs.
+    */
+    class GLFWException final : public std::exception
     {
     public:
-        LocalGameClient();
-        ~LocalGameClient();
+        /**
+         * @brief Throws a GLFWException, formatting it with the given error code and description.
+         * @param error_code The GLFW error code.
+         * @param description The GLFW error description.
+        */
+        [[noreturn]] static void OnGlfwError(int error_code, const char* description);
 
-        // This class is move only
-        LocalGameClient(const LocalGameClient&) = delete;
-        LocalGameClient(LocalGameClient&&) = delete;
-        LocalGameClient& operator=(const LocalGameClient&) = delete;
-        LocalGameClient& operator=(LocalGameClient&&) = delete;
-
-        void HostEventLoop() override;
-
-
-
+    private:
+        explicit GLFWException(const char* message);
     };
 }

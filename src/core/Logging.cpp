@@ -18,28 +18,32 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#pragma once
+#include "core/Logging.hpp"
 
-#include "core/IAppFrontend.hpp"
-#include "core/IGameClient.hpp"
+#include <cstdio>
+#include <exception>
+#include <string>
+
+#include <boost/log/trivial.hpp>
 
 namespace blyss
 {
-    class LocalGameClient :  public IAppFrontend, public IGameClient
+    void LogErrorNoExcept(const std::string& message) noexcept
     {
-    public:
-        LocalGameClient();
-        ~LocalGameClient();
+        try
+        {
+            BOOST_LOG_TRIVIAL(error) << message;
+        }
+        catch (const std::exception& e)
+        {
+            std::fprintf(stderr, "Unable to print error message: %s\n", e.what());
+            std::fprintf(stderr, "Original error message: %s\n", message.c_str());
+        }
+        catch (...)
+        {
+            fprintf(stderr, "Unknown error while printing error message.\n");
+            fprintf(stderr, "Original error message: %s\n", message.c_str());
+        }
+    }
 
-        // This class is move only
-        LocalGameClient(const LocalGameClient&) = delete;
-        LocalGameClient(LocalGameClient&&) = delete;
-        LocalGameClient& operator=(const LocalGameClient&) = delete;
-        LocalGameClient& operator=(LocalGameClient&&) = delete;
-
-        void HostEventLoop() override;
-
-
-
-    };
 }

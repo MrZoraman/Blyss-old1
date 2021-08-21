@@ -20,3 +20,48 @@
 
 #include "client/local/LocalGameClient.hpp"
 
+#include <boost/log/trivial.hpp>
+#include <gsl/gsl_util>
+
+#include <core/Logging.hpp>
+#include "client/local/GladGLFW.hpp"
+#include "client/local/OpenGLException.hpp"
+#include "client/local/GLFWException.hpp"
+
+
+namespace blyss
+{
+    LocalGameClient::LocalGameClient()
+    {
+        // Set Glad error callback so an exception is thrown whenever an OpenGL error occurrs.
+        glad_set_post_callback(&OpenGLException::OpenGLPostCallback);
+
+        // Set GLFW error callback. This is one of the only GLFW functions that can be called before
+        // GLFW is initialized. The registered callback will throw an exception any time there is
+        // a GLFW error.
+        glfwSetErrorCallback(&GLFWException::OnGlfwError);
+
+        glfwInit();
+    }
+
+    LocalGameClient::~LocalGameClient()
+    {
+        try
+        {
+            glfwTerminate();
+        }
+        catch (...)
+        {
+            LogErrorNoExcept("Failed to terminate GLFW!");
+        }
+
+        glfwSetErrorCallback(nullptr);
+        glad_set_post_callback(nullptr);
+    }
+
+    void LocalGameClient::HostEventLoop()
+    {
+
+    }
+
+}

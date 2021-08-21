@@ -18,29 +18,32 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#include <memory>
-
-#include <boost/log/trivial.hpp>
+#include <cstdio>
+#include <cstdlib>
+#include <exception>
 
 #include <uv.h>
+#include <boost/log/trivial.hpp>
 
-#include "client/local/LocalGameClient.hpp"
-#include "core/App.hpp"
-#include "host/local/LocalGameHost.hpp"
-
-
-
-int main()
+int RunUnsafe()
 {
-    //auto host = std::make_unique<blyss::LocalGameHost>();
-    //auto frontend = std::make_unique<blyss::LocalGameClient>();
-    //blyss::App app(std::move(host), std::move(frontend));
-    //app.run();
-    uv_loop_t* loop = new uv_loop_t;
-    uv_loop_init(loop);
-    BOOST_LOG_TRIVIAL(info) << "Now quitting.";
-    uv_loop_close(loop);
-    delete loop;
+    return EXIT_SUCCESS;
+}
 
-    return 0;
+int main() noexcept
+{
+    try
+    {
+        return RunUnsafe();
+    }
+    catch (const std::exception& e)
+    {
+        std::fprintf(stderr, "Uncaught exception occurred while running: %s\n", e.what());
+        return EXIT_FAILURE;
+    }
+    catch (...)
+    {
+        std::fprintf(stderr, "Uncaught exception of an unknown type occurred while running!\n");
+        return EXIT_FAILURE;
+    }
 }

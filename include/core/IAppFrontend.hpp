@@ -24,6 +24,7 @@ namespace blyss
 {
     class IAppFrontend
     {
-        
+    public:
+        virtual void HostEventLoop() = 0;
     };
 }

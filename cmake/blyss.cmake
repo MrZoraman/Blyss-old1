@@ -28,6 +28,10 @@ blyss_add_header(core/IGameClient)
 blyss_add_header(core/IGameHost)
 blyss_add_source(host/local/LocalGameHost)
 blyss_add_source(client/local/LocalGameClient)
+blyss_add_header(client/local/GladGLFW)
+blyss_add_source(client/local/OpenGLException)
+blyss_add_source(client/local/GLFWException)
+blyss_add_source(core/Logging)
 
 # --------------------------------------------------------- #
 # Visual Studio Folder Hierarchy                            #

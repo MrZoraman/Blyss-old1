@@ -24,6 +24,7 @@
 
 namespace blyss
 {
+
     class LocalGameHost : public IGameHost
     {
         
