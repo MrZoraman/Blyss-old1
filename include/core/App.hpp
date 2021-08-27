@@ -35,6 +35,6 @@ namespace blyss
     public:
         App(std::unique_ptr<IGameHost> game_host, std::unique_ptr<IAppFrontend> app_frontend);
 
-        void run();
+        void Run();
     };
 }

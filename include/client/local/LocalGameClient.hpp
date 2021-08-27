@@ -20,6 +20,8 @@
 
 #pragma once
 
+#include <uv.h>
+
 #include "core/IAppFrontend.hpp"
 #include "core/IGameClient.hpp"
 
@@ -37,7 +39,7 @@ namespace blyss
         LocalGameClient& operator=(const LocalGameClient&) = delete;
         LocalGameClient& operator=(LocalGameClient&&) = delete;
 
-        void HostEventLoop() override;
+        void HostEventLoop(uv_loop_t *loop) override;
 
     };
 }

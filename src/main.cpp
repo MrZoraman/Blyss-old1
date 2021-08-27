@@ -21,12 +21,21 @@
 #include <cstdio>
 #include <cstdlib>
 #include <exception>
+#include <memory>
 
-#include <uv.h>
 #include <boost/log/trivial.hpp>
+
+#include "client/local/LocalGameClient.hpp"
+#include "core/App.hpp"
+#include "host/local/LocalGameHost.hpp"
 
 int RunUnsafe()
 {
+    auto game_host = std::make_unique<blyss::LocalGameHost>();
+    auto app_frontend = std::make_unique<blyss::LocalGameClient>();
+
+    blyss::App app(std::move(game_host), std::move(app_frontend));
+    app.Run();
     return EXIT_SUCCESS;
 }
 

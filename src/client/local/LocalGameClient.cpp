@@ -22,6 +22,7 @@
 
 #include <boost/log/trivial.hpp>
 #include <gsl/gsl_util>
+#include <uv.h>
 
 #include <core/Logging.hpp>
 #include "client/local/GladGLFW.hpp"
@@ -59,9 +60,22 @@ namespace blyss
         glad_set_post_callback(nullptr);
     }
 
-    void LocalGameClient::HostEventLoop()
+    void LocalGameClient::HostEventLoop(uv_loop_t *loop)
     {
+        GLFWwindow* window = glfwCreateWindow(640, 480, "Hello world", nullptr, nullptr);
 
+        auto scope_exit = gsl::finally([=]()
+        {
+                glfwDestroyWindow(window);
+        });
+
+        glfwMakeContextCurrent(window);
+
+        while (!glfwWindowShouldClose(window))
+        {
+            glfwPollEvents();
+            uv_run(loop, UV_RUN_NOWAIT);
+        }
     }
 
 }
