@@ -20,10 +20,13 @@
 
 #pragma once
 
+#include <uv.h>
+
 namespace blyss
 {
     class IGameHost
     {
-        
+    public:
+        virtual void Startup(uv_loop_t* loop) = 0;
     };
 }

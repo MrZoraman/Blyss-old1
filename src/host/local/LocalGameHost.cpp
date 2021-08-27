@@ -20,3 +20,45 @@
 
 #include "host/local/LocalGameHost.hpp"
 
+#include <cstdint>
+#include <thread>
+
+#include <boost/log/trivial.hpp>
+
+#include <uv.h>
+
+namespace blyss
+{
+    const int kFrequency = 20; // hertz
+
+    void LocalGameHostTimerCallback(uv_timer_t* handle)
+    {
+        auto* self = static_cast<LocalGameHost*>(uv_handle_get_data(reinterpret_cast<uv_handle_t*>(handle)));
+        self->Frame();
+    }
+
+    LocalGameHost::LocalGameHost()
+        : timer_handle_{}
+        , delta_timer_{"Local Game Host", kFrequency}
+    {
+    }
+
+    void LocalGameHost::Startup(uv_loop_t* loop)
+    {
+        uv_timer_init(loop, &timer_handle_);
+        uv_handle_set_data(reinterpret_cast<uv_handle_t*>(&timer_handle_), this);
+        double seconds_per_tick = 1.0 /*second*/ / kFrequency /*hertz*/;
+        double milliseconds_per_tick = seconds_per_tick * 1000;
+        uv_timer_start(&timer_handle_, &LocalGameHostTimerCallback, 0, static_cast<std::uint64_t>(milliseconds_per_tick));
+
+        delta_timer_.Start(loop);
+    }
+
+    void LocalGameHost::Frame()
+    {
+        delta_timer_.Update();
+
+        BOOST_LOG_TRIVIAL(info) << "Delta: " << delta_timer_.GetDelta().count();
+    }
+
+}

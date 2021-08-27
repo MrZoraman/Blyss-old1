@@ -20,24 +20,36 @@
 
 #pragma once
 
-#include "core/IGameHost.hpp"
+#include <chrono>
+#include <cstdint>
+#include <string>
 
 #include <uv.h>
 
-#include "core/DeltaTimer.hpp"
-
 namespace blyss
 {
-    class LocalGameHost : public IGameHost
+    class DeltaTimer
     {
+        std::chrono::duration<double> delta_;
+        std::chrono::time_point<std::chrono::steady_clock> previous_time_;
+        double target_seconds_per_tick_;
+        bool is_behind_schedule_;
+        uv_loop_t* loop_;
+        std::string timer_name_;
         uv_timer_t timer_handle_;
-        DeltaTimer delta_timer_;
 
     public:
-        LocalGameHost();
+        DeltaTimer(std::string timer_name, std::int32_t target_framerate);
 
-        void Startup(uv_loop_t* loop) override;
+        void Start(uv_loop_t* loop);
 
-        void Frame();
+        void Update();
+
+        [[nodiscard]] std::chrono::duration<double> GetDelta() const;
+
+        void ResetWarningMessage();
+
+    private:
+        void CheckDelta();
     };
 }

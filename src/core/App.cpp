@@ -37,6 +37,7 @@ namespace blyss
         uv_loop_t loop;
         uv_loop_init(&loop);
 
+        game_host_->Startup(&loop);
         app_frontend_->HostEventLoop(&loop);
     }
 
