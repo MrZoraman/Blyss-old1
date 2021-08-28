@@ -22,8 +22,6 @@
 
 #include <iostream>
 
-#include <uv.h>
-
 namespace blyss
 {
     App::App(std::unique_ptr<IGameHost> game_host, std::unique_ptr<IAppFrontend> app_frontend)
@@ -34,11 +32,7 @@ namespace blyss
 
     void App::Run()
     {
-        uv_loop_t loop;
-        uv_loop_init(&loop);
-
-        game_host_->Startup(&loop);
-        app_frontend_->HostEventLoop(&loop);
+        app_frontend_->HostEventLoop();
     }
 
 }

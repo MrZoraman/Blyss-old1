@@ -20,13 +20,11 @@
 
 #pragma once
 
-#include <uv.h>
-
 namespace blyss
 {
     class IAppFrontend
     {
     public:
-        virtual void HostEventLoop(uv_loop_t *loop) = 0;
+        virtual void HostEventLoop() = 0;
     };
 }

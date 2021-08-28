@@ -29,8 +29,10 @@ namespace blyss
 {
     class LocalGameClient final :  public IAppFrontend, public IGameClient
     {
+        uv_loop_t* loop_;
+
     public:
-        LocalGameClient();
+        explicit LocalGameClient(uv_loop_t* loop);
         virtual ~LocalGameClient();
 
         // This class is move only
@@ -39,7 +41,7 @@ namespace blyss
         LocalGameClient& operator=(const LocalGameClient&) = delete;
         LocalGameClient& operator=(LocalGameClient&&) = delete;
 
-        void HostEventLoop(uv_loop_t *loop) override;
+        void HostEventLoop() override;
 
     };
 }

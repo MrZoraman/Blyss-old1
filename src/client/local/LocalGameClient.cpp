@@ -20,19 +20,18 @@
 
 #include "client/local/LocalGameClient.hpp"
 
-#include <boost/log/trivial.hpp>
-#include <gsl/gsl_util>
 #include <uv.h>
+#include <gsl/gsl_util>
 
 #include <core/Logging.hpp>
 #include "client/local/GladGLFW.hpp"
-#include "client/local/OpenGLException.hpp"
 #include "client/local/GLFWException.hpp"
-
+#include "client/local/OpenGLException.hpp"
 
 namespace blyss
 {
-    LocalGameClient::LocalGameClient()
+    LocalGameClient::LocalGameClient(uv_loop_t* loop)
+        : loop_{loop}
     {
         // Set Glad error callback so an exception is thrown whenever an OpenGL error occurrs.
         glad_set_post_callback(&OpenGLException::OpenGLPostCallback);
@@ -60,7 +59,7 @@ namespace blyss
         glad_set_post_callback(nullptr);
     }
 
-    void LocalGameClient::HostEventLoop(uv_loop_t *loop)
+    void LocalGameClient::HostEventLoop()
     {
         GLFWwindow* window = glfwCreateWindow(640, 480, "Hello world", nullptr, nullptr);
 
@@ -74,7 +73,7 @@ namespace blyss
         while (!glfwWindowShouldClose(window))
         {
             glfwPollEvents();
-            uv_run(loop, UV_RUN_NOWAIT);
+            uv_run(loop_, UV_RUN_NOWAIT);
         }
     }
 

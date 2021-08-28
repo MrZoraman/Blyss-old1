@@ -33,18 +33,16 @@ namespace blyss
     const double kToleranceSeconds = 0.03;
     const std::int32_t kWarningMinIntervalMs = 5000; // 5 seconds
 
-    void DeltaTimerCallback(uv_timer_t* handle)
+    void DeltaTimer::TimerCallback(uv_timer_t*)
     {
-        auto* timer = static_cast<DeltaTimer*>(uv_handle_get_data(reinterpret_cast<uv_handle_t*>(handle)));
-        timer->ResetWarningMessage();
+        // Nothing happens here, tests are simply done to see if the timer is active or not.
     }
 
-    DeltaTimer::DeltaTimer(std::string timer_name, std::int32_t target_framerate)
+    DeltaTimer::DeltaTimer(uv_loop_t* loop, std::string timer_name, std::int32_t target_framerate)
         : delta_{}
         , previous_time_{std::chrono::high_resolution_clock::now()}
-        , target_seconds_per_tick_{0}
-        , is_behind_schedule_{false}
-        , loop_{nullptr}
+        , target_seconds_per_tick_{0} // Calculated after checks to prevent divide by 0 error.
+        , loop_{loop}
         , timer_name_{std::move(timer_name)}
         , timer_handle_{}
     {
@@ -53,14 +51,20 @@ namespace blyss
             throw std::invalid_argument("Target framerate must be greater than 0!");
         }
 
-        target_seconds_per_tick_ = 1.0 / target_framerate;
-    }
+        if (loop == nullptr)
+        {
+            throw std::invalid_argument("Loop cannot be null!");
+        }
 
-    void DeltaTimer::Start(uv_loop_t* loop)
-    {
-        loop_ = loop;
+        target_seconds_per_tick_ = 1.0 / target_framerate;
+
         uv_timer_init(loop_, &timer_handle_);
         uv_handle_set_data(reinterpret_cast<uv_handle_t*>(&timer_handle_), this);
+    }
+
+    DeltaTimer::~DeltaTimer()
+    {
+        uv_timer_stop(&timer_handle_);
     }
 
     void DeltaTimer::Update()
@@ -79,20 +83,8 @@ namespace blyss
 
     void DeltaTimer::CheckDelta()
     {
-        if (!loop_)
-        {
-            BOOST_LOG_TRIVIAL(error) << "Delta timer hasn't been started yet!";
-            return;
-        }
-
-        if (is_behind_schedule_)
-        {
-            return;
-        }
-
         if (uv_is_active(reinterpret_cast<uv_handle_t*>(&timer_handle_)))
         {
-            BOOST_LOG_TRIVIAL(warning) << "Delta timer handle is still active!";
             return;
         }
 
@@ -100,15 +92,9 @@ namespace blyss
 
         if (slowdown_seconds > kToleranceSeconds)
         {
-            is_behind_schedule_ = true;
             BOOST_LOG_TRIVIAL(warning) << "Timer " << timer_name_ << " is running behind schedule by " << slowdown_seconds << " seconds!";
-            uv_timer_start(&timer_handle_, &DeltaTimerCallback, kWarningMinIntervalMs, 0);
+            uv_timer_start(&timer_handle_, &DeltaTimer::TimerCallback, kWarningMinIntervalMs, 0);
         }
-    }
-
-    void DeltaTimer::ResetWarningMessage()
-    {
-        is_behind_schedule_ = false;
     }
 
 }

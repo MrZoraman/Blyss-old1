@@ -33,23 +33,21 @@ namespace blyss
         std::chrono::duration<double> delta_;
         std::chrono::time_point<std::chrono::steady_clock> previous_time_;
         double target_seconds_per_tick_;
-        bool is_behind_schedule_;
         uv_loop_t* loop_;
         std::string timer_name_;
         uv_timer_t timer_handle_;
 
     public:
-        DeltaTimer(std::string timer_name, std::int32_t target_framerate);
-
-        void Start(uv_loop_t* loop);
+        DeltaTimer(uv_loop_t* loop, std::string timer_name, std::int32_t target_framerate);
+        ~DeltaTimer();
 
         void Update();
 
         [[nodiscard]] std::chrono::duration<double> GetDelta() const;
 
-        void ResetWarningMessage();
-
     private:
         void CheckDelta();
+
+        static void TimerCallback(uv_timer_t* handle);
     };
 }

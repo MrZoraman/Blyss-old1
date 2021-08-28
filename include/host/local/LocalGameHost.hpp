@@ -30,13 +30,12 @@ namespace blyss
 {
     class LocalGameHost : public IGameHost
     {
+        uv_loop_t* loop_;
         uv_timer_t timer_handle_;
         DeltaTimer delta_timer_;
 
     public:
-        LocalGameHost();
-
-        void Startup(uv_loop_t* loop) override;
+        explicit LocalGameHost(uv_loop_t* loop);
 
         void Frame();
     };
