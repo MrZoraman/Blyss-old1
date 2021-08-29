@@ -21,33 +21,23 @@
 #pragma once
 
 #include <chrono>
-#include <cstdint>
 #include <string>
-
-#include <uv.h>
 
 namespace blyss
 {
     class DeltaTimer
     {
-        std::chrono::duration<double> delta_;
+        std::chrono::high_resolution_clock::duration delta_;
         std::chrono::time_point<std::chrono::steady_clock> previous_time_;
-        double target_seconds_per_tick_;
-        uv_loop_t* loop_;
+        std::chrono::time_point<std::chrono::steady_clock> last_warn_sent_;
+        std::chrono::milliseconds target_frame_time_;
         std::string timer_name_;
-        uv_timer_t timer_handle_;
 
     public:
-        DeltaTimer(uv_loop_t* loop, std::string timer_name, std::int32_t target_framerate);
-        ~DeltaTimer();
+        DeltaTimer(std::string timer_name, std::chrono::milliseconds target_frame_time);
 
         void Update();
 
-        [[nodiscard]] std::chrono::duration<double> GetDelta() const;
-
-    private:
-        void CheckDelta();
-
-        static void TimerCallback(uv_timer_t* handle);
+        [[nodiscard]] double DeltaSeconds() const;
     };
 }

@@ -20,6 +20,7 @@
 
 #include "host/local/LocalGameHost.hpp"
 
+#include <chrono>
 #include <cstdint>
 #include <thread>
 
@@ -30,6 +31,7 @@
 namespace blyss
 {
     const int kFrequency = 20; // hertz
+    const auto kFrameTime = std::chrono::milliseconds(1000 / kFrequency);
 
     void LocalGameHostTimerCallback(uv_timer_t* handle)
     {
@@ -40,13 +42,12 @@ namespace blyss
     LocalGameHost::LocalGameHost(uv_loop_t* loop)
         : loop_{loop}
         , timer_handle_{}
-        , delta_timer_{loop, "Local Game Host", kFrequency}
+        , delta_timer_{"Local Game Host", kFrameTime}
     {
         uv_timer_init(loop, &timer_handle_);
         uv_handle_set_data(reinterpret_cast<uv_handle_t*>(&timer_handle_), this);
-        double seconds_per_tick = 1.0 /*second*/ / kFrequency /*hertz*/;
-        double milliseconds_per_tick = seconds_per_tick * 1000;
-        uv_timer_start(&timer_handle_, &LocalGameHostTimerCallback, 0, static_cast<std::uint64_t>(milliseconds_per_tick));
+        BOOST_LOG_TRIVIAL(debug) << "kFrameTime: " << kFrameTime.count();
+        uv_timer_start(&timer_handle_, &LocalGameHostTimerCallback, 0, kFrameTime.count());
     }
 
     void LocalGameHost::Frame()
@@ -55,7 +56,7 @@ namespace blyss
 
         delta_timer_.Update();
 
-        BOOST_LOG_TRIVIAL(info) << "Delta: " << delta_timer_.GetDelta().count();
+        BOOST_LOG_TRIVIAL(info) << "Delta: " << delta_timer_.DeltaSeconds();
     }
 
 }

@@ -20,81 +20,54 @@
 
 #include "core/DeltaTimer.hpp"
 
-#include <cstdint>
 #include <stdexcept>
 #include <string>
 
 #include <boost/log/trivial.hpp>
 
-#include <uv.h>
-
 namespace blyss
 {
-    const double kToleranceSeconds = 0.03;
-    const std::int32_t kWarningMinIntervalMs = 5000; // 5 seconds
+    const auto kTolerance = std::chrono::milliseconds(30);
+    const auto kWarningMinInterval = std::chrono::seconds(5);
 
-    void DeltaTimer::TimerCallback(uv_timer_t*)
-    {
-        // Nothing happens here, tests are simply done to see if the timer is active or not.
-    }
-
-    DeltaTimer::DeltaTimer(uv_loop_t* loop, std::string timer_name, std::int32_t target_framerate)
+    DeltaTimer::DeltaTimer(std::string timer_name, std::chrono::milliseconds target_frame_time)
         : delta_{}
         , previous_time_{std::chrono::high_resolution_clock::now()}
-        , target_seconds_per_tick_{0} // Calculated after checks to prevent divide by 0 error.
-        , loop_{loop}
+        , last_warn_sent_{std::chrono::high_resolution_clock::now()}
+        , target_frame_time_{target_frame_time}
         , timer_name_{std::move(timer_name)}
-        , timer_handle_{}
     {
-        if (target_framerate <= 0)
-        {
-            throw std::invalid_argument("Target framerate must be greater than 0!");
-        }
-
-        if (loop == nullptr)
-        {
-            throw std::invalid_argument("Loop cannot be null!");
-        }
-
-        target_seconds_per_tick_ = 1.0 / target_framerate;
-
-        uv_timer_init(loop_, &timer_handle_);
-        uv_handle_set_data(reinterpret_cast<uv_handle_t*>(&timer_handle_), this);
-    }
-
-    DeltaTimer::~DeltaTimer()
-    {
-        uv_timer_stop(&timer_handle_);
     }
 
     void DeltaTimer::Update()
     {
+        // Calculate delta, the amount of time that has passed since the last call to Update()
         auto now = std::chrono::high_resolution_clock::now();
         delta_ = now - previous_time_;
         previous_time_ = now;
 
-        CheckDelta();
+        // Calculate how much time has elapsed since a warning message was sent
+        auto warn_message_diff = now - last_warn_sent_;
+
+        // Calculate the difference between our target frame time and actual frame time
+        auto slowdown = delta_ - target_frame_time_;
+
+        if (slowdown > kTolerance && warn_message_diff > kWarningMinInterval)
+        {
+            // The slowdown is longer than the tolerated amount, and a warning message hasn't been
+            // sent in at least kWarningMinInterval seconds...
+            auto seconds = std::chrono::duration_cast<std::chrono::duration<double>>(slowdown);
+            BOOST_LOG_TRIVIAL(warning) << "Timer " << timer_name_ << " is running behind schedule by " << seconds.count() << " seconds!";
+
+            // Update time our warning message was sent so it doesn't get spammed in the logs
+            last_warn_sent_ = now;
+        }
     }
 
-    std::chrono::duration<double> DeltaTimer::GetDelta() const
+    double DeltaTimer::DeltaSeconds() const
     {
-        return delta_;
-    }
-
-    void DeltaTimer::CheckDelta()
-    {
-        if (uv_is_active(reinterpret_cast<uv_handle_t*>(&timer_handle_)))
-        {
-            return;
-        }
-
-        double slowdown_seconds = delta_.count() - target_seconds_per_tick_;
-
-        if (slowdown_seconds > kToleranceSeconds)
-        {
-            BOOST_LOG_TRIVIAL(warning) << "Timer " << timer_name_ << " is running behind schedule by " << slowdown_seconds << " seconds!";
-            uv_timer_start(&timer_handle_, &DeltaTimer::TimerCallback, kWarningMinIntervalMs, 0);
-        }
+        auto seconds = std::chrono::duration_cast<std::chrono::duration<double>>(delta_);
+        return seconds.count();
     }
 
 }
