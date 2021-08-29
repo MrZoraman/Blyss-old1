@@ -20,6 +20,7 @@
 
 #pragma once
 
+#include <array>
 #include <chrono>
 #include <string>
 
@@ -27,11 +28,16 @@ namespace blyss
 {
     class DeltaTimer
     {
+        static const size_t kRollingAverageWindowSize = 32;
+
         std::chrono::high_resolution_clock::duration delta_;
         std::chrono::time_point<std::chrono::steady_clock> previous_time_;
         std::chrono::time_point<std::chrono::steady_clock> last_warn_sent_;
         std::chrono::milliseconds target_frame_time_;
         std::string timer_name_;
+        size_t next_average_index_;
+        std::array<std::chrono::high_resolution_clock::duration, kRollingAverageWindowSize> delta_history_;
+
 
     public:
         DeltaTimer(std::string timer_name, std::chrono::milliseconds target_frame_time);
@@ -39,5 +45,9 @@ namespace blyss
         void Update();
 
         [[nodiscard]] double DeltaSeconds() const;
+
+        [[nodiscard]] double AverageFrameTime() const;
+
+        [[nodiscard]] double AverageFramesPerSecond() const;
     };
 }

@@ -36,7 +36,12 @@ namespace blyss
         , last_warn_sent_{std::chrono::high_resolution_clock::now()}
         , target_frame_time_{target_frame_time}
         , timer_name_{std::move(timer_name)}
+        , next_average_index_{0}
     {
+        for (size_t ii = 0; ii < delta_history_.size(); ++ii)
+        {
+            delta_history_[ii] = std::chrono::high_resolution_clock::duration::zero();
+        }
     }
 
     void DeltaTimer::Update()
@@ -62,12 +67,40 @@ namespace blyss
             // Update time our warning message was sent so it doesn't get spammed in the logs
             last_warn_sent_ = now;
         }
+
+        // Add delta to history
+        delta_history_[next_average_index_] = delta_;
+        next_average_index_ = (next_average_index_ + 1) % delta_history_.size();
     }
 
     double DeltaTimer::DeltaSeconds() const
     {
         auto seconds = std::chrono::duration_cast<std::chrono::duration<double>>(delta_);
         return seconds.count();
+    }
+
+    double DeltaTimer::AverageFrameTime() const
+    {
+        auto duration_sum = std::chrono::high_resolution_clock::duration::zero();
+        for (const auto& delta : delta_history_)
+        {
+            duration_sum += delta;
+        }
+
+        auto average_duration = duration_sum / delta_history_.size();
+        auto seconds = std::chrono::duration_cast<std::chrono::duration<double>>(average_duration);
+        return seconds.count();
+    }
+
+    double DeltaTimer::AverageFramesPerSecond() const
+    {
+        auto average_frame_time = AverageFrameTime();
+        if (average_frame_time <= 0.01)
+        {
+            return 0;
+        }
+
+        return 1.0 / average_frame_time;
     }
 
 }
