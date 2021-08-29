@@ -52,11 +52,7 @@ namespace blyss
 
     void LocalGameHost::Frame()
     {
-        std::this_thread::sleep_for(std::chrono::seconds(2));
-
         delta_timer_.Update();
-
-        BOOST_LOG_TRIVIAL(info) << "Delta: " << delta_timer_.DeltaSeconds();
     }
 
 }
