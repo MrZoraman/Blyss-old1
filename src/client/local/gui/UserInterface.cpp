@@ -18,38 +18,41 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#pragma once
+#include "client/local/gui/UserInterface.hpp"
 
-#include <memory>
-
-#include <uv.h>
+#include <imgui.h>
+#include <imgui_impl_glfw.h>
+#include <imgui_impl_opengl3.h>
 
 #include "client/local/GladGLFW.hpp"
-#include "client/local/Renderer.hpp"
-#include "core/IAppFrontend.hpp"
-#include "core/IGameClient.hpp"
 
 namespace blyss
 {
-    class LocalGameClient final :  public IAppFrontend, public IGameClient
+    UserInterface::UserInterface(GLFWwindow* window)
     {
-        using WindowPtr = std::unique_ptr<GLFWwindow, decltype(&glfwDestroyWindow)>;
+        ImGui::CreateContext();
+        ImGui::StyleColorsDark();
+        ImGui_ImplGlfw_InitForOpenGL(window, true);
+        ImGui_ImplOpenGL3_Init("#version 130");
+    }
 
-        uv_loop_t* loop_;
-        WindowPtr window_;
-        std::unique_ptr<Renderer> renderer_;
+    UserInterface::~UserInterface()
+    {
+        ImGui_ImplOpenGL3_Shutdown();
+        ImGui_ImplGlfw_Shutdown();
+        ImGui::DestroyContext();
+    }
 
-    public:
-        explicit LocalGameClient(uv_loop_t* loop);
-        virtual ~LocalGameClient();
+    void UserInterface::DrawInterface()
+    {
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
 
-        // This class is move only
-        LocalGameClient(const LocalGameClient&) = delete;
-        LocalGameClient(LocalGameClient&&) = delete;
-        LocalGameClient& operator=(const LocalGameClient&) = delete;
-        LocalGameClient& operator=(LocalGameClient&&) = delete;
+        ImGui::ShowDemoWindow();
 
-        void HostEventLoop() override;
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    }
 
-    };
 }

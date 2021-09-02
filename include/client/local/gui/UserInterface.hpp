@@ -20,36 +20,22 @@
 
 #pragma once
 
-#include <memory>
-
-#include <uv.h>
-
 #include "client/local/GladGLFW.hpp"
-#include "client/local/Renderer.hpp"
-#include "core/IAppFrontend.hpp"
-#include "core/IGameClient.hpp"
 
 namespace blyss
 {
-    class LocalGameClient final :  public IAppFrontend, public IGameClient
+    class UserInterface
     {
-        using WindowPtr = std::unique_ptr<GLFWwindow, decltype(&glfwDestroyWindow)>;
-
-        uv_loop_t* loop_;
-        WindowPtr window_;
-        std::unique_ptr<Renderer> renderer_;
-
     public:
-        explicit LocalGameClient(uv_loop_t* loop);
-        virtual ~LocalGameClient();
+        explicit UserInterface(GLFWwindow* window);
+        ~UserInterface();
 
         // This class is move only
-        LocalGameClient(const LocalGameClient&) = delete;
-        LocalGameClient(LocalGameClient&&) = delete;
-        LocalGameClient& operator=(const LocalGameClient&) = delete;
-        LocalGameClient& operator=(LocalGameClient&&) = delete;
+        UserInterface(const UserInterface&) = delete;
+        UserInterface(UserInterface&&) = delete;
+        UserInterface& operator=(const UserInterface&) = delete;
+        UserInterface& operator=(UserInterface&&) = delete;
 
-        void HostEventLoop() override;
-
+        void DrawInterface();
     };
 }

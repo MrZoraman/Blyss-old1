@@ -21,7 +21,6 @@
 #include "client/local/LocalGameClient.hpp"
 
 #include <uv.h>
-#include <gsl/gsl_util>
 
 #include <core/Logging.hpp>
 #include "client/local/GladGLFW.hpp"
@@ -32,6 +31,8 @@ namespace blyss
 {
     LocalGameClient::LocalGameClient(uv_loop_t* loop)
         : loop_{loop}
+        , window_{nullptr, &glfwDestroyWindow}
+        , renderer_{}
     {
         // Set Glad error callback so an exception is thrown whenever an OpenGL error occurrs.
         glad_set_post_callback(&OpenGLException::OpenGLPostCallback);
@@ -42,6 +43,12 @@ namespace blyss
         glfwSetErrorCallback(&GLFWException::OnGlfwError);
 
         glfwInit();
+
+        window_ = WindowPtr{ glfwCreateWindow(640, 480, "Hello, world", nullptr, nullptr), &glfwDestroyWindow };
+        glfwMakeContextCurrent(window_.get());
+        glfwSwapInterval(1);
+
+        renderer_ = std::make_unique<Renderer>(window_.get());
     }
 
     LocalGameClient::~LocalGameClient()
@@ -61,20 +68,17 @@ namespace blyss
 
     void LocalGameClient::HostEventLoop()
     {
-        GLFWwindow* window = glfwCreateWindow(640, 480, "Hello world", nullptr, nullptr);
-
-        auto scope_exit = gsl::finally([=]()
-        {
-                glfwDestroyWindow(window);
-        });
-
+        auto* window = window_.get();
         glfwMakeContextCurrent(window);
+        glfwSwapInterval(1);
 
         while (!glfwWindowShouldClose(window))
         {
             glfwPollEvents();
             uv_run(loop_, UV_RUN_NOWAIT);
+            renderer_->Frame();
         }
     }
+
 
 }

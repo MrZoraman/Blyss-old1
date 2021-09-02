@@ -32,6 +32,8 @@ blyss_add_source(client/local/LocalGameClient)
 blyss_add_header(client/local/GladGLFW)
 blyss_add_source(client/local/OpenGLException)
 blyss_add_source(client/local/GLFWException)
+blyss_add_source(client/local/Renderer)
+blyss_add_source(client/local/gui/UserInterface)
 blyss_add_source(core/Logging)
 
 # --------------------------------------------------------- #

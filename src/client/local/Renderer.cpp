@@ -18,38 +18,36 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#pragma once
-
-#include <memory>
-
-#include <uv.h>
+#include "client/local/Renderer.hpp"
 
 #include "client/local/GladGLFW.hpp"
-#include "client/local/Renderer.hpp"
-#include "core/IAppFrontend.hpp"
-#include "core/IGameClient.hpp"
+#include "client/local/OpenGLException.hpp"
+#include "client/local/gui/UserInterface.hpp"
 
 namespace blyss
 {
-    class LocalGameClient final :  public IAppFrontend, public IGameClient
+    Renderer::Renderer(GLFWwindow* window)
+        : interface_{}
+        , window_{window}
     {
-        using WindowPtr = std::unique_ptr<GLFWwindow, decltype(&glfwDestroyWindow)>;
+        if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)))
+        {
+            throw OpenGLException("Failed to load OpenGL functions!");
+        }
 
-        uv_loop_t* loop_;
-        WindowPtr window_;
-        std::unique_ptr<Renderer> renderer_;
+        int width = 0;
+        int height = 0;
+        glfwGetWindowSize(window, &width, &height);
+        glViewport(0, 0, width, height);
 
-    public:
-        explicit LocalGameClient(uv_loop_t* loop);
-        virtual ~LocalGameClient();
+        interface_ = std::make_unique<UserInterface>(window);
+    }
 
-        // This class is move only
-        LocalGameClient(const LocalGameClient&) = delete;
-        LocalGameClient(LocalGameClient&&) = delete;
-        LocalGameClient& operator=(const LocalGameClient&) = delete;
-        LocalGameClient& operator=(LocalGameClient&&) = delete;
+    void Renderer::Frame()
+    {
+        glClear(GL_COLOR_BUFFER_BIT);
+        interface_->DrawInterface();
+        glfwSwapBuffers(window_);
+    }
 
-        void HostEventLoop() override;
-
-    };
 }
