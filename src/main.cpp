@@ -30,16 +30,37 @@
 #include "core/App.hpp"
 #include "host/local/LocalGameHost.hpp"
 
+#include <glm/ext/matrix_clip_space.hpp>
+#include <glm/gtx/string_cast.hpp>
+
 int RunUnsafe()
 {
-    uv_loop_t loop;
-    uv_loop_init(&loop);
+    double width = 800.0;
+    double height = 600.0;
+    auto mat = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f, 0.1f, 100.0f);
+    // BOOST_LOG_TRIVIAL(info) << glm::to_string(mat);
 
-    auto game_host = std::make_unique<blyss::LocalGameHost>(&loop);
-    auto app_frontend = std::make_unique<blyss::LocalGameClient>(&loop);
+    auto vec = glm::vec4(200.0f, 200.0f, 0.0f, 1.0f);
 
-    blyss::App app(std::move(game_host), std::move(app_frontend));
-    app.Run();
+
+    auto vec2 = mat * vec;
+
+    BOOST_LOG_TRIVIAL(info) << to_string(vec2);
+
+    auto uk = glm::inverse(mat);
+    auto hhh = uk * vec2;
+
+    BOOST_LOG_TRIVIAL(info) << to_string(hhh);
+
+
+    // uv_loop_t loop;
+    // uv_loop_init(&loop);
+    //
+    // auto game_host = std::make_unique<blyss::LocalGameHost>(&loop);
+    // auto app_frontend = std::make_unique<blyss::LocalGameClient>(&loop);
+    //
+    // blyss::App app(std::move(game_host), std::move(app_frontend));
+    // app.Run();
     return EXIT_SUCCESS;
 }
 
